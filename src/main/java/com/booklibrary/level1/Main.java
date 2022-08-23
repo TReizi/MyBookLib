@@ -1,12 +1,12 @@
-package com.BookLibrary.Level1;
+package com.booklibrary.level1;
 
 
-import static com.BookLibrary.Level1.Menu.Start;
+import static com.booklibrary.level1.menu.start;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("Добро пожаловать в Библиотеку.");
-        Start();
+        start();
 
         }
     }

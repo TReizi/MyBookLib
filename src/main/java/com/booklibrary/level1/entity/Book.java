@@ -1,13 +1,13 @@
-package com.BookLibrary.Level1.entity;
+package com.booklibrary.level1.entity;
 
-public class Book_object {
+public class Book {
     private int id;
 
     private String name;
 
     private String author;
 
-    public Book_object(int id, String name, String author) {
+    public Book(int id, String name, String author) {
         this.id = id;
         this.name = name;
         this.author = author;
@@ -37,12 +37,12 @@ public class Book_object {
         this.author = author;
     }
     //конструктор без аргументов добавлен для дальнейшего
-    public Book_object() {
+    public Book() {
     }
 
     @Override
     public String toString() {
-        return "Book_object{" +
+        return "Book{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", author='" + author + '\'' +
