@@ -4,7 +4,6 @@ import com.booklibrary.level1.entity.Reader;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 
@@ -40,6 +39,19 @@ public class ReadersData {
         long i =newId.get();
         reader.setId(i);
         readersArray.add(reader);
+        return readersArray;
+    }
+
+    public static ArrayList<Reader> getBook(){
+
+        System.out.println("Укажите ID читателя: ");
+        int idReaders = readersEnter.nextInt();
+        idReaders--;
+        System.out.println("Укажите ID книги которую хотите взять : ");
+
+
+
+        System.out.println(readersArray.get(idReaders) );
         return readersArray;
     }
 

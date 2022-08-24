@@ -5,8 +5,7 @@ import java.util.Scanner;
 
 
 import static com.booklibrary.level1.Data.BookData.*;
-import static com.booklibrary.level1.Data.ReadersData.addNewReaders;
-import static com.booklibrary.level1.Data.ReadersData.getAllReaders;
+import static com.booklibrary.level1.Data.ReadersData.*;
 
 
 public class menu {
@@ -21,6 +20,7 @@ public class menu {
                 case "2" -> getAllReaders();
                 case "3" -> addNewReaders();
                 case "4" -> addNewBook();
+                case "5" -> getBook();
 
 
                 case "exit" -> exit();

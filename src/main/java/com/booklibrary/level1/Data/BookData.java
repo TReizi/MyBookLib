@@ -12,6 +12,8 @@ import java.util.concurrent.atomic.AtomicLong;
 public class BookData {
 
     private static final ArrayList<Book> bookArray = new ArrayList<>();
+
+
     private static Scanner booksEnter = new Scanner(System.in);
     private static final AtomicLong newId = new AtomicLong(3);
 
@@ -29,7 +31,6 @@ public class BookData {
     public static ArrayList<Book> getAllBooks() {
         System.out.println("Все книги: ");
         bookArray.forEach(bookArray -> System.out.println(bookArray));
-
         return bookArray;
     }
 
