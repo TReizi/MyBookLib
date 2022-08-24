@@ -1,7 +1,11 @@
 package com.booklibrary.level1.entity;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Reader {
-    private int id;
+    private long id;
+
+
 
     private String name;
 
@@ -10,13 +14,20 @@ public class Reader {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public String getName() {
         return name;
@@ -38,4 +49,8 @@ public class Reader {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+
+
+
 }
