@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class BookData {
 
-    public static final ArrayList<Book> bookArray = new ArrayList<>();
+    private static final ArrayList<Book> bookArray = new ArrayList<>();
 
 
     private static Scanner booksEnter = new Scanner(System.in);
@@ -34,24 +34,5 @@ public class BookData {
         return bookArray;
     }
 
-
-    public static ArrayList<Book> addNewBook() {
-        System.out.println("Укажите название книги и автора черех /. ");
-        String newBook = booksEnter.nextLine();
-        Book books = new Book();
-        String[] separation = newBook.split("/");
-        books.setName(separation[0]);
-        books.setAuthor(separation[1]);
-        newId.incrementAndGet();
-        long i = newId.get();
-        books.setId(i);
-        bookArray.add(books);
-
-        return bookArray;
-    }
-
-    public static ArrayList<Book> pickUpBooks(){
-        return bookArray;
-    }
 
 }
