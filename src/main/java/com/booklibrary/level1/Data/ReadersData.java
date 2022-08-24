@@ -47,7 +47,7 @@ public class ReadersData {
         readersArray.add(reader);
         return readersArray;
     }
-
+//покачто не смотреть на это!
     public  static ArrayList<Reader> getBook(){
 
         System.out.println("Укажите ID читателя: ");
