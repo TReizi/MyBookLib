@@ -9,7 +9,7 @@ public class Reader {
 
     private String name;
 
-    public Reader(int id, String name) {
+    public Reader(long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -21,13 +21,6 @@ public class Reader {
     public void setId(long id) {
         this.id = id;
     }
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
 
     public String getName() {
         return name;

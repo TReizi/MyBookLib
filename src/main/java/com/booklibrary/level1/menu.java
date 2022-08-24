@@ -9,7 +9,6 @@ import static com.booklibrary.level1.Data.ReadersData.addNewReaders;
 import static com.booklibrary.level1.Data.ReadersData.getAllReaders;
 
 
-
 public class menu {
     public static void start() {
         while (true) {
@@ -21,10 +20,10 @@ public class menu {
                 case "1" -> getAllBooks();
                 case "2" -> getAllReaders();
                 case "3" -> addNewReaders();
+                case "4" -> addNewBook();
 
 
-
-                case "exit" ->exit();
+                case "exit" -> exit();
 
                 default -> throw new IllegalStateException("Unexpected value: " + c);
             };
@@ -39,17 +38,17 @@ public class menu {
     }
 
 
-    public static void textMenu(){
-        String textMenu= """
+    public static void textMenu() {
+        String textMenu = """
                 Меню библиотеки:
                 [1] Список всех книг.
                 [2] Список всех читателей.
                 [3] Добавить нового читателя.
-                [4] Добавить новую книгу. 
+                [4] Добавить новую книгу.
                 [5] Взять книгу.
                 [6] Вернуть книгу.
                 [7] Показать все взятые книги по ID пользователя.
-                [8] Показать текущего читателя книги по ID книги. 
+                [8] Показать текущего читателя книги по ID книги.
                 [exit] Выход.
                 """;
         System.out.println(textMenu);
