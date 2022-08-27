@@ -1,26 +1,27 @@
 package com.booklibrary.level1;
 
-
 import java.util.Scanner;
 
 
 import static com.booklibrary.level1.Data.BookData.*;
 import static com.booklibrary.level1.Data.ReadersData.*;
 
-
-public class menu {
+public class Menu {
     public static void start() {
         while (true) {
-            textMenu();
+            showMenu();
 
             Scanner scMenu = new Scanner(System.in);
             String c = scMenu.nextLine();
-            Object value = switch (c) {
-                case "1" -> getAllBooks();
-                case "2" -> getAllReaders();
+            switch (c) {
+                case "1" -> printAllBooks();
+                case "2" -> printAllReaders();
 
 
-                case "exit" -> exit();
+                case "exit" -> {
+                    System.out.println("Bay!");
+                    System.exit(0);
+                }
 
                 default -> throw new IllegalStateException("Unexpected value: " + c);
             };
@@ -28,14 +29,7 @@ public class menu {
         }
     }
 
-    public static int exit() {
-        System.out.println("Bay!");
-        System.exit(0);
-        return exit();
-    }
-
-
-    public static void textMenu() {
+    public static void showMenu() {
         String textMenu = """
                 Меню библиотеки:
                 [1] Список всех книг.

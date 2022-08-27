@@ -1,11 +1,9 @@
 package com.booklibrary.level1;
 
-
 import com.booklibrary.level1.Data.BookData;
 import com.booklibrary.level1.Data.ReadersData;
 
-import static com.booklibrary.level1.menu.start;
-
+import static com.booklibrary.level1.Menu.start;
 
 public class Main {
     public static void main(String[] args) {

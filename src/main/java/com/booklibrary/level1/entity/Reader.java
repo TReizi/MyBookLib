@@ -1,7 +1,5 @@
 package com.booklibrary.level1.entity;
 
-
-
 public class Reader {
     private long id;
 
