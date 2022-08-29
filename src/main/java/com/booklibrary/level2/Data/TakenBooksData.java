@@ -1,6 +1,6 @@
 package com.booklibrary.level2.Data;
 
-import com.booklibrary.level2.entity.Book;
+
 import com.booklibrary.level2.entity.TakenBooks;
 
 
@@ -43,40 +43,50 @@ public class TakenBooksData {
 
 
     public static ArrayList<TakenBooks> removingBooksFromTheReader() {
-        System.out.println("Укажите id читателя: ");
+        System.out.println("Укажите id читателя для возврата книги: ");
         int readersId = takenReaderBooksEnter.nextInt();
         readersId--;
         long idReader = readersList.get(readersId).getId();
-        System.out.println("Укажите id книги которую необходимо вернуть: ");
-        int bookId = takenReaderBooksEnter.nextInt();
-        bookId--;
-
-        for(TakenBooks idSearchReader:takenReaderBooksList)
-        if (idSearchReader.getReader().getId() == idReader) {
-                takenReaderBooksList.remove(idSearchReader);
-                System.out.println("Книгу вернули.");
-            }else{
-            System.out.println("Такого читателя или книги не найдено");
-        }
-
+        for (TakenBooks idSearchReader : takenReaderBooksList)
+            if (idSearchReader.getReader().getId() == idReader) {
+                takenReaderBooksList.remove(idSearchReader.getReader().getId()) ;
+                        System.out.println("Книгу вернули.");
+            }
         return takenReaderBooksList;
     }
 
 
     public static ArrayList<TakenBooks> getReaderBooks() {
+
         System.out.println("Укажите id читателя: ");
         int idSearchReaders = takenReaderBooksEnter.nextInt();
         idSearchReaders--;
         long reader = readersList.get(idSearchReaders).getId();
-        int idSearchBooks = 0;
-        for (TakenBooks idSearchBook : takenReaderBooksList) {
+
+          for (TakenBooks idSearchBook :takenReaderBooksList) {
             if (idSearchBook.getReader().getId() == reader){
-
+                System.out.println(" У читателя: " + readersList.get(idSearchReaders).getName());
+                System.out.println(" Взята книга: " + idSearchBook.getNameBooks().getName());
               }
-            System.out.println(" У читателя: " + readersList.get(idSearchReaders).getName());
-            System.out.println(" Взята книга: " + bookList.get(idSearchBooks).getName());
-        }
+            }
+        return takenReaderBooksList;
+    }
 
+
+    public static ArrayList<TakenBooks> getBookReader() {
+
+        System.out.println("Укажите id книги: ");
+        int idSearchBooks = takenReaderBooksEnter.nextInt();
+        idSearchBooks--;
+        long book = bookList.get(idSearchBooks).getId();
+
+        for (TakenBooks idSearchBook :takenReaderBooksList) {
+            if (idSearchBook.getNameBooks().getId() == book){
+                System.out.println(" Взята книга: " + bookList.get(idSearchBooks).getName());
+                System.out.println(" У читателя: " + idSearchBook.getReader().getName());
+            }
+        }
         return takenReaderBooksList;
     }
 }
+

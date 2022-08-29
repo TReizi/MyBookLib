@@ -22,7 +22,7 @@ public class Menu {
                 case "5" -> addBooksReader();
                 case "6" -> removingBooksFromTheReader();
                 case "7" -> getReaderBooks();
-
+                case"8" ->getBookReader();
 
                 case "exit" -> {
                     System.out.println("Bay!");
