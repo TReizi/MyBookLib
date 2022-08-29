@@ -1,12 +1,13 @@
 package com.booklibrary.level2.entity;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class TakenBooks {
     private long id;
 
     private Reader reader;
+
     private  Book nameBooks;
-
-
 
     public long getId() {
         return id;

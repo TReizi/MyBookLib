@@ -30,9 +30,7 @@ public class ReadersData {
         String readersName = readersEnter.nextLine();
         Reader reader = new Reader();
         reader.setName(readersName);
-        newId.incrementAndGet();
-        long i =newId.get();
-        reader.setId(i);
+        reader.setId(newId.incrementAndGet());
         readersList.add(reader);
         return readersList;
     }

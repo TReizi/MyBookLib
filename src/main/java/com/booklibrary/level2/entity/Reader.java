@@ -3,8 +3,6 @@ package com.booklibrary.level2.entity;
 public class Reader {
     private long id;
 
-
-
     private String name;
 
     public Reader(long id, String name) {

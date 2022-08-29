@@ -1,5 +1,6 @@
 package com.booklibrary.level2.Data;
 
+import com.booklibrary.level2.entity.Book;
 import com.booklibrary.level2.entity.TakenBooks;
 
 
@@ -12,7 +13,7 @@ import static com.booklibrary.level2.Data.ReadersData.*;
 
 public class TakenBooksData {
     private static final ArrayList<TakenBooks> takenReaderBooksList = new ArrayList<>();
-    private static final AtomicLong idTakenBooks = new AtomicLong(1);
+    private static AtomicLong idTakenBooks = new AtomicLong();
     private static final Scanner takenReaderBooksEnter = new Scanner(System.in);
 
 
@@ -20,23 +21,19 @@ public class TakenBooksData {
         TakenBooks takenBooks = new TakenBooks();
     }
 
-
     public static ArrayList<TakenBooks> addBooksReader() {
         System.out.println("Укажите id читателя: ");
         int readersId = takenReaderBooksEnter.nextInt();
-        TakenBooks takenBooks = new TakenBooks();
         readersId--;
-
+        TakenBooks takenBooks = new TakenBooks();
         takenBooks.setReader(readersList.get(readersId));
-
-
         System.out.println("Укажите id книги: ");
         int booksId = takenReaderBooksEnter.nextInt();
         booksId--;
-        takenBooks.setNameBooks(bookList.get(booksId));
 
-        long idTakenBook = idTakenBooks.get();
-        takenBooks.setId(idTakenBook);
+        System.out.println((bookList.get(booksId)));
+        takenBooks.setNameBooks(bookList.get(booksId));
+        takenBooks.setId(idTakenBooks.incrementAndGet());
         takenReaderBooksList.add(takenBooks);
 
         System.out.println("Взял книгу: " + takenBooks.getReader().getName() +
@@ -46,7 +43,21 @@ public class TakenBooksData {
 
 
     public static ArrayList<TakenBooks> removingBooksFromTheReader() {
+        System.out.println("Укажите id читателя: ");
+        int readersId = takenReaderBooksEnter.nextInt();
+        readersId--;
+        long idReader = readersList.get(readersId).getId();
+        System.out.println("Укажите id книги которую необходимо вернуть: ");
+        int bookId = takenReaderBooksEnter.nextInt();
+        bookId--;
 
+        for(TakenBooks idSearchReader:takenReaderBooksList)
+        if (idSearchReader.getReader().getId() == idReader) {
+                takenReaderBooksList.remove(idSearchReader);
+                System.out.println("Книгу вернули.");
+            }else{
+            System.out.println("Такого читателя или книги не найдено");
+        }
 
         return takenReaderBooksList;
     }
@@ -56,19 +67,15 @@ public class TakenBooksData {
         System.out.println("Укажите id читателя: ");
         int idSearchReaders = takenReaderBooksEnter.nextInt();
         idSearchReaders--;
-              long reader = readersList.get(idSearchReaders).getId();
+        long reader = readersList.get(idSearchReaders).getId();
         int idSearchBooks = 0;
         for (TakenBooks idSearchBook : takenReaderBooksList) {
-            if (idSearchBook.getReader().getId() == reader) {
-                idSearchBook.equals(idSearchBooks);
-            }
+            if (idSearchBook.getReader().getId() == reader){
+
+              }
+            System.out.println(" У читателя: " + readersList.get(idSearchReaders).getName());
+            System.out.println(" Взята книга: " + bookList.get(idSearchBooks).getName());
         }
-
-
-        System.out.println(" У читателя: " + readersList.get(idSearchReaders).getName());
-
-        System.out.println(" Взята книга: " + takenReaderBooksList.get(idSearchBooks).getNameBooks().getName());
-
 
         return takenReaderBooksList;
     }

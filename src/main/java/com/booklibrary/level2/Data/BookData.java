@@ -35,11 +35,8 @@ public class BookData {
         String[] separation = newBook.split("/");
         books.setName(separation[0]);
         books.setAuthor(separation[1]);
-        newId.incrementAndGet();
-        long i = newId.get();
-        books.setId(i);
+        books.setId(newId.incrementAndGet());
         bookList.add(books);
-
         return bookList;
     }
 
