@@ -1,16 +1,15 @@
-package com.booklibrary.level1.entity;
+package com.booklibrary.level2.entity;
 
-public class Book {
+public class Reader {
     private long id;
+
+
 
     private String name;
 
-    private String author;
-
-    public Book(int id, String name, String author) {
+    public Reader(long id, String name) {
         this.id = id;
         this.name = name;
-        this.author = author;
     }
 
     public long getId() {
@@ -29,23 +28,20 @@ public class Book {
         this.name = name;
     }
 
-    public String getAuthor() {
-        return author;
-    }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
     //конструктор без аргументов добавлен для дальнейшего
-    public Book() {
+    public Reader() {
     }
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "Reader{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", author='" + author + '\'' +
                 '}';
     }
+
+
+
+
 }

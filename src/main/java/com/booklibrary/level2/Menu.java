@@ -1,10 +1,11 @@
-package com.booklibrary.level1;
+package com.booklibrary.level2;
 
 import java.util.Scanner;
 
 
-import static com.booklibrary.level1.Data.BookData.*;
-import static com.booklibrary.level1.Data.ReadersData.*;
+import static com.booklibrary.level2.Data.BookData.*;
+import static com.booklibrary.level2.Data.ReadersData.*;
+import static com.booklibrary.level2.Data.TakenBooksData.*;
 
 public class Menu {
     public static void start() {
@@ -16,6 +17,11 @@ public class Menu {
             switch (c) {
                 case "1" -> printAllBooks();
                 case "2" -> printAllReaders();
+                case "3" -> addNewReaders();
+                case "4" -> addNewBook();
+                case "5" -> addBooksReader();
+                case "6" -> removingBooksFromTheReader();
+                case "7" -> getReaderBooks();
 
 
                 case "exit" -> {
@@ -34,7 +40,12 @@ public class Menu {
                 Меню библиотеки:
                 [1] Список всех книг.
                 [2] Список всех читателей.
-
+                [3] Добавить нового читателя.
+                [4] Добавить новую книгу.
+                [5] Взять книгу.
+                [6] Вернуть книгу.
+                [7] Показать все взятые книги по ID пользователя.
+                [8] Показать текущего читателя книги по ID книги.
                 [exit] Выход.
                 """;
         System.out.println(textMenu);
