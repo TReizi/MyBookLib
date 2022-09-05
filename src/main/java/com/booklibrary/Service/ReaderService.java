@@ -4,6 +4,7 @@ import com.booklibrary.entity.Reader;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 public class ReaderService {
 
@@ -27,10 +28,11 @@ public class ReaderService {
     }
 
     public static void printAllReaders(){
-        System.out.println("Все книги: ");
+        System.out.println("Все читатели: ");
         readersList.forEach(System.out::println);
     }
-    public static void addNewReaders() {
+
+    public static void addNewReader() {
         System.out.println("Укажите имя нового читателя: ");
         String readersName = readersEnter.nextLine();
         Reader reader = new Reader();
@@ -38,4 +40,19 @@ public class ReaderService {
         reader.setId(newId.incrementAndGet());
         readersList.add(reader);
     }
+
+    public static List<Reader> searchReader(ArrayList<Reader> idSearchReader, long needReaderId) {
+        return getReadersArrayList().stream()
+                .filter((searchReader)->searchReader.getId() == needReaderId)
+                .collect(Collectors.toList());
+    }
+
+    public static Reader findReaderById(Long readerId){
+        return readersList.stream()
+                .filter(reader-> reader.getId() == readerId)
+                .findAny()
+                .orElse(null);
+    }
+
+
 }

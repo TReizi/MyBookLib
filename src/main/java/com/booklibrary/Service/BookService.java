@@ -5,8 +5,10 @@ import com.booklibrary.entity.Reader;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 public class BookService {
 
@@ -44,6 +46,18 @@ public class BookService {
         book.setId(newId.incrementAndGet());
         bookList.add(book);
 
+    }
+    public static List<Book> searchBook(ArrayList<Book> idSearchBook, long needBook) {
+        return getBookArrayList().stream()
+                .filter(searchReader -> searchReader.getId() == needBook)
+                .collect(Collectors.toList());
+    }
+
+    public static Book findBookById(Long bookId){
+        return bookList.stream()
+                .filter(book-> book.getId() == bookId)
+                .findAny()
+                .orElse(null);
     }
 
 }

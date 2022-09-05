@@ -19,12 +19,12 @@ public class Menu {
             switch (c) {
                 case "1" -> BookService.printAllBooks();
                 case "2" -> printAllReaders();
-                case "3" -> ReaderService.addNewReaders();
+                case "3" -> ReaderService.addNewReader();
                 case "4" -> BookService.addNewBook();
-                case "5" -> addBookReader();
+                case "5" -> bookIssuance();
                 case "6" -> removingBooksFromTheReader();
                 case "7" -> getReaderBook();
-                case"8" ->getBookReader();
+                case "8" ->getBookReader();
 
                 case "exit" -> {
                     System.out.println("Bay!");

@@ -12,8 +12,9 @@ import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
+import static com.booklibrary.Service.BookService.findBookById;
 import static com.booklibrary.Service.BookService.getBookArrayList;
-import static com.booklibrary.Service.ReaderService.getReadersArrayList;
+import static com.booklibrary.Service.ReaderService.*;
 
 
 public class TakenBookService {
@@ -26,71 +27,72 @@ public class TakenBookService {
         return takenReaderBookList;
     }
 
-    public static void addBookReader() {
+    public static void bookIssuance() {
         System.out.println("Укажите id читателя: ");
-        int readersId = takenReaderBooksEnter.nextInt();
+        long readersId = takenReaderBooksEnter.nextInt();
         TakenBook takenBook = new TakenBook();
-        // Не делал специально лямдой
-        for(Reader reader:SearchReader(getReadersArrayList(),readersId)){
-            takenBook.setReader(reader);
-        }
+        takenBook.setReader(findReaderById(readersId));
         System.out.println("Укажите id книги: ");
-        int bookId = takenReaderBooksEnter.nextInt();
-        // Не делал специально лямдой
-        for (Book book:SearchBook(getBookArrayList(),bookId)){
-            takenBook.setNameBook(book);
-        }
-       takenReaderBookList.add(takenBook);
+        long bookId = takenReaderBooksEnter.nextInt();
+        takenBook.setNameBook(findBookById(bookId));
+        takenReaderBookList.add(takenBook);
         System.out.println("Взял книгу: " + takenBook.getReader().getName() +
                 ". По названию: " + takenBook.getNameBook().getName() + ".");
     }
 
+
     public static void removingBooksFromTheReader() {
         System.out.println("Укажите id читателя для возврата книги: ");
-        int readerId = takenReaderBooksEnter.nextInt();
-        for(TakenBook s: filterByReader(getTakenReaderBookList(),readerId)){
-            takenReaderBookList.remove(s);
-        }
-        System.out.println("Книга возвращена.");
+        long readerId = takenReaderBooksEnter.nextInt();
+        System.out.println(filterByReader(takenReaderBookList, readerId));
+        System.out.println("Укажите id книги для возврата: ");
+        long bookId = takenReaderBooksEnter.nextInt();
+
+
+
+//        for (TakenBook idSearchReaders : takenReaderBookList)
+//            if (idSearchReaders.getReader().getId() == readerId) {
+//                takenReaderBookList.remove(bookId);
+//                System.out.println("Книгу вернули.");
+//            } else {
+//                System.out.println("Такого читателя или книги не найдено");
+
+
+//        takenReaderBookList.remove(filterByReader(takenReaderBookList,bookId));
+//
+//        filterByReader(takenReaderBookList,bookId);
+//
+//        System.out.println(filterByReader(takenReaderBookList,bookId));
+//       // filterByReader(takenReaderBookList,bookId)
+//        System.out.println("Книга возвращена.");
     }
+
 
     public static void getReaderBook() {
         System.out.println("Укажите id читателя: ");
         int idSearchReaders = takenReaderBooksEnter.nextInt();
         List<TakenBook> searchReader = filterByReader(getTakenReaderBookList(), idSearchReaders);
-        System.out.println("Читатель : "+searchReader.get(0).getReader().getName());
-        System.out.println("Взята книга: "+searchReader.get(0).getNameBook().getName());
+        System.out.println("Читатель : " + searchReader.get(0).getReader().getName());
+        System.out.println("Взята книга: " + searchReader.get(0).getNameBook().getName());
     }
 
     public static void getBookReader() {
         System.out.println("Укажите id книги: ");
         int idSearchBooks = takenReaderBooksEnter.nextInt();
-        List<TakenBook> searchBook = filterByBook(getTakenReaderBookList(), idSearchBooks);
-        System.out.println("Книга: "+searchBook.get(0).getNameBook().getName());
-        System.out.println("Взята: "+searchBook.get(0).getReader().getName());
+        List<TakenBook> searchBook = filterByBook(takenReaderBookList, idSearchBooks);
+        System.out.println("Книга: " + searchBook.get(0).getNameBook().getName());
+        System.out.println("Взята: " + searchBook.get(0).getReader().getName());
     }
 
     public static List<TakenBook> filterByBook(ArrayList<TakenBook> takenReaderBookList, long needBookId) {
         return takenReaderBookList.stream()
-                .filter((filterBook)->filterBook.getNameBook().getId() == needBookId)
+                .filter(filterBook -> filterBook.getNameBook().getId() == needBookId)
                 .collect(Collectors.toList());
     }
 
-    public static List<TakenBook> filterByReader (ArrayList<TakenBook> takenReaderBookList, long needReaderId) {
+    public static List<TakenBook> filterByReader(ArrayList<TakenBook> takenReaderBookList, long needReaderId) {
         return takenReaderBookList.stream()
-                .filter((filterReader)->filterReader.getReader().getId() == needReaderId)
-                .collect(Collectors.toList());
-    }
-
-    public static List<Reader> SearchReader (ArrayList<Reader> idSearchReader , long needReaderId) {
-        return getReadersArrayList().stream()
-                .filter((searchReader)->searchReader.getId() == needReaderId)
-                .collect(Collectors.toList());
-    }
-
-    public static List<Book> SearchBook (ArrayList<Book> idSearchBook , long needBook) {
-        return getBookArrayList().stream()
-                .filter((searchReader)->searchReader.getId() == needBook)
+                .filter(filterReader -> filterReader.getReader().getId() == needReaderId)
                 .collect(Collectors.toList());
     }
 
