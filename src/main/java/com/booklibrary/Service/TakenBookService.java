@@ -12,6 +12,9 @@ import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
+import static com.booklibrary.Service.BookService.getBookArrayList;
+import static com.booklibrary.Service.ReaderService.getReadersArrayList;
+
 
 public class TakenBookService {
     private static ArrayList<TakenBook> takenReaderBookList = new ArrayList<>();
@@ -23,65 +26,35 @@ public class TakenBookService {
         return takenReaderBookList;
     }
 
-    public static void setTakenReaderBookList(ArrayList<TakenBook> takenReaderBookList) {
-        TakenBookService.takenReaderBookList = takenReaderBookList;
-    }
-
-
-
-    public static void generator(){
-
-        TakenBook takenBook = new TakenBook();
-        takenBook.setReader(new Reader(4,"Vasiliy"));
-        takenBook.setNameBook(new Book(10,"A1","A1"));
-        takenReaderBookList.add(takenBook);
-        TakenBook takenBook1 = new TakenBook();
-        takenBook1.setReader(new Reader(5,"A5"));
-        takenBook1.setNameBook(new Book(11,"A11","A11"));
-        takenReaderBookList.add(takenBook1);
-
-    }
-
     public static void addBookReader() {
-
-
-
-
-//        System.out.println("Укажите id читателя: ");
-//        int readersId = takenReaderBooksEnter.nextInt();
-//        readersId--;
-//        TakenBook takenBooks = new TakenBook();
-//        takenBooks.setReader(readersList.get(readersId));
-//        System.out.println("Укажите id книги: ");
-//        int booksId = takenReaderBooksEnter.nextInt();
-//        booksId--;
-//
-//        System.out.println((bookList.get(booksId)));
-//        takenBooks.setNameBook(bookList.get(booksId));
-//        takenBooks.setId(idTakenBooks.incrementAndGet());
-//        takenReaderBooksList.add(takenBooks);
-//
-//        System.out.println("Взял книгу: " + takenBooks.getReader().getName() +
-//                ". По названию: " + takenBooks.getNameBook().getName() + ".");
-
+        System.out.println("Укажите id читателя: ");
+        int readersId = takenReaderBooksEnter.nextInt();
+        TakenBook takenBook = new TakenBook();
+        // Не делал специально лямдой
+        for(Reader reader:SearchReader(getReadersArrayList(),readersId)){
+            takenBook.setReader(reader);
+        }
+        System.out.println("Укажите id книги: ");
+        int bookId = takenReaderBooksEnter.nextInt();
+        // Не делал специально лямдой
+        for (Book book:SearchBook(getBookArrayList(),bookId)){
+            takenBook.setNameBook(book);
+        }
+       takenReaderBookList.add(takenBook);
+        System.out.println("Взял книгу: " + takenBook.getReader().getName() +
+                ". По названию: " + takenBook.getNameBook().getName() + ".");
     }
 
+    public static void removingBooksFromTheReader() {
+        System.out.println("Укажите id читателя для возврата книги: ");
+        int readerId = takenReaderBooksEnter.nextInt();
+        for(TakenBook s: filterByReader(getTakenReaderBookList(),readerId)){
+            takenReaderBookList.remove(s);
+        }
+        System.out.println("Книга возвращена.");
+    }
 
-//    public static ArrayList<TakenBook> removingBooksFromTheReader() {
-////        System.out.println("Укажите id читателя для возврата книги: ");
-////        int readersId = takenReaderBooksEnter.nextInt();
-////        readersId--;
-////        long idReader = readersList.get(readersId).getId();
-////        for (TakenBook idSearchReader : takenReaderBooksList)
-////            if (idSearchReader.getReader().getId() == idReader) {
-////                takenReaderBooksList.remove(idSearchReader.getReader().getId()) ;
-////                        System.out.println("Книгу вернули.");
-////            }
-////        return takenReaderBooksList;
-//    }
-
-
-    public static void getReaderBooks() {
+    public static void getReaderBook() {
         System.out.println("Укажите id читателя: ");
         int idSearchReaders = takenReaderBooksEnter.nextInt();
         List<TakenBook> searchReader = filterByReader(getTakenReaderBookList(), idSearchReaders);
@@ -105,8 +78,21 @@ public class TakenBookService {
 
     public static List<TakenBook> filterByReader (ArrayList<TakenBook> takenReaderBookList, long needReaderId) {
         return takenReaderBookList.stream()
-                .filter((filterBook)->filterBook.getReader().getId() == needReaderId)
+                .filter((filterReader)->filterReader.getReader().getId() == needReaderId)
                 .collect(Collectors.toList());
     }
+
+    public static List<Reader> SearchReader (ArrayList<Reader> idSearchReader , long needReaderId) {
+        return getReadersArrayList().stream()
+                .filter((searchReader)->searchReader.getId() == needReaderId)
+                .collect(Collectors.toList());
+    }
+
+    public static List<Book> SearchBook (ArrayList<Book> idSearchBook , long needBook) {
+        return getBookArrayList().stream()
+                .filter((searchReader)->searchReader.getId() == needBook)
+                .collect(Collectors.toList());
+    }
+
 }
 

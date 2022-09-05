@@ -5,7 +5,7 @@ import com.booklibrary.entity.Reader;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class ReadersService {
+public class ReaderService {
 
     private static ArrayList<Reader> readersList = new ArrayList<>();
     private static Scanner readersEnter = new Scanner(System.in);
@@ -14,10 +14,6 @@ public class ReadersService {
 
     public static ArrayList <Reader> getReadersArrayList() {
         return readersList;
-    }
-
-    public static void setReadersArrayList(ArrayList<Reader> readersList) {
-        ReadersService.readersList = readersList;
     }
 
     public static void generateReaders() {

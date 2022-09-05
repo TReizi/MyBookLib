@@ -1,12 +1,12 @@
 package com.booklibrary;
 
 import com.booklibrary.Service.BookService;
-import com.booklibrary.Service.ReadersService;
+import com.booklibrary.Service.ReaderService;
 
 import java.util.Scanner;
 
 
-import static com.booklibrary.Service.ReadersService.*;
+import static com.booklibrary.Service.ReaderService.*;
 import static com.booklibrary.Service.TakenBookService.*;
 
 public class Menu {
@@ -19,11 +19,11 @@ public class Menu {
             switch (c) {
                 case "1" -> BookService.printAllBooks();
                 case "2" -> printAllReaders();
-                case "3" -> ReadersService.addNewReaders();
+                case "3" -> ReaderService.addNewReaders();
                 case "4" -> BookService.addNewBook();
                 case "5" -> addBookReader();
-//                case "6" -> removingBooksFromTheReader();
-                case "7" -> getReaderBooks();
+                case "6" -> removingBooksFromTheReader();
+                case "7" -> getReaderBook();
                 case"8" ->getBookReader();
 
                 case "exit" -> {

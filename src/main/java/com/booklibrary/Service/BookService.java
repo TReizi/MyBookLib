@@ -15,13 +15,8 @@ public class BookService {
     private static final AtomicLong newId = new AtomicLong(1000);
 
 
-
     public static ArrayList <Book> getBookArrayList() {
         return bookList;
-    }
-
-    public static void setReadersArrayList(ArrayList<Book> bookList) {
-        BookService.bookList = bookList;
     }
 
     public static void generateBooks() {
@@ -50,6 +45,5 @@ public class BookService {
         bookList.add(book);
 
     }
-
 
 }
