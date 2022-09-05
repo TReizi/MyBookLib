@@ -1,13 +1,11 @@
-package com.booklibrary.level2.entity;
+package com.booklibrary.entity;
 
-import java.util.concurrent.atomic.AtomicLong;
-
-public class TakenBooks {
+public class TakenBook {
     private long id;
 
     private Reader reader;
 
-    private  Book nameBooks;
+    private  Book nameBook;
 
     public long getId() {
         return id;
@@ -25,20 +23,20 @@ public class TakenBooks {
         this.reader = reader;
     }
 
-    public Book getNameBooks() {
-        return nameBooks;
+    public Book getNameBook() {
+        return nameBook;
     }
 
-    public void setNameBooks(Book nameBooks) {
-        this.nameBooks = nameBooks;
+    public void setNameBook(Book nameBook) {
+        this.nameBook = nameBook;
     }
 
     @Override
     public String toString() {
-        return "TakenBooks{" +
+        return "TakenBook{" +
                 "id=" + id +
                 ", reader=" + reader +
-                ", nameBooks=" + nameBooks +
+                ", nameBooks=" + nameBook +
                 '}';
     }
 }

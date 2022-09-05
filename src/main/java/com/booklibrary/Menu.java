@@ -1,11 +1,13 @@
-package com.booklibrary.level2;
+package com.booklibrary;
+
+import com.booklibrary.Service.BookService;
+import com.booklibrary.Service.ReadersService;
 
 import java.util.Scanner;
 
 
-import static com.booklibrary.level2.Data.BookData.*;
-import static com.booklibrary.level2.Data.ReadersData.*;
-import static com.booklibrary.level2.Data.TakenBooksData.*;
+import static com.booklibrary.Service.ReadersService.*;
+import static com.booklibrary.Service.TakenBookService.*;
 
 public class Menu {
     public static void start() {
@@ -15,12 +17,12 @@ public class Menu {
             Scanner scMenu = new Scanner(System.in);
             String c = scMenu.nextLine();
             switch (c) {
-                case "1" -> printAllBooks();
+                case "1" -> BookService.printAllBooks();
                 case "2" -> printAllReaders();
-                case "3" -> addNewReaders();
-                case "4" -> addNewBook();
-                case "5" -> addBooksReader();
-                case "6" -> removingBooksFromTheReader();
+                case "3" -> ReadersService.addNewReaders();
+                case "4" -> BookService.addNewBook();
+                case "5" -> addBookReader();
+//                case "6" -> removingBooksFromTheReader();
                 case "7" -> getReaderBooks();
                 case"8" ->getBookReader();
 

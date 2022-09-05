@@ -1,17 +1,28 @@
-package com.booklibrary.level2.Data;
+package com.booklibrary.Service;
 
-import com.booklibrary.level2.entity.Book;
+import com.booklibrary.entity.Book;
+import com.booklibrary.entity.Reader;
 
 
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class BookData {
+public class BookService {
 
-    public static final ArrayList<Book> bookList = new ArrayList<>();
+    private static ArrayList<Book> bookList = new ArrayList<>();
     private static Scanner booksEnter = new Scanner(System.in);
-    private static final AtomicLong newId = new AtomicLong(3);
+    private static final AtomicLong newId = new AtomicLong(1000);
+
+
+
+    public static ArrayList <Book> getBookArrayList() {
+        return bookList;
+    }
+
+    public static void setReadersArrayList(ArrayList<Book> bookList) {
+        BookService.bookList = bookList;
+    }
 
     public static void generateBooks() {
         Book b1 = new Book(1, "451 по Фаренгейту", "Рэй Брэдбери");
@@ -28,16 +39,16 @@ public class BookData {
         bookList.forEach(System.out::println);
     }
 
-    public static ArrayList<Book> addNewBook() {
+    public static void addNewBook() {
         System.out.println("Укажите название книги и автора черех /. ");
         String newBook = booksEnter.nextLine();
-        Book books = new Book();
+        Book book = new Book();
         String[] separation = newBook.split("/");
-        books.setName(separation[0]);
-        books.setAuthor(separation[1]);
-        books.setId(newId.incrementAndGet());
-        bookList.add(books);
-        return bookList;
+        book.setName(separation[0]);
+        book.setAuthor(separation[1]);
+        book.setId(newId.incrementAndGet());
+        bookList.add(book);
+
     }
 
 

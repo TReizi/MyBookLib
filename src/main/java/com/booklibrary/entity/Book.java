@@ -1,4 +1,4 @@
-package com.booklibrary.level2.entity;
+package com.booklibrary.entity;
 
 public class Book {
     private long id;
@@ -48,4 +48,6 @@ public class Book {
                 ", author='" + author + '\'' +
                 '}';
     }
+
+
 }

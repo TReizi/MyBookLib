@@ -1,15 +1,24 @@
-package com.booklibrary.level2.Data;
+package com.booklibrary.Service;
 
-import com.booklibrary.level2.entity.Reader;
+import com.booklibrary.entity.Reader;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class ReadersData {
+public class ReadersService {
 
-    public static final ArrayList<Reader> readersList = new ArrayList<>();
+    private static ArrayList<Reader> readersList = new ArrayList<>();
     private static Scanner readersEnter = new Scanner(System.in);
-    private static final AtomicLong newId = new AtomicLong(3);
+    private static final AtomicLong newId = new AtomicLong(1000);
+
+
+    public static ArrayList <Reader> getReadersArrayList() {
+        return readersList;
+    }
+
+    public static void setReadersArrayList(ArrayList<Reader> readersList) {
+        ReadersService.readersList = readersList;
+    }
 
     public static void generateReaders() {
         Reader r1 = new Reader(1, "Artem");
@@ -25,13 +34,12 @@ public class ReadersData {
         System.out.println("Все книги: ");
         readersList.forEach(System.out::println);
     }
-    public static ArrayList<Reader> addNewReaders() {
+    public static void addNewReaders() {
         System.out.println("Укажите имя нового читателя: ");
         String readersName = readersEnter.nextLine();
         Reader reader = new Reader();
         reader.setName(readersName);
         reader.setId(newId.incrementAndGet());
         readersList.add(reader);
-        return readersList;
     }
 }
