@@ -23,8 +23,8 @@ public class Menu {
                 case "4" -> BookService.addNewBook();
                 case "5" -> bookIssuance();
                 case "6" -> removingBooksFromTheReader();
-                case "7" -> getReaderBook();
-                case "8" ->getBookReader();
+                case "7" -> takenReaderBook();
+                case "8" -> takenBookReader();
 
                 case "exit" -> {
                     System.out.println("Bay!");
