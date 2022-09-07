@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class TakenBookService {
     private static final ArrayList<TakenBook> takenReaderBookList = new ArrayList<>();
-    private static final Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
 
     public void issueBook() {
         System.out.println("Укажите id читателя: ");

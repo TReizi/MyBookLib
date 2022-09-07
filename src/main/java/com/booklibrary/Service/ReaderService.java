@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class ReaderService {
 
-    private static ArrayList<Reader> readerList = new ArrayList<>();
+    private static final ArrayList<Reader> readerList = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
 
     //оставил только 2 генератора статик
