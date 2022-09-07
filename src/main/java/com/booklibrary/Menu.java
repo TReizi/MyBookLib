@@ -2,29 +2,28 @@ package com.booklibrary;
 
 import com.booklibrary.Service.BookService;
 import com.booklibrary.Service.ReaderService;
+import com.booklibrary.Service.TakenBookService;
+
 
 import java.util.Scanner;
 
 
-import static com.booklibrary.Service.ReaderService.*;
-import static com.booklibrary.Service.TakenBookService.*;
-
 public class Menu {
-    public static void start() {
+    public  void start() {
         while (true) {
             showMenu();
 
-            Scanner scMenu = new Scanner(System.in);
-            String c = scMenu.nextLine();
+            Scanner scanner = new Scanner(System.in);
+            String c = scanner.nextLine();
             switch (c) {
-                case "1" -> BookService.printAllBooks();
-                case "2" -> printAllReaders();
-                case "3" -> ReaderService.addNewReader();
-                case "4" -> BookService.addNewBook();
-                case "5" -> bookIssuance();
-                case "6" -> removingBooksFromTheReader();
-                case "7" -> takenReaderBook();
-                case "8" -> takenBookReader();
+                case "1" -> new BookService().printAllBooks();
+                case "2" -> new ReaderService().printAllReaders();
+                case "3" -> new ReaderService().addNewReader();
+                case "4" -> new BookService().addNewBook();
+                case "5" -> new TakenBookService().issueBook();
+                case "6" -> new TakenBookService().removeBookFromReader();
+                case "7" -> new TakenBookService().printCurrentReaderByBookId();
+                case "8" -> new TakenBookService().printAllBooksTakenByReaderId();
 
                 case "exit" -> {
                     System.out.println("Bay!");
@@ -37,7 +36,7 @@ public class Menu {
         }
     }
 
-    public static void showMenu() {
+    public  void showMenu() {
         String textMenu = """
                 Меню библиотеки:
                 [1] Список всех книг.

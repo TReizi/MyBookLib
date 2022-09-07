@@ -1,7 +1,6 @@
 package com.booklibrary.Service;
 
 import com.booklibrary.entity.Book;
-import com.booklibrary.entity.Reader;
 
 
 import java.util.ArrayList;
@@ -12,14 +11,8 @@ import java.util.stream.Collectors;
 
 public class BookService {
 
-    private static ArrayList<Book> bookList = new ArrayList<>();
-    private static Scanner booksEnter = new Scanner(System.in);
-    private static final AtomicLong newId = new AtomicLong(1000);
-
-
-    public static ArrayList <Book> getBookArrayList() {
-        return bookList;
-    }
+    private static final ArrayList<Book> bookList = new ArrayList<>();
+    private  static Scanner scanner = new Scanner(System.in);
 
     public static void generateBooks() {
         Book b1 = new Book(1, "451 по Фаренгейту", "Рэй Брэдбери");
@@ -31,29 +24,21 @@ public class BookService {
 
     }
 
-    public static void printAllBooks(){
+    public void printAllBooks(){
         System.out.println("Все книги: ");
         bookList.forEach(System.out::println);
     }
 
-    public static void addNewBook() {
+    public void addNewBook() {
         System.out.println("Укажите название книги и автора черех /. ");
-        String newBook = booksEnter.nextLine();
-        Book book = new Book();
+        String newBook = scanner.nextLine();
         String[] separation = newBook.split("/");
-        book.setName(separation[0]);
-        book.setAuthor(separation[1]);
-        book.setId(newId.incrementAndGet());
+        var book = new Book(separation);
         bookList.add(book);
 
     }
-    public static List<Book> searchBook(ArrayList<Book> idSearchBook, long needBook) {
-        return getBookArrayList().stream()
-                .filter(searchReader -> searchReader.getId() == needBook)
-                .collect(Collectors.toList());
-    }
 
-    public static Book findBookById(Long bookId){
+    public Book findBookById(Long bookId){
         return bookList.stream()
                 .filter(book-> book.getId() == bookId)
                 .findAny()

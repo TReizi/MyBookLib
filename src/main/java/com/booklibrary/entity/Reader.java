@@ -1,7 +1,10 @@
 package com.booklibrary.entity;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class Reader {
-    private long id;
+    private static final AtomicLong atomicLong = new AtomicLong(1000);
+    private long id = atomicLong.incrementAndGet();
 
     private String name;
 
@@ -29,6 +32,10 @@ public class Reader {
 
     //конструктор без аргументов добавлен для дальнейшего
     public Reader() {
+    }
+
+    public Reader (String name){
+        this.name = name;
     }
 
     @Override

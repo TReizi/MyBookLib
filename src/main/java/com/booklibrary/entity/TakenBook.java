@@ -1,11 +1,15 @@
 package com.booklibrary.entity;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class TakenBook {
-    private long id;
+    private static AtomicLong atomicLong = new AtomicLong();
+
+    private long id = atomicLong.incrementAndGet();
 
     private Reader reader;
 
-    private  Book nameBook;
+    private  Book book;
 
     public long getId() {
         return id;
@@ -23,12 +27,12 @@ public class TakenBook {
         this.reader = reader;
     }
 
-    public Book getNameBook() {
-        return nameBook;
+    public Book getBook() {
+        return book;
     }
 
-    public void setNameBook(Book nameBook) {
-        this.nameBook = nameBook;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     @Override
@@ -36,7 +40,7 @@ public class TakenBook {
         return "TakenBook{" +
                 "id=" + id +
                 ", reader=" + reader +
-                ", nameBooks=" + nameBook +
+                ", nameBooks=" + book +
                 '}';
     }
 }

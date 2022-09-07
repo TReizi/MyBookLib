@@ -1,7 +1,11 @@
 package com.booklibrary.entity;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class Book {
-    private long id;
+    private static AtomicLong atomicLong = new AtomicLong(1000);
+
+    private long id = atomicLong.incrementAndGet();
 
     private String name;
 
@@ -36,8 +40,14 @@ public class Book {
     public void setAuthor(String author) {
         this.author = author;
     }
+
     //конструктор без аргументов добавлен для дальнейшего
     public Book() {
+    }
+
+    public Book (String [] separation){
+        this.name = separation[0];
+        this.author = separation[1];
     }
 
     @Override
@@ -48,6 +58,5 @@ public class Book {
                 ", author='" + author + '\'' +
                 '}';
     }
-
 
 }
