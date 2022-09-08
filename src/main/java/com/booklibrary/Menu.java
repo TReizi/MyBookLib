@@ -28,8 +28,8 @@ public class Menu {
                 case "4" -> bookService.addNewBook();
                 case "5" -> takenBookService.issueBook();
                 case "6" -> takenBookService.removeBookFromReader();
-                case "7" -> takenBookService.printCurrentReaderByBookId();
-                case "8" -> takenBookService.printAllBooksTakenByReaderId();
+                case "7" -> takenBookService.printAllBooksTakenByReaderId();
+                case "8" -> takenBookService.printCurrentReaderByBookId();
 
                 case "exit" -> {
                     System.out.println("Bay!");

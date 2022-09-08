@@ -41,7 +41,7 @@ public class TakenBookService {
         System.out.println("Книгу вернули.");
     }
 
-    public void printCurrentReaderByBookId() {
+    public void printAllBooksTakenByReaderId() {
         System.out.println("Укажите id читателя: ");
         long idSearchReaders = scanner.nextInt();
         var takenBook = filterByReader(idSearchReaders).get(0);
@@ -49,11 +49,10 @@ public class TakenBookService {
         System.out.println("Взята книга: " + takenBook.getBook().getName());
     }
 
-    public void printAllBooksTakenByReaderId() {
+    public void printCurrentReaderByBookId() {
         System.out.println("Укажите id книги: ");
-        long idSearchBooks = scanner.nextInt();
-        filterByBook(idSearchBooks);
-        var takenBook = filterByReader(idSearchBooks).get(0);
+        long bookId = scanner.nextInt();
+        var takenBook = filterByBook(bookId).get(0);
         System.out.println("Книга: " + takenBook.getBook().getName());
         System.out.println("Взята :" + takenBook.getReader().getName());
     }

@@ -16,7 +16,6 @@ public class Book {
         this.name = name;
         this.author = author;
     }
-
     public long getId() {
         return id;
     }
@@ -37,13 +36,11 @@ public class Book {
         this.author = author;
     }
 
-
     public Book (String [] separation){
         this.id = atomicLong.incrementAndGet();
         this.name = separation[0];
         this.author = separation[1];
     }
-
     @Override
     public String toString() {
         return "Book{" +

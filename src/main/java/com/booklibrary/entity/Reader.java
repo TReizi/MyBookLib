@@ -25,7 +25,6 @@ public class Reader {
     public void setName(String name) {
         this.name = name;
     }
-
     public Reader (String name){
         this.id = atomicLong.incrementAndGet();
         this.name = name;
