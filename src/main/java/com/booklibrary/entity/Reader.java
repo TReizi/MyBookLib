@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class Reader {
     private static final AtomicLong atomicLong = new AtomicLong(1000);
+
     private final long id;
 
     private String name;
@@ -37,8 +38,5 @@ public class Reader {
                 ", name='" + name + '\'' +
                 '}';
     }
-
-
-
 
 }

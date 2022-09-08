@@ -20,7 +20,6 @@ public class TakenBookService {
         this.readerService= readerService;
     }
 
-
     public void issueBook() {
         System.out.println("Укажите id читателя: ");
         long readerId = scanner.nextInt();
@@ -29,7 +28,6 @@ public class TakenBookService {
         var reader = readerService.findReaderById(readerId);
         var book = bookService.findBookById(bookId);
         var takenBook = new TakenBook(reader, book);
-
         takenReaderBookList.add(takenBook);
         System.out.println("Взял книгу: " + reader.getName() + ". По названию: " + book.getName() + ".");
     }
@@ -61,7 +59,7 @@ public class TakenBookService {
     }
 
     public List<TakenBook> filterByBook(long bookId) {
-        return takenReaderBookList.stream()
+       return takenReaderBookList.stream()
                 .filter(filterBook -> filterBook.getBook().getId() == bookId)
                 .collect(Collectors.toList());
     }
@@ -71,6 +69,5 @@ public class TakenBookService {
                 .filter(filterReader -> filterReader.getReader().getId() == readerId)
                 .collect(Collectors.toList());
     }
-
 }
 

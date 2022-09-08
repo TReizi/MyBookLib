@@ -9,9 +9,9 @@ import java.util.Scanner;
 
 
 public class Menu {
-    private BookService bookService = new BookService();
-    private ReaderService readerService = new ReaderService();
-    private TakenBookService takenBookService = new TakenBookService(bookService,readerService);
+    private final BookService bookService = new BookService();
+    private final ReaderService readerService = new ReaderService();
+    private final TakenBookService takenBookService = new TakenBookService(bookService,readerService);
 
     public void start() {
         readerService.generateReaders();
@@ -35,12 +35,8 @@ public class Menu {
                     System.out.println("Bay!");
                     System.exit(0);
                 }
-
                 default -> throw new IllegalStateException("Unexpected value: " + c);
             }
-            ;
-
-
         }
     }
 
@@ -58,7 +54,6 @@ public class Menu {
                 [exit] Выход.
                 """;
         System.out.println(textMenu);
-
     }
 }
 

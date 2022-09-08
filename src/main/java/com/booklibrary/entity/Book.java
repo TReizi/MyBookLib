@@ -3,7 +3,7 @@ package com.booklibrary.entity;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Book {
-    private static AtomicLong atomicLong = new AtomicLong(1000);
+    private final static AtomicLong atomicLong = new AtomicLong(1000);
 
     private final long id;
 

@@ -7,10 +7,9 @@ import java.util.*;
 public class ReaderService {
 
     private final ArrayList<Reader> readerList = new ArrayList<>();
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
-
-    public void  generateReaders() {
+    public void generateReaders() {
         Reader r1 = new Reader(1, "Artem");
         Reader r2 = new Reader(2, "Oleg");
         Reader r3 = new Reader(3, "Nina");
@@ -31,13 +30,11 @@ public class ReaderService {
         readerList.add(reader);
     }
 
-
     public Reader findReaderById(Long readerId){
         return readerList.stream()
                 .filter(reader -> reader.getId()==readerId)
                 .findAny()
                 .orElse(null);
     }
-
 
 }

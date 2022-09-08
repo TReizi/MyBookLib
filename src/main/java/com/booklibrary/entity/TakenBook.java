@@ -15,9 +15,6 @@ public class TakenBook {
     public Reader getReader() {
         return reader;
     }
-    public TakenBook() {
-    }
-
 
     public void setReader(Reader reader) {
         this.reader = reader;
