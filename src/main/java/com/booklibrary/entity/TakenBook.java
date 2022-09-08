@@ -7,9 +7,17 @@ public class TakenBook {
 
     private  Book book;
 
+    public TakenBook(Reader reader, Book book) {
+        this.reader = reader;
+        this.book = book;
+    }
+
     public Reader getReader() {
         return reader;
     }
+    public TakenBook() {
+    }
+
 
     public void setReader(Reader reader) {
         this.reader = reader;

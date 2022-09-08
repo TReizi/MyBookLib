@@ -9,15 +9,16 @@ import java.util.Scanner;
 
 
 public class Menu {
-    public  void start() {
-        var bookService = new BookService();
-        var readerService = new ReaderService();
-        var takenBookService = new TakenBookService();
-        ReaderService.generateReaders();
-        BookService.generateBooks();
+    private BookService bookService = new BookService();
+    private ReaderService readerService = new ReaderService();
+    private TakenBookService takenBookService = new TakenBookService();
+
+    public void start() {
+        readerService.generateReaders();
+        bookService.generateBooks();
+
         while (true) {
             showMenu();
-
             Scanner scanner = new Scanner(System.in);
             String c = scanner.nextLine();
             switch (c) {
@@ -36,12 +37,14 @@ public class Menu {
                 }
 
                 default -> throw new IllegalStateException("Unexpected value: " + c);
-            };
+            }
+            ;
+
 
         }
     }
 
-    public  void showMenu() {
+    public void showMenu() {
         String textMenu = """
                 Меню библиотеки:
                 [1] Список всех книг.

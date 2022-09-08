@@ -9,14 +9,16 @@ public class ReaderService {
     private static final ArrayList<Reader> readerList = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
 
-    //оставил только 2 генератора статик
-    public static void generateReaders() {
+
+
+    public void  generateReaders() {
         Reader r1 = new Reader(1, "Artem");
         Reader r2 = new Reader(2, "Oleg");
         Reader r3 = new Reader(3, "Nina");
         readerList.add(r1);
         readerList.add(r2);
         readerList.add(r3);
+        System.out.println("Добавлено все");
 
     }
 
@@ -33,11 +35,9 @@ public class ReaderService {
     }
 
 
-
-
     public Reader findReaderById(Long readerId){
         return readerList.stream()
-                .filter(reader-> reader.getId() == readerId)
+                .filter(reader -> reader.getId()==readerId)
                 .findAny()
                 .orElse(null);
     }

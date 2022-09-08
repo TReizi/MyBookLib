@@ -1,6 +1,8 @@
 package com.booklibrary.service;
 
 import com.booklibrary.entity.TakenBook;
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,21 +12,20 @@ import java.util.stream.Collectors;
 public class TakenBookService {
     private final ArrayList<TakenBook> takenReaderBookList = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
-    BookService bookService = new BookService();
-    ReaderService readerService = new ReaderService();
+    private BookService bookService = new BookService();
+    private ReaderService readerService = new ReaderService();
 
 
     public void issueBook() {
         System.out.println("Укажите id читателя: ");
         long readerId = scanner.nextInt();
-        TakenBook takenBook = new TakenBook();
-        takenBook.setReader(readerService.findReaderById(readerId));
         System.out.println("Укажите id книги: ");
         long bookId = scanner.nextInt();
-        takenBook.setBook(bookService.findBookById(bookId));
+        var reader = readerService.findReaderById(readerId);
+        var book = bookService.findBookById(bookId);
+        var takenBook = new TakenBook(reader, book);
         takenReaderBookList.add(takenBook);
-        System.out.println("Взял книгу: " + takenBook.getReader().getName() +
-                ". По названию: " + takenBook.getBook().getName() + ".");
+        System.out.println("Взял книгу: " + reader.getName() + ". По названию: " + book.getName() + ".");
     }
 
     public void removeBookFromReader() {
@@ -38,17 +39,19 @@ public class TakenBookService {
 
     public void printCurrentReaderByBookId() {
         System.out.println("Укажите id читателя: ");
-        int idSearchReaders = scanner.nextInt();
-        System.out.println("Читатель :"+filterByReader(idSearchReaders).get(0).getReader().getName());
-        System.out.println("Взята книга: " + filterByReader(idSearchReaders).get(0).getBook().getName());
+        long idSearchReaders = scanner.nextInt();
+        var takenBook = filterByReader(idSearchReaders).get(0);
+        System.out.println("Читатель :" + takenBook.getReader().getName());
+        System.out.println("Взята книга: " + takenBook.getBook().getName());
     }
 
     public void printAllBooksTakenByReaderId() {
         System.out.println("Укажите id книги: ");
-        int idSearchBooks = scanner.nextInt();
+        long idSearchBooks = scanner.nextInt();
         filterByBook(idSearchBooks);
-        System.out.println("Книга: " + filterByBook(idSearchBooks).get(0).getBook().getName());
-        System.out.println("Взята: " + filterByBook(idSearchBooks).get(0).getReader().getName());
+        var takenBook = filterByReader(idSearchBooks).get(0);
+        System.out.println("Книга: " + takenBook.getBook().getName());
+        System.out.println("Взята :" + takenBook.getReader().getName());
     }
 
     public List<TakenBook> filterByBook(long bookId) {
@@ -57,7 +60,7 @@ public class TakenBookService {
                 .collect(Collectors.toList());
     }
 
-    public List<TakenBook> filterByReader( long readerId) {
+    public List<TakenBook> filterByReader(long readerId) {
         return takenReaderBookList.stream()
                 .filter(filterReader -> filterReader.getReader().getId() == readerId)
                 .collect(Collectors.toList());
