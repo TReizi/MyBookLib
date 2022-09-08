@@ -1,16 +1,13 @@
-package com.booklibrary.Service;
+package com.booklibrary.service;
 
 import com.booklibrary.entity.Reader;
-import com.booklibrary.entity.TakenBook;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 
 public class ReaderService {
 
     private static final ArrayList<Reader> readerList = new ArrayList<>();
-    private static Scanner scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
 
     //оставил только 2 генератора статик
     public static void generateReaders() {

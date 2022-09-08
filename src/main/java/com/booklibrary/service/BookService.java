@@ -1,18 +1,15 @@
-package com.booklibrary.Service;
+package com.booklibrary.service;
 
 import com.booklibrary.entity.Book;
 
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 
 public class BookService {
 
     private static final ArrayList<Book> bookList = new ArrayList<>();
-    private  static Scanner scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
 
     public static void generateBooks() {
         Book b1 = new Book(1, "451 по Фаренгейту", "Рэй Брэдбери");

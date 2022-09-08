@@ -1,8 +1,8 @@
 package com.booklibrary;
 
-import com.booklibrary.Service.BookService;
-import com.booklibrary.Service.ReaderService;
-import com.booklibrary.Service.TakenBookService;
+import com.booklibrary.service.BookService;
+import com.booklibrary.service.ReaderService;
+import com.booklibrary.service.TakenBookService;
 
 
 import java.util.Scanner;
@@ -10,20 +10,23 @@ import java.util.Scanner;
 
 public class Menu {
     public  void start() {
+        var bookService = new BookService();
+        var readerService = new ReaderService();
+        var takenBookService = new TakenBookService();
         while (true) {
             showMenu();
 
             Scanner scanner = new Scanner(System.in);
             String c = scanner.nextLine();
             switch (c) {
-                case "1" -> new BookService().printAllBooks();
-                case "2" -> new ReaderService().printAllReaders();
-                case "3" -> new ReaderService().addNewReader();
-                case "4" -> new BookService().addNewBook();
-                case "5" -> new TakenBookService().issueBook();
-                case "6" -> new TakenBookService().removeBookFromReader();
-                case "7" -> new TakenBookService().printCurrentReaderByBookId();
-                case "8" -> new TakenBookService().printAllBooksTakenByReaderId();
+                case "1" -> bookService.printAllBooks();
+                case "2" -> readerService.printAllReaders();
+                case "3" -> readerService.addNewReader();
+                case "4" -> bookService.addNewBook();
+                case "5" -> takenBookService.issueBook();
+                case "6" -> takenBookService.removeBookFromReader();
+                case "7" -> takenBookService.printCurrentReaderByBookId();
+                case "8" -> takenBookService.printAllBooksTakenByReaderId();
 
                 case "exit" -> {
                     System.out.println("Bay!");

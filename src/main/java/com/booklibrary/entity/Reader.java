@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class Reader {
     private static final AtomicLong atomicLong = new AtomicLong(1000);
-    private long id = atomicLong.incrementAndGet();
+    private final long id;
 
     private String name;
 
@@ -17,10 +17,6 @@ public class Reader {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -29,12 +25,8 @@ public class Reader {
         this.name = name;
     }
 
-
-    //конструктор без аргументов добавлен для дальнейшего
-    public Reader() {
-    }
-
     public Reader (String name){
+        this.id = atomicLong.incrementAndGet();
         this.name = name;
     }
 
