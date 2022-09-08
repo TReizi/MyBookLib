@@ -20,7 +20,6 @@ public class BookService {
         bookList.add(b1);
         bookList.add(b2);
         bookList.add(b3);
-        System.out.println("Книги добавлены!");
 
     }
 

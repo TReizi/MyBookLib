@@ -10,7 +10,6 @@ public class ReaderService {
     private Scanner scanner = new Scanner(System.in);
 
 
-
     public void  generateReaders() {
         Reader r1 = new Reader(1, "Artem");
         Reader r2 = new Reader(2, "Oleg");
@@ -18,8 +17,6 @@ public class ReaderService {
         readerList.add(r1);
         readerList.add(r2);
         readerList.add(r3);
-        System.out.println("Добавлено все");
-
     }
 
     public void printAllReaders(){
