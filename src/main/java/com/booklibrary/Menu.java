@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Menu {
     private BookService bookService = new BookService();
     private ReaderService readerService = new ReaderService();
-    private TakenBookService takenBookService = new TakenBookService();
+    private TakenBookService takenBookService = new TakenBookService(bookService,readerService);
 
     public void start() {
         readerService.generateReaders();

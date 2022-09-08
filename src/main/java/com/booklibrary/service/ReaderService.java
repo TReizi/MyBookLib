@@ -6,7 +6,7 @@ import java.util.*;
 
 public class ReaderService {
 
-    private static final ArrayList<Reader> readerList = new ArrayList<>();
+    private final ArrayList<Reader> readerList = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
 
 

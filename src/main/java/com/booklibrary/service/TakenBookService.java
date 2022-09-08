@@ -11,9 +11,14 @@ import java.util.stream.Collectors;
 
 public class TakenBookService {
     private final ArrayList<TakenBook> takenReaderBookList = new ArrayList<>();
-    private Scanner scanner = new Scanner(System.in);
-    private BookService bookService = new BookService();
-    private ReaderService readerService = new ReaderService();
+    private final Scanner scanner = new Scanner(System.in);
+    private final BookService bookService ;
+    private final ReaderService readerService;
+
+    public TakenBookService(BookService bookService, ReaderService readerService){
+        this.bookService = bookService;
+        this.readerService= readerService;
+    }
 
 
     public void issueBook() {
@@ -24,6 +29,7 @@ public class TakenBookService {
         var reader = readerService.findReaderById(readerId);
         var book = bookService.findBookById(bookId);
         var takenBook = new TakenBook(reader, book);
+
         takenReaderBookList.add(takenBook);
         System.out.println("Взял книгу: " + reader.getName() + ". По названию: " + book.getName() + ".");
     }

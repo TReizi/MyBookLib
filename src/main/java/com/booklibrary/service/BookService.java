@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class BookService {
 
-    private static final ArrayList<Book> bookList = new ArrayList<>();
+    private  final ArrayList<Book> bookList = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
 
     public void generateBooks() {
