@@ -6,8 +6,6 @@ import com.booklibrary.service.ReaderService;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Добро пожаловать в Библиотеку.");
-        ReaderService.generateReaders();
-        BookService.generateBooks();
         new Menu().start();
 
         }

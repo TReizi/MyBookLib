@@ -13,6 +13,8 @@ public class Menu {
         var bookService = new BookService();
         var readerService = new ReaderService();
         var takenBookService = new TakenBookService();
+        ReaderService.generateReaders();
+        BookService.generateBooks();
         while (true) {
             showMenu();
 
