@@ -1,5 +1,6 @@
 package com.booklibrary.entity;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Book {
@@ -13,11 +14,17 @@ public class Book {
 
   private String status;
 
+
+
   public Book(int id, String name, String author,String status) {
     this.id = id;
     this.name = name;
     this.author = author;
     this.status = status;
+  }
+
+  public Book(long id) {
+    this.id = id;
   }
 
   public String getStatus() {

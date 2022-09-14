@@ -31,6 +31,10 @@ public class Reader {
     this.name = name;
   }
 
+  public Reader(long id) {
+    this.id = id;
+  }
+
   @Override
   public String toString() {
     return "Reader{" + "id=" + id + ", name='" + name + '\'' + '}';

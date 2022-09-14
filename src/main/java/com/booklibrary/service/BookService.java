@@ -9,5 +9,5 @@ public interface BookService {
 
   void addNewBook() throws SQLException;
 
-  Book findBookById(Long bookId);
+  Book findBookById(Long bookId) throws SQLException;
 }

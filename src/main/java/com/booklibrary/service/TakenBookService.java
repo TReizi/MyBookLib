@@ -1,11 +1,13 @@
 package com.booklibrary.service;
 
+import java.sql.SQLException;
+
 public interface TakenBookService {
-  void issueBook();
+  void issueBook() throws SQLException;
 
-  void removeBookFromReader();
+  void removeBookFromReader() throws SQLException;
 
-  void printAllBooksTakenByReaderId();
+  void printAllBooksTakenByReaderId() throws SQLException;
 
-  void printCurrentReaderByBookId();
+  void printCurrentReaderByBookId() throws SQLException;
 }

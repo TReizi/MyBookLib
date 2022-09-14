@@ -6,10 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface ReaderDAO {
-    List<Reader> findAllReader() throws SQLException;
+  List<Reader> findAllReader() throws SQLException;
 
-    public default void addReaderDatabase(Reader reader) throws SQLException {
-
-    }
-
+  void addReaderDatabase(Reader reader) throws SQLException;
 }

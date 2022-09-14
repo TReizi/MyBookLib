@@ -1,59 +1,72 @@
 package com.booklibrary.service;
 
+import com.booklibrary.dao.AddictionDAOImpl;
+import com.booklibrary.dao.BookDAOImpl;
+import com.booklibrary.dao.ReaderDAOImpl;
+import com.booklibrary.entity.Book;
+import com.booklibrary.entity.Reader;
 import com.booklibrary.entity.TakenBook;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class TakenBookServiceImpl implements TakenBookService {
-  private final ArrayList<TakenBook> takenReaderBookList = new ArrayList<>();
+
   private final Scanner scanner = new Scanner(System.in);
   private final BookServiceImpl bookService;
   private final ReaderServiceImpl readerService;
+  private final AddictionDAOImpl addictionDAO;
 
-  public TakenBookServiceImpl(BookServiceImpl bookService, ReaderServiceImpl readerService) {
+  public TakenBookServiceImpl(
+      BookServiceImpl bookService, ReaderServiceImpl readerService, AddictionDAOImpl addictionDAO) {
     this.bookService = bookService;
     this.readerService = readerService;
+    this.addictionDAO = addictionDAO;
   }
 
   @Override
-  public void issueBook() {
+  public void issueBook() throws SQLException {
     System.out.println("Укажите id читателя: ");
     long readerId = scanner.nextInt();
     System.out.println("Укажите id книги: ");
     long bookId = scanner.nextInt();
     var reader = readerService.findReaderById(readerId);
     var book = bookService.findBookById(bookId);
-    var takenBook = new TakenBook(reader, book);
-    takenReaderBookList.add(takenBook);
+    addictionDAO.addABookReader(reader, book);
+    addictionDAO.statusСhange("Взята", book);
     System.out.println(
         "Взял книгу: " + reader.getName() + ". По названию: " + book.getName() + ".");
   }
 
   @Override
-  public void removeBookFromReader() {
+  public void removeBookFromReader() throws SQLException {
     System.out.println("Укажите id читателя для возврата книги: ");
     long readerId = scanner.nextInt();
+    var reader = readerService.findReaderById(readerId);
     System.out.println("Укажите id книги для возврата: ");
     long bookId = scanner.nextInt();
-    takenReaderBookList.removeIf(
-        x -> readerId == x.getReader().getId() && bookId == x.getBook().getId());
-    System.out.println("Книгу вернули.");
+    System.out.println(reader.getName() + "Вернул книгу");
+
+    System.out.println(filterByBook(bookId).toString());
+    //    addictionDAO.statusСhange("Можно брать",(Book)filterByBook(bookId));
+
+    addictionDAO.deleteAddication(bookId);
   }
 
   @Override
-  public void printAllBooksTakenByReaderId() {
+  public void printAllBooksTakenByReaderId() throws SQLException {
     System.out.println("Укажите id читателя: ");
     long idSearchReaders = scanner.nextInt();
-    var takenBook = filterByReader(idSearchReaders).get(0);
+    var takenBook = new TakenBook();
+    takenBook = filterByReader(idSearchReaders).get(0);
     System.out.println("Читатель :" + takenBook.getReader().getName());
     System.out.println("Взята книга: " + takenBook.getBook().getName());
   }
 
   @Override
-  public void printCurrentReaderByBookId() {
+  public void printCurrentReaderByBookId() throws SQLException {
     System.out.println("Укажите id книги: ");
     long bookId = scanner.nextInt();
     var takenBook = filterByBook(bookId).get(0);
@@ -61,14 +74,14 @@ public class TakenBookServiceImpl implements TakenBookService {
     System.out.println("Взята :" + takenBook.getReader().getName());
   }
 
-  public List<TakenBook> filterByBook(long bookId) {
-    return takenReaderBookList.stream()
+  public List<TakenBook> filterByBook(long bookId) throws SQLException {
+    return addictionDAO.findAllAddiction().stream()
         .filter(filterBook -> filterBook.getBook().getId() == bookId)
         .collect(Collectors.toList());
   }
 
-  public List<TakenBook> filterByReader(long readerId) {
-    return takenReaderBookList.stream()
+  public List<TakenBook> filterByReader(long readerId) throws SQLException {
+    return addictionDAO.findAllAddiction().stream()
         .filter(filterReader -> filterReader.getReader().getId() == readerId)
         .collect(Collectors.toList());
   }

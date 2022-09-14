@@ -9,5 +9,5 @@ public interface ReaderService {
 
   void addNewReader() throws SQLException;
 
-  Reader findReaderById(Long readerId);
+  Reader findReaderById(Long readerId) throws SQLException;
 }

@@ -1,6 +1,7 @@
 package com.booklibrary;
 
 import com.booklibrary.connectionSettings.ConnectionSettingsData;
+import com.booklibrary.dao.AddictionDAOImpl;
 import com.booklibrary.dao.BookDAOImpl;
 import com.booklibrary.dao.ReaderDAO;
 import com.booklibrary.dao.ReaderDAOImpl;
@@ -19,8 +20,8 @@ public class Menu {
     private final ReaderDAOImpl readerDAO = new ReaderDAOImpl(connectionSettingsData);
     private final BookServiceImpl bookService = new BookServiceImpl(bookDAO);
     private final ReaderServiceImpl readerService = new ReaderServiceImpl(readerDAO);
-    private final TakenBookServiceImpl takenBookService = new TakenBookServiceImpl(bookService,readerService);
-
+    private final AddictionDAOImpl addictionDAO = new AddictionDAOImpl(connectionSettingsData,bookService,readerService);
+    private final TakenBookServiceImpl takenBookService = new TakenBookServiceImpl(bookService,readerService,addictionDAO);
     public void start() throws SQLException {
 
         while (true) {

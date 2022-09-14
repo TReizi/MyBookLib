@@ -16,6 +16,8 @@ public class ReaderDAOImpl implements ReaderDAO{
         this.connectionSettingsData = connectionSettingsData;
     }
 
+
+
     @Override
     public List<Reader> findAllReader() throws SQLException {
         Connection connection =
@@ -33,6 +35,7 @@ public class ReaderDAOImpl implements ReaderDAO{
             var  reader = new Reader(id,name);
             readerList.add(reader);
         }
+
         connection.close();
         return readerList;
     }
