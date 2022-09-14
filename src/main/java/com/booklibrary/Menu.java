@@ -1,21 +1,27 @@
 package com.booklibrary;
 
-import com.booklibrary.service.BookService;
-import com.booklibrary.service.ReaderService;
-import com.booklibrary.service.TakenBookService;
+import com.booklibrary.connectionSettings.ConnectionSettingsData;
+import com.booklibrary.dao.BookDAOImpl;
+import com.booklibrary.dao.ReaderDAO;
+import com.booklibrary.dao.ReaderDAOImpl;
+import com.booklibrary.service.BookServiceImpl;
+import com.booklibrary.service.ReaderServiceImpl;
+import com.booklibrary.service.TakenBookServiceImpl;
 
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 
 public class Menu {
-    private final BookService bookService = new BookService();
-    private final ReaderService readerService = new ReaderService();
-    private final TakenBookService takenBookService = new TakenBookService(bookService,readerService);
+    private final ConnectionSettingsData connectionSettingsData = new ConnectionSettingsData();
+    private final BookDAOImpl bookDAO = new BookDAOImpl(connectionSettingsData);
+    private final ReaderDAOImpl readerDAO = new ReaderDAOImpl(connectionSettingsData);
+    private final BookServiceImpl bookService = new BookServiceImpl(bookDAO);
+    private final ReaderServiceImpl readerService = new ReaderServiceImpl(readerDAO);
+    private final TakenBookServiceImpl takenBookService = new TakenBookServiceImpl(bookService,readerService);
 
-    public void start() {
-        readerService.generateReaders();
-        bookService.generateBooks();
+    public void start() throws SQLException {
 
         while (true) {
             showMenu();
