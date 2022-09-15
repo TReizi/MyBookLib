@@ -1,13 +1,8 @@
 package com.booklibrary;
 
 import com.booklibrary.connectionSettings.ConnectionSettingsData;
-import com.booklibrary.dao.AddictionDAOImpl;
-import com.booklibrary.dao.BookDAOImpl;
-import com.booklibrary.dao.ReaderDAO;
-import com.booklibrary.dao.ReaderDAOImpl;
-import com.booklibrary.service.BookServiceImpl;
-import com.booklibrary.service.ReaderServiceImpl;
-import com.booklibrary.service.TakenBookServiceImpl;
+import com.booklibrary.dao.*;
+import com.booklibrary.service.*;
 
 
 import java.sql.SQLException;
@@ -16,12 +11,17 @@ import java.util.Scanner;
 
 public class Menu {
     private final ConnectionSettingsData connectionSettingsData = new ConnectionSettingsData();
-    private final BookDAOImpl bookDAO = new BookDAOImpl(connectionSettingsData);
-    private final ReaderDAOImpl readerDAO = new ReaderDAOImpl(connectionSettingsData);
-    private final BookServiceImpl bookService = new BookServiceImpl(bookDAO);
-    private final ReaderServiceImpl readerService = new ReaderServiceImpl(readerDAO);
-    private final AddictionDAOImpl addictionDAO = new AddictionDAOImpl(connectionSettingsData,bookService,readerService);
-    private final TakenBookServiceImpl takenBookService = new TakenBookServiceImpl(bookService,readerService,addictionDAO);
+    private final BookDAO bookDAO = new BookDAOImpl(connectionSettingsData);
+    private final ReaderDAO readerDAO = new ReaderDAOImpl(connectionSettingsData);
+    private final BookService bookService = new BookServiceImpl(bookDAO);
+    private final ReaderService readerService = new ReaderServiceImpl(readerDAO);
+    private final AddictionDAO addictionDAO = new AddictionDAOImpl(connectionSettingsData,bookService,readerService);
+    private final TakenBookService takenBookService = new TakenBookServiceImpl(bookService,readerService,addictionDAO);
+
+    public Menu() throws SQLException {
+    }
+
+
     public void start() throws SQLException {
 
         while (true) {

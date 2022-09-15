@@ -1,7 +1,6 @@
 package com.booklibrary.service;
 
 import com.booklibrary.dao.BookDAO;
-import com.booklibrary.dao.BookDAOImpl;
 import com.booklibrary.entity.Book;
 
 import java.sql.SQLException;
@@ -12,7 +11,7 @@ public class BookServiceImpl implements BookService {
   private final Scanner scanner = new Scanner(System.in);
   private final BookDAO bookDAO;
 
-  public BookServiceImpl(BookDAOImpl bookDAO) {
+  public BookServiceImpl(BookDAO bookDAO) {
     this.bookDAO = bookDAO;
   }
 
@@ -33,6 +32,9 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public Book findBookById(Long bookId) throws SQLException {
-    return bookDAO.findAllBook().stream().filter(book -> book.getId() == bookId).findAny().orElse(null);
+    return bookDAO.findAllBook().stream()
+        .filter(book -> book.getId() == bookId)
+        .findAny()
+        .orElse(null);
   }
 }

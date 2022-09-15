@@ -20,12 +20,7 @@ public class ReaderDAOImpl implements ReaderDAO{
 
     @Override
     public List<Reader> findAllReader() throws SQLException {
-        Connection connection =
-                DriverManager.getConnection(
-                        connectionSettingsData.DB_URL,
-                        connectionSettingsData.DB_USERNAME,
-                        connectionSettingsData.DB_PASSWORD);
-        Statement statement = connection.createStatement();
+        Statement statement = connectionSettingsData.newConnecting().createStatement();
         String SQL_SELECT_READERS = "select *from readers order by id";
         ResultSet resultReader = statement.executeQuery(SQL_SELECT_READERS);
         List<Reader> readerList = new ArrayList<>();
@@ -35,22 +30,16 @@ public class ReaderDAOImpl implements ReaderDAO{
             var  reader = new Reader(id,name);
             readerList.add(reader);
         }
-
-        connection.close();
+        connectionSettingsData.newConnecting().close();
         return readerList;
     }
 
     @Override
     public void addReaderDatabase(Reader reader) throws SQLException {
-        Connection connection =
-                DriverManager.getConnection(
-                        connectionSettingsData.DB_URL,
-                        connectionSettingsData.DB_USERNAME,
-                        connectionSettingsData.DB_PASSWORD);
         String sql = "insert into readers(name) value(?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        PreparedStatement preparedStatement = connectionSettingsData.newConnecting().prepareStatement(sql);
         preparedStatement.setString(1, reader.getName());
         preparedStatement.executeUpdate();
-        connection.close();
+        connectionSettingsData.newConnecting().close();
     }
 }

@@ -1,10 +1,6 @@
 package com.booklibrary.service;
 
-import com.booklibrary.dao.AddictionDAOImpl;
-import com.booklibrary.dao.BookDAOImpl;
-import com.booklibrary.dao.ReaderDAOImpl;
-import com.booklibrary.entity.Book;
-import com.booklibrary.entity.Reader;
+import com.booklibrary.dao.AddictionDAO;
 import com.booklibrary.entity.TakenBook;
 
 import java.sql.SQLException;
@@ -15,12 +11,12 @@ import java.util.stream.Collectors;
 public class TakenBookServiceImpl implements TakenBookService {
 
   private final Scanner scanner = new Scanner(System.in);
-  private final BookServiceImpl bookService;
-  private final ReaderServiceImpl readerService;
-  private final AddictionDAOImpl addictionDAO;
+  private final BookService bookService;
+  private final ReaderService readerService;
+  private final AddictionDAO addictionDAO;
 
   public TakenBookServiceImpl(
-      BookServiceImpl bookService, ReaderServiceImpl readerService, AddictionDAOImpl addictionDAO) {
+      BookService bookService, ReaderService readerService, AddictionDAO addictionDAO) {
     this.bookService = bookService;
     this.readerService = readerService;
     this.addictionDAO = addictionDAO;
@@ -48,7 +44,6 @@ public class TakenBookServiceImpl implements TakenBookService {
     System.out.println("Укажите id книги для возврата: ");
     long bookId = scanner.nextInt();
     System.out.println(reader.getName() + "Вернул книгу");
-
     System.out.println(filterByBook(bookId).toString());
     //    addictionDAO.statusСhange("Можно брать",(Book)filterByBook(bookId));
 
