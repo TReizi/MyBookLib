@@ -11,8 +11,7 @@ public class TakenBook {
     this.book = book;
   }
 
-  public TakenBook() {
-  }
+  public TakenBook() {}
 
   public Reader getReader() {
     return reader;

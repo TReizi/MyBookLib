@@ -36,7 +36,8 @@ public class BookDAOImpl implements BookDAO {
   @Override
   public void addBookDatabase(Book book) throws SQLException {
     String sql = "insert into books(name,author, status) value(?,?,'Книга не взята')";
-    PreparedStatement preparedStatement = connectionSettingsData.newConnecting().prepareStatement(sql);
+    PreparedStatement preparedStatement =
+        connectionSettingsData.newConnecting().prepareStatement(sql);
     preparedStatement.setString(1, book.getName());
     preparedStatement.setString(2, book.getAuthor());
     preparedStatement.executeUpdate();

@@ -8,8 +8,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface AddictionDAO {
-        void addABookReader(Reader reader, Book book) throws SQLException;
-        List<TakenBook> findAllAddiction() throws SQLException;
-        void deleteAddication(long deleteBook) throws SQLException;
-        void statusСhange(String status,Book bookid) throws SQLException;
+  void addABookReader(Reader reader, Book book) throws SQLException;
+
+  List<TakenBook> findAllAddiction() throws SQLException;
+
+  void deleteAddication(long deleteBook) throws SQLException;
+
+  void statusСhange(String status, Book bookid) throws SQLException;
 }

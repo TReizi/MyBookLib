@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface BookDAO {
   List<Book> findAllBook() throws SQLException;
-  void addBookDatabase(Book book) throws SQLException;
 
+  void addBookDatabase(Book book) throws SQLException;
 }

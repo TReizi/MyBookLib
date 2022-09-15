@@ -7,7 +7,6 @@ import com.booklibrary.entity.TakenBook;
 import com.booklibrary.service.BookService;
 import com.booklibrary.service.ReaderService;
 
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,6 @@ public class AddictionDAOImpl implements AddictionDAO {
   private final ConnectionSettingsData connectionSettingsData;
   private final BookService bookService;
   private final ReaderService readerService;
-
 
   public AddictionDAOImpl(
       ConnectionSettingsData connectionSettingsData,
@@ -43,17 +41,18 @@ public class AddictionDAOImpl implements AddictionDAO {
       addictionDAOList.add(takenBook);
     }
     return addictionDAOList;
-
   }
 
   @Override
   public void deleteAddication(long deleteBook) throws SQLException {
 
     String SQL = "DELETE FROM addiction WHERE idBook = ?";
-    PreparedStatement preparedStatement = connectionSettingsData.newConnecting().prepareStatement(SQL);
+    PreparedStatement preparedStatement =
+        connectionSettingsData.newConnecting().prepareStatement(SQL);
     preparedStatement.setLong(1, deleteBook);
     String sqlStatus = "update books set status = ? where id = ?";
-    PreparedStatement preparedStatementStatus = connectionSettingsData.newConnecting().prepareStatement(sqlStatus);
+    PreparedStatement preparedStatementStatus =
+        connectionSettingsData.newConnecting().prepareStatement(sqlStatus);
     preparedStatementStatus.setString(1, "Можно брать");
     preparedStatementStatus.setLong(2, deleteBook);
     preparedStatementStatus.executeUpdate();
@@ -63,7 +62,8 @@ public class AddictionDAOImpl implements AddictionDAO {
   @Override
   public void statusСhange(String status, Book bookid) throws SQLException {
     String sql = "update books set status = ? where id = ?";
-    PreparedStatement preparedStatement = connectionSettingsData.newConnecting().prepareStatement(sql);
+    PreparedStatement preparedStatement =
+        connectionSettingsData.newConnecting().prepareStatement(sql);
     preparedStatement.setString(1, status);
     preparedStatement.setLong(2, bookid.getId());
     preparedStatement.executeUpdate();
@@ -73,7 +73,8 @@ public class AddictionDAOImpl implements AddictionDAO {
   @Override
   public void addABookReader(Reader reader, Book book) throws SQLException {
     String sql = "insert into addiction(idReader,idBook) value(?,?)";
-    PreparedStatement preparedStatement = connectionSettingsData.newConnecting().prepareStatement(sql);
+    PreparedStatement preparedStatement =
+        connectionSettingsData.newConnecting().prepareStatement(sql);
     preparedStatement.setLong(1, reader.getId());
     preparedStatement.setLong(2, book.getId());
     preparedStatement.executeUpdate();

@@ -14,9 +14,7 @@ public class Book {
 
   private String status;
 
-
-
-  public Book(int id, String name, String author,String status) {
+  public Book(int id, String name, String author, String status) {
     this.id = id;
     this.name = name;
     this.author = author;
@@ -63,11 +61,18 @@ public class Book {
 
   @Override
   public String toString() {
-    return "Book{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            ", author='" + author + '\'' +
-            ", status='" + status + '\'' +
-            '}';
+    return "Book{"
+        + "id="
+        + id
+        + ", name='"
+        + name
+        + '\''
+        + ", author='"
+        + author
+        + '\''
+        + ", status='"
+        + status
+        + '\''
+        + '}';
   }
 }
