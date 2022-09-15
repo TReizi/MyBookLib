@@ -7,7 +7,7 @@ import com.booklibrary.entity.TakenBook;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface AddictionDAO {
+public interface BorrowDao {
   void addABookReader(Reader reader, Book book) throws SQLException;
 
   List<TakenBook> findAllAddiction() throws SQLException;

@@ -1,6 +1,7 @@
 package com.booklibrary.service;
 
-import com.booklibrary.dao.AddictionDAO;
+import com.booklibrary.dao.BorrowDao;
+import com.booklibrary.dao.BorrowDAOImpl;
 import com.booklibrary.entity.TakenBook;
 
 import java.sql.SQLException;
@@ -11,16 +12,9 @@ import java.util.stream.Collectors;
 public class TakenBookServiceImpl implements TakenBookService {
 
   private final Scanner scanner = new Scanner(System.in);
-  private final BookService bookService;
-  private final ReaderService readerService;
-  private final AddictionDAO addictionDAO;
-
-  public TakenBookServiceImpl(
-      BookService bookService, ReaderService readerService, AddictionDAO addictionDAO) {
-    this.bookService = bookService;
-    this.readerService = readerService;
-    this.addictionDAO = addictionDAO;
-  }
+  private final BookService bookService = new BookServiceImpl();
+  private final ReaderService readerService = new ReaderServiceImpl();
+  private final BorrowDao borrowDAO = new BorrowDAOImpl(bookService, readerService);
 
   @Override
   public void issueBook() throws SQLException {
@@ -30,8 +24,8 @@ public class TakenBookServiceImpl implements TakenBookService {
     long bookId = scanner.nextInt();
     var reader = readerService.findReaderById(readerId);
     var book = bookService.findBookById(bookId);
-    addictionDAO.addABookReader(reader, book);
-    addictionDAO.statusСhange("Взята", book);
+    borrowDAO.addABookReader(reader, book);
+    borrowDAO.statusСhange("Взята", book);
     System.out.println(
         "Взял книгу: " + reader.getName() + ". По названию: " + book.getName() + ".");
   }
@@ -47,7 +41,7 @@ public class TakenBookServiceImpl implements TakenBookService {
     System.out.println(filterByBook(bookId).toString());
     //    addictionDAO.statusСhange("Можно брать",(Book)filterByBook(bookId));
 
-    addictionDAO.deleteAddication(bookId);
+    borrowDAO.deleteAddication(bookId);
   }
 
   @Override
@@ -70,13 +64,13 @@ public class TakenBookServiceImpl implements TakenBookService {
   }
 
   public List<TakenBook> filterByBook(long bookId) throws SQLException {
-    return addictionDAO.findAllAddiction().stream()
+    return borrowDAO.findAllAddiction().stream()
         .filter(filterBook -> filterBook.getBook().getId() == bookId)
         .collect(Collectors.toList());
   }
 
   public List<TakenBook> filterByReader(long readerId) throws SQLException {
-    return addictionDAO.findAllAddiction().stream()
+    return borrowDAO.findAllAddiction().stream()
         .filter(filterReader -> filterReader.getReader().getId() == readerId)
         .collect(Collectors.toList());
   }

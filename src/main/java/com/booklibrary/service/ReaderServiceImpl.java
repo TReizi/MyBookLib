@@ -1,6 +1,8 @@
 package com.booklibrary.service;
 
+import com.booklibrary.connectionSettings.ConnectionSettingsData;
 import com.booklibrary.dao.ReaderDAO;
+import com.booklibrary.dao.ReaderDAOImpl;
 import com.booklibrary.entity.Reader;
 
 import java.sql.SQLException;
@@ -9,11 +11,9 @@ import java.util.*;
 public class ReaderServiceImpl implements ReaderService {
 
   private final Scanner scanner = new Scanner(System.in);
-  private final ReaderDAO readerDAO;
+  private final ConnectionSettingsData connectionSettingsData = new ConnectionSettingsData();
+  private final ReaderDAO readerDAO = new ReaderDAOImpl(connectionSettingsData);
 
-  public ReaderServiceImpl(ReaderDAO readerDAO) {
-    this.readerDAO = readerDAO;
-  }
 
   @Override
   public void printAllReaders() throws SQLException {

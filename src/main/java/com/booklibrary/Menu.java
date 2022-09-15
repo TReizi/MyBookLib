@@ -10,16 +10,10 @@ import java.util.Scanner;
 
 
 public class Menu {
-    private final ConnectionSettingsData connectionSettingsData = new ConnectionSettingsData();
-    private final BookDAO bookDAO = new BookDAOImpl(connectionSettingsData);
-    private final ReaderDAO readerDAO = new ReaderDAOImpl(connectionSettingsData);
-    private final BookService bookService = new BookServiceImpl(bookDAO);
-    private final ReaderService readerService = new ReaderServiceImpl(readerDAO);
-    private final AddictionDAO addictionDAO = new AddictionDAOImpl(connectionSettingsData,bookService,readerService);
-    private final TakenBookService takenBookService = new TakenBookServiceImpl(bookService,readerService,addictionDAO);
+    private final BookService bookService = new BookServiceImpl();
+    private final ReaderService readerService = new ReaderServiceImpl();
+    private final TakenBookService takenBookService = new TakenBookServiceImpl();
 
-    public Menu() throws SQLException {
-    }
 
 
     public void start() throws SQLException {

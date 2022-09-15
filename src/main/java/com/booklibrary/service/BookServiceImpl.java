@@ -1,6 +1,8 @@
 package com.booklibrary.service;
 
+import com.booklibrary.connectionSettings.ConnectionSettingsData;
 import com.booklibrary.dao.BookDAO;
+import com.booklibrary.dao.BookDAOImpl;
 import com.booklibrary.entity.Book;
 
 import java.sql.SQLException;
@@ -9,11 +11,7 @@ import java.util.Scanner;
 public class BookServiceImpl implements BookService {
 
   private final Scanner scanner = new Scanner(System.in);
-  private final BookDAO bookDAO;
-
-  public BookServiceImpl(BookDAO bookDAO) {
-    this.bookDAO = bookDAO;
-  }
+  private final BookDAO bookDAO = new BookDAOImpl();
 
   @Override
   public void printAllBooks() throws SQLException {
