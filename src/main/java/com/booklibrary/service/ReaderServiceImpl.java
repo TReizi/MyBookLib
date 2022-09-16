@@ -1,18 +1,19 @@
 package com.booklibrary.service;
 
+import com.booklibrary.UI.InputClient;
 import com.booklibrary.connectionSettings.ConnectionSettingsData;
 import com.booklibrary.dao.ReaderDAO;
 import com.booklibrary.dao.ReaderDAOImpl;
 import com.booklibrary.entity.Reader;
 
 import java.sql.SQLException;
-import java.util.*;
+
 
 public class ReaderServiceImpl implements ReaderService {
 
-  private final Scanner scanner = new Scanner(System.in);
   private final ConnectionSettingsData connectionSettingsData = new ConnectionSettingsData();
   private final ReaderDAO readerDAO = new ReaderDAOImpl(connectionSettingsData);
+  private final InputClient inputClient = new InputClient();
 
 
   @Override
@@ -24,8 +25,7 @@ public class ReaderServiceImpl implements ReaderService {
   @Override
   public void addNewReader() throws SQLException {
     System.out.println("Укажите имя нового читателя: ");
-    String readerName = scanner.nextLine();
-    var reader = new Reader(readerName);
+    var reader = new Reader(inputClient.inputClientAddNewReader());
     readerDAO.addReaderDatabase(reader);
   }
 

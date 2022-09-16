@@ -10,9 +10,9 @@ import java.util.List;
 public interface BorrowDao {
   void addABookReader(Reader reader, Book book) throws SQLException;
 
-  List<TakenBook> findAllAddiction() throws SQLException;
+  List<TakenBook> findAllBorrow() throws SQLException;
 
-  void deleteAddication(long deleteBook) throws SQLException;
+  void deleteBorrow(long deleteBook) throws SQLException;
 
-  void statusСhange(String status, Book bookid) throws SQLException;
+  void statusBorrow(String status, Book bookid) throws SQLException;
 }

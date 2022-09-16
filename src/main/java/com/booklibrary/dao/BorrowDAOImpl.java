@@ -1,6 +1,6 @@
 package com.booklibrary.dao;
 
-import com.booklibrary.connectionSettings.ConnectionSettingsData;
+
 import com.booklibrary.entity.Book;
 import com.booklibrary.entity.Reader;
 import com.booklibrary.entity.TakenBook;
@@ -24,8 +24,7 @@ public class BorrowDAOImpl implements BorrowDao {
     this.readerService = readerService;
   }
 
-  @Override
-  public List<TakenBook> findAllAddiction() throws SQLException {
+  public List<TakenBook> findAllBorrow() throws SQLException {
     Statement statement = newConnecting().createStatement();
     String SQL_SELECT_READERS = "select *from addiction order by id";
     ResultSet resultReader = statement.executeQuery(SQL_SELECT_READERS);
@@ -41,12 +40,13 @@ public class BorrowDAOImpl implements BorrowDao {
   }
 
   @Override
-  public void deleteAddication(long deleteBook) throws SQLException {
+  public void deleteBorrow(long deleteBook) throws SQLException {
 
     String SQL = "DELETE FROM addiction WHERE idBook = ?";
     PreparedStatement preparedStatement = newConnecting().prepareStatement(SQL);
     preparedStatement.setLong(1, deleteBook);
-    String sqlStatus = "update books set status = ? where id = ?";
+    preparedStatement.executeUpdate();
+    String sqlStatus = "update books set status = ? where id= ?";
     PreparedStatement preparedStatementStatus = newConnecting().prepareStatement(sqlStatus);
     preparedStatementStatus.setString(1, "Можно брать");
     preparedStatementStatus.setLong(2, deleteBook);
@@ -55,7 +55,7 @@ public class BorrowDAOImpl implements BorrowDao {
   }
 
   @Override
-  public void statusСhange(String status, Book bookid) throws SQLException {
+  public void statusBorrow(String status, Book bookid) throws SQLException {
     String sql = "update books set status = ? where id = ?";
     PreparedStatement preparedStatement = newConnecting().prepareStatement(sql);
     preparedStatement.setString(1, status);
