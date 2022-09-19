@@ -3,10 +3,7 @@ package com.booklibrary;
 
 import com.booklibrary.service.*;
 
-
-import java.sql.SQLException;
 import java.util.Scanner;
-
 
 public class Menu {
     private final BookService bookService = new BookServiceImpl();
@@ -15,7 +12,7 @@ public class Menu {
 
 
 
-    public void start() throws SQLException {
+    public void start() {
 
         while (true) {
             showMenu();

@@ -14,7 +14,7 @@ public class ConnectionSettingsData {
     try {
       connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
     } catch (SQLException e) {
-      System.out.println("Извините, ничего не получится");
+      System.out.println("Извините, у Вас потеря соединения с базой данных или база данных недоступна.  ");
     }
     return connection;
   }

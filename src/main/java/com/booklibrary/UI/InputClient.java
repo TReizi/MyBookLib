@@ -3,6 +3,8 @@ package com.booklibrary.UI;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import static com.booklibrary.exceptionOutput.errorOutputRepository.userErrorOutput;
+
 public class InputClient {
   Scanner scanner = new Scanner(System.in);
 
@@ -15,7 +17,7 @@ public class InputClient {
     userErrorOutput();
     return inputClientAddBook();
   }
-  // Добавяляет всех, проверка не работает
+
   public String inputClientAddNewReader() {
     String readerName = scanner.nextLine();
     if (Pattern.compile("[0-9]").matcher(readerName).find()) {
@@ -35,9 +37,5 @@ public class InputClient {
     System.out.println("Укажите id читателя: ");
     long readerID = scanner.nextInt();
     return readerID;
-  }
-
-  private void userErrorOutput() {
-    System.out.println("Проверьте правильность введённых данных.\nПовторите ввод:");
   }
 }

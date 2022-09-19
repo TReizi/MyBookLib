@@ -2,12 +2,10 @@ package com.booklibrary.service;
 
 import com.booklibrary.entity.Reader;
 
-import java.sql.SQLException;
-
 public interface ReaderService {
-  void printAllReaders() throws SQLException;
+  void printAllReaders();
 
-  void addNewReader() throws SQLException;
+  void addNewReader();
 
-  Reader findReaderById(Long readerId) throws SQLException;
+  Reader findReaderById(Long readerId);
 }

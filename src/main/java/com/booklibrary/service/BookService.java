@@ -5,9 +5,9 @@ import com.booklibrary.entity.Book;
 import java.sql.SQLException;
 
 public interface BookService {
-  void printAllBooks() throws SQLException;
+  void printAllBooks();
 
-  void addNewBook() throws SQLException;
+  void addNewBook();
 
-  Book findBookById(Long bookId) throws SQLException;
+  Book findBookById(Long bookId);
 }

@@ -1,5 +1,6 @@
 package com.booklibrary.dao;
 
+import com.booklibrary.Menu;
 import com.booklibrary.connectionSettings.ConnectionSettingsData;
 import com.booklibrary.entity.Reader;
 
@@ -7,37 +8,63 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.booklibrary.exceptionOutput.errorOutputRepository.daoErrorOutput;
+import static com.booklibrary.exceptionOutput.errorOutputRepository.menuOutput;
+
 public class ReaderDAOImpl implements ReaderDAO {
 
   private final ConnectionSettingsData connectionSettingsData;
+  private int retryCountFindAllReader = 0;
+  private int retryCountAddReaderDatabase = 0;
 
   public ReaderDAOImpl(ConnectionSettingsData connectionSettingsData) {
     this.connectionSettingsData = connectionSettingsData;
   }
 
   @Override
-  public List<Reader> findAllReader() throws SQLException {
-    Statement statement = connectionSettingsData.newConnecting().createStatement();
-    String SQL_SELECT_READERS = "select *from readers order by id";
-    ResultSet resultReader = statement.executeQuery(SQL_SELECT_READERS);
-    List<Reader> readerList = new ArrayList<>();
-    while (resultReader.next()) {
-      int id = resultReader.getInt("id");
-      String name = resultReader.getString("name");
-      var reader = new Reader(id, name);
-      readerList.add(reader);
+  public List<Reader> findAllReader() {
+    if (retryCountFindAllReader == 3) {
+      menuOutput();
+      retryCountFindAllReader = 0;
+      new Menu().start();
     }
-    connectionSettingsData.newConnecting().close();
-    return readerList;
+    try {
+      Statement statement = connectionSettingsData.newConnecting().createStatement();
+      String SQL_SELECT_READERS = "select *from readers order by id";
+      ResultSet resultReader = statement.executeQuery(SQL_SELECT_READERS);
+      List<Reader> readerList = new ArrayList<>();
+      while (resultReader.next()) {
+        int id = resultReader.getInt("id");
+        String name = resultReader.getString("name");
+        var reader = new Reader(id, name);
+        readerList.add(reader);
+      }
+      connectionSettingsData.newConnecting().close();
+      retryCountFindAllReader++;
+      return readerList;
+    } catch (SQLException sqlException) {
+      daoErrorOutput();
+      return findAllReader();
+    }
   }
 
   @Override
-  public void addReaderDatabase(Reader reader) throws SQLException {
-    String sql = "insert into readers(name) value(?)";
-    PreparedStatement preparedStatement =
-        connectionSettingsData.newConnecting().prepareStatement(sql);
-    preparedStatement.setString(1, reader.getName());
-    preparedStatement.executeUpdate();
-    connectionSettingsData.newConnecting().close();
+  public void addReaderDatabase(Reader reader) {
+    if (retryCountAddReaderDatabase == 3) {
+      menuOutput();
+      retryCountAddReaderDatabase = 0;
+      new Menu().start();
+    }
+    try {
+      String sql = "insert into readers(name) value(?)";
+      PreparedStatement preparedStatement =
+          connectionSettingsData.newConnecting().prepareStatement(sql);
+      preparedStatement.setString(1, reader.getName());
+      preparedStatement.executeUpdate();
+      retryCountAddReaderDatabase++;
+      connectionSettingsData.newConnecting().close();
+    } catch (SQLException sqlException) {
+      daoErrorOutput();
+    }
   }
 }
