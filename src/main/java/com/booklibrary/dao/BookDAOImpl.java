@@ -17,11 +17,7 @@ public class BookDAOImpl implements BookDAO {
 
   @Override
   public List<Book> findAllBook()  {
-    if (retryCountFindAllBook == 3) {
-      menuOutput();
-      retryCountFindAllBook = 0;
-      new Menu().start();
-    }
+
     try {
       Statement statement = newConnecting().createStatement();
       String SQL_SELECT_BOOKS = "select *from books order by id";
@@ -39,6 +35,11 @@ public class BookDAOImpl implements BookDAO {
       retryCountFindAllBook++;
       return bookList;
     } catch (SQLException sqlException) {
+      if (retryCountFindAllBook == 3) {
+        menuOutput();
+        retryCountFindAllBook = 0;
+        new Menu().start();
+      }
       daoErrorOutput();
       return findAllBook();
     }
@@ -46,11 +47,7 @@ public class BookDAOImpl implements BookDAO {
 
   @Override
   public void addBookDatabase(Book book)  {
-    if (retryCountAddBookDatabase == 3) {
-      menuOutput();
-      retryCountAddBookDatabase = 0;
-      new Menu().start();
-    }
+
     try {
       String sql = "insert into books(name,author, status) value(?,?,'Книга не взята')";
       PreparedStatement preparedStatement = newConnecting().prepareStatement(sql);
@@ -60,6 +57,11 @@ public class BookDAOImpl implements BookDAO {
       newConnecting().close();
       retryCountAddBookDatabase++;
     } catch (SQLException sqlException) {
+      if (retryCountAddBookDatabase == 3) {
+        menuOutput();
+        retryCountAddBookDatabase = 0;
+        new Menu().start();
+      }
       daoErrorOutput();
     }
   }

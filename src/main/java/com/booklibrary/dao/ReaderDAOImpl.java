@@ -23,11 +23,6 @@ public class ReaderDAOImpl implements ReaderDAO {
 
   @Override
   public List<Reader> findAllReader() {
-    if (retryCountFindAllReader == 3) {
-      menuOutput();
-      retryCountFindAllReader = 0;
-      new Menu().start();
-    }
     try {
       Statement statement = connectionSettingsData.newConnecting().createStatement();
       String SQL_SELECT_READERS = "select *from readers order by id";
@@ -43,6 +38,11 @@ public class ReaderDAOImpl implements ReaderDAO {
       retryCountFindAllReader++;
       return readerList;
     } catch (SQLException sqlException) {
+      if (retryCountFindAllReader == 3) {
+        menuOutput();
+        retryCountFindAllReader = 0;
+        new Menu().start();
+      }
       daoErrorOutput();
       return findAllReader();
     }
@@ -50,11 +50,6 @@ public class ReaderDAOImpl implements ReaderDAO {
 
   @Override
   public void addReaderDatabase(Reader reader) {
-    if (retryCountAddReaderDatabase == 3) {
-      menuOutput();
-      retryCountAddReaderDatabase = 0;
-      new Menu().start();
-    }
     try {
       String sql = "insert into readers(name) value(?)";
       PreparedStatement preparedStatement =
@@ -64,6 +59,11 @@ public class ReaderDAOImpl implements ReaderDAO {
       retryCountAddReaderDatabase++;
       connectionSettingsData.newConnecting().close();
     } catch (SQLException sqlException) {
+      if (retryCountAddReaderDatabase == 3) {
+        menuOutput();
+        retryCountAddReaderDatabase = 0;
+        new Menu().start();
+      }
       daoErrorOutput();
     }
   }

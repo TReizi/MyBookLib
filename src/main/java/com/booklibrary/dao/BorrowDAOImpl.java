@@ -32,11 +32,6 @@ public class BorrowDAOImpl implements BorrowDao {
   }
 
   public List<TakenBook> findAllBorrow() {
-    if (retryCountFindAllBorrow == 3) {
-      menuOutput();
-      retryCountFindAllBorrow = 0;
-      new Menu().start();
-    }
     try {
       Statement statement = newConnecting().createStatement();
       String SQL_SELECT_READERS = "select *from addiction order by id";
@@ -52,6 +47,11 @@ public class BorrowDAOImpl implements BorrowDao {
       retryCountFindAllBorrow++;
       return addictionDAOList;
     } catch (SQLException sqlException) {
+      if (retryCountFindAllBorrow == 3) {
+        menuOutput();
+        retryCountFindAllBorrow = 0;
+        new Menu().start();
+      }
       daoErrorOutput();
       return findAllBorrow();
     }
@@ -59,11 +59,6 @@ public class BorrowDAOImpl implements BorrowDao {
 
   @Override
   public void deleteBorrow(long deleteBook) {
-    if (retryCountDeleteBorrow == 3) {
-      menuOutput();
-      retryCountDeleteBorrow = 0;
-      new Menu().start();
-    }
     try {
       String SQL = "DELETE FROM addiction WHERE idBook = ?";
       PreparedStatement preparedStatement = newConnecting().prepareStatement(SQL);
@@ -77,17 +72,17 @@ public class BorrowDAOImpl implements BorrowDao {
       retryCountDeleteBorrow++;
       newConnecting().close();
     } catch (SQLException sqlException) {
+      if (retryCountDeleteBorrow == 3) {
+        menuOutput();
+        retryCountDeleteBorrow = 0;
+        new Menu().start();
+      }
       daoErrorOutput();
     }
   }
 
   @Override
   public void statusBorrow(String status, Book bookid) {
-    if (retryCountStatusBorrow == 3) {
-      menuOutput();
-      retryCountStatusBorrow = 0;
-      new Menu().start();
-    }
     try {
       String sql = "update books set status = ? where id = ?";
       PreparedStatement preparedStatement = newConnecting().prepareStatement(sql);
@@ -97,17 +92,17 @@ public class BorrowDAOImpl implements BorrowDao {
       retryCountStatusBorrow++;
       newConnecting().close();
     } catch (SQLException sqlException) {
+      if (retryCountStatusBorrow == 3) {
+        menuOutput();
+        retryCountStatusBorrow = 0;
+        new Menu().start();
+      }
       daoErrorOutput();
     }
   }
 
   @Override
   public void addABookReader(Reader reader, Book book) {
-    if (retryCountAddABookReader == 3) {
-      menuOutput();
-      retryCountAddABookReader = 0;
-      new Menu().start();
-    }
     try {
       String sql = "insert into addiction(idReader,idBook) value(?,?)";
       PreparedStatement preparedStatement = newConnecting().prepareStatement(sql);
@@ -117,6 +112,11 @@ public class BorrowDAOImpl implements BorrowDao {
       retryCountAddABookReader++;
       newConnecting().close();
     } catch (SQLException sqlException) {
+      if (retryCountAddABookReader == 3) {
+        menuOutput();
+        retryCountAddABookReader = 0;
+        new Menu().start();
+      }
       daoErrorOutput();
     }
   }
