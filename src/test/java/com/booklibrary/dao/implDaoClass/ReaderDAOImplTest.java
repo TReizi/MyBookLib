@@ -18,6 +18,7 @@ class ReaderDAOImplTest {
   void setUp() {
     readerDAO = mock(ReaderDAOImpl.class);
   }
+
   @DisplayName("Тест добавления читателя в БД.")
   @Test
   void addReaderDatabase() {
@@ -27,11 +28,8 @@ class ReaderDAOImplTest {
     boolean flag = readerDAO.addReaderDatabase(reader);
     Reader readerSave = readerArgumentCaptor.getValue();
     assertAll(
-            () -> verify(readerDAO, times(1)).addReaderDatabase(readerSave),
-            () -> assertThat(flag).isTrue(),
-            () -> assertThat(readerSave).isEqualTo(reader));
+        () -> verify(readerDAO, times(1)).addReaderDatabase(readerSave),
+        () -> assertThat(flag).isTrue(),
+        () -> assertThat(readerSave).isEqualTo(reader));
   }
-
-
-  }
-
+}
