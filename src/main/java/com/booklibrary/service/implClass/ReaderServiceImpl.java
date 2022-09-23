@@ -1,6 +1,6 @@
 package com.booklibrary.service.implClass;
 
-import com.booklibrary.UI.InputClient;
+import com.booklibrary.ui.InputClient;
 import com.booklibrary.connectionSettings.ConnectionSettingsData;
 import com.booklibrary.dao.ReaderDAO;
 import com.booklibrary.dao.implDaoClass.ReaderDAOImpl;

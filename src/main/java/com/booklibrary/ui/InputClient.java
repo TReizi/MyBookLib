@@ -1,4 +1,4 @@
-package com.booklibrary.UI;
+package com.booklibrary.ui;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;
