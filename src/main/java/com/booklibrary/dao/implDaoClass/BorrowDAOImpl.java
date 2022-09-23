@@ -1,6 +1,7 @@
-package com.booklibrary.dao;
+package com.booklibrary.dao.implDaoClass;
 
 import com.booklibrary.Menu;
+import com.booklibrary.dao.BorrowDAO;
 import com.booklibrary.entity.Book;
 import com.booklibrary.entity.Reader;
 import com.booklibrary.entity.TakenBook;
@@ -15,7 +16,7 @@ import static com.booklibrary.connectionSettings.ConnectionSettingsData.newConne
 import static com.booklibrary.exceptionOutput.errorOutputRepository.daoErrorOutput;
 import static com.booklibrary.exceptionOutput.errorOutputRepository.menuOutput;
 
-public class BorrowDAOImpl implements BorrowDao {
+public class BorrowDAOImpl implements BorrowDAO {
 
   private final BookService bookService;
   private final ReaderService readerService;
@@ -58,7 +59,7 @@ public class BorrowDAOImpl implements BorrowDao {
   }
 
   @Override
-  public void deleteBorrow(long deleteBook) {
+  public boolean deleteBorrow(long deleteBook) {
     try {
       String SQL = "DELETE FROM addiction WHERE idBook = ?";
       PreparedStatement preparedStatement = newConnecting().prepareStatement(SQL);
@@ -78,11 +79,13 @@ public class BorrowDAOImpl implements BorrowDao {
         new Menu().start();
       }
       daoErrorOutput();
+      return false;
     }
+    return true;
   }
 
   @Override
-  public void statusBorrow(String status, Book bookid) {
+  public boolean statusBorrow(String status, Book bookid) {
     try {
       String sql = "update books set status = ? where id = ?";
       PreparedStatement preparedStatement = newConnecting().prepareStatement(sql);
@@ -98,11 +101,13 @@ public class BorrowDAOImpl implements BorrowDao {
         new Menu().start();
       }
       daoErrorOutput();
+      return false;
     }
+    return true;
   }
 
   @Override
-  public void addABookReader(Reader reader, Book book) {
+  public boolean addABookReader(Reader reader, Book book) {
     try {
       String sql = "insert into addiction(idReader,idBook) value(?,?)";
       PreparedStatement preparedStatement = newConnecting().prepareStatement(sql);
@@ -118,6 +123,8 @@ public class BorrowDAOImpl implements BorrowDao {
         new Menu().start();
       }
       daoErrorOutput();
+      return false;
     }
+  return true;
   }
 }

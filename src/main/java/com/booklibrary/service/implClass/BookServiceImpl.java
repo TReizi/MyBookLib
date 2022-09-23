@@ -1,9 +1,10 @@
-package com.booklibrary.service;
+package com.booklibrary.service.implClass;
 
 import com.booklibrary.UI.InputClient;
 import com.booklibrary.dao.BookDAO;
-import com.booklibrary.dao.BookDAOImpl;
+import com.booklibrary.dao.implDaoClass.BookDAOImpl;
 import com.booklibrary.entity.Book;
+import com.booklibrary.service.BookService;
 
 public class BookServiceImpl implements BookService {
 

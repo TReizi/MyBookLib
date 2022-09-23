@@ -1,6 +1,7 @@
-package com.booklibrary.dao;
+package com.booklibrary.dao.implDaoClass;
 
 import com.booklibrary.Menu;
+import com.booklibrary.dao.BookDAO;
 import com.booklibrary.entity.Book;
 
 import java.sql.*;
@@ -46,7 +47,7 @@ public class BookDAOImpl implements BookDAO {
   }
 
   @Override
-  public void addBookDatabase(Book book)  {
+  public boolean addBookDatabase(Book book)  {
 
     try {
       String sql = "insert into books(name,author, status) value(?,?,'Книга не взята')";
@@ -63,6 +64,8 @@ public class BookDAOImpl implements BookDAO {
         new Menu().start();
       }
       daoErrorOutput();
+      return false;
     }
+    return true;
   }
 }

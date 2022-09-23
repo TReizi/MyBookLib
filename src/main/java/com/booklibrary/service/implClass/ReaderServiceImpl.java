@@ -1,10 +1,11 @@
-package com.booklibrary.service;
+package com.booklibrary.service.implClass;
 
 import com.booklibrary.UI.InputClient;
 import com.booklibrary.connectionSettings.ConnectionSettingsData;
 import com.booklibrary.dao.ReaderDAO;
-import com.booklibrary.dao.ReaderDAOImpl;
+import com.booklibrary.dao.implDaoClass.ReaderDAOImpl;
 import com.booklibrary.entity.Reader;
+import com.booklibrary.service.ReaderService;
 
 public class ReaderServiceImpl implements ReaderService {
 

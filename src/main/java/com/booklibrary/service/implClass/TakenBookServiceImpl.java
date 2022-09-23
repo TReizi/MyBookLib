@@ -1,9 +1,12 @@
-package com.booklibrary.service;
+package com.booklibrary.service.implClass;
 
 import com.booklibrary.UI.InputClient;
-import com.booklibrary.dao.BorrowDao;
-import com.booklibrary.dao.BorrowDAOImpl;
+import com.booklibrary.dao.BorrowDAO;
+import com.booklibrary.dao.implDaoClass.BorrowDAOImpl;
 import com.booklibrary.entity.TakenBook;
+import com.booklibrary.service.BookService;
+import com.booklibrary.service.ReaderService;
+import com.booklibrary.service.TakenBookService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +16,7 @@ public class TakenBookServiceImpl implements TakenBookService {
   private final BookService bookService = new BookServiceImpl();
   private final ReaderService readerService = new ReaderServiceImpl();
   private final InputClient inputClient = new InputClient();
-  private final BorrowDao borrowDAO = new BorrowDAOImpl(bookService, readerService);
+  private final BorrowDAO borrowDAO = new BorrowDAOImpl(bookService, readerService);
 
   @Override
   public void issueBook() {

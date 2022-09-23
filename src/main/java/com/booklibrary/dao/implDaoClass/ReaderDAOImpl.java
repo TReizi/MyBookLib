@@ -1,7 +1,8 @@
-package com.booklibrary.dao;
+package com.booklibrary.dao.implDaoClass;
 
 import com.booklibrary.Menu;
 import com.booklibrary.connectionSettings.ConnectionSettingsData;
+import com.booklibrary.dao.ReaderDAO;
 import com.booklibrary.entity.Reader;
 
 import java.sql.*;
@@ -49,7 +50,7 @@ public class ReaderDAOImpl implements ReaderDAO {
   }
 
   @Override
-  public void addReaderDatabase(Reader reader) {
+  public boolean addReaderDatabase(Reader reader) {
     try {
       String sql = "insert into readers(name) value(?)";
       PreparedStatement preparedStatement =
@@ -65,6 +66,8 @@ public class ReaderDAOImpl implements ReaderDAO {
         new Menu().start();
       }
       daoErrorOutput();
+      return false;
     }
+    return true;
   }
 }
