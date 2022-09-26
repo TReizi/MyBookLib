@@ -1,17 +1,17 @@
 package com.booklibrary.service.implClass;
 
+import com.booklibrary.entity.Borrow;
 import com.booklibrary.ui.InputClient;
 import com.booklibrary.dao.BorrowDAO;
 import com.booklibrary.dao.implDaoClass.BorrowDAOImpl;
-import com.booklibrary.entity.TakenBook;
 import com.booklibrary.service.BookService;
 import com.booklibrary.service.ReaderService;
-import com.booklibrary.service.TakenBookService;
+import com.booklibrary.service.BorrowService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TakenBookServiceImpl implements TakenBookService {
+public class BorrowServiceImpl implements BorrowService {
 
   private final BookService bookService = new BookServiceImpl();
   private final ReaderService readerService = new ReaderServiceImpl();
@@ -39,7 +39,7 @@ public class TakenBookServiceImpl implements TakenBookService {
 
   @Override
   public void printAllBooksTakenByReaderId() {
-    var takenBook = new TakenBook();
+    var takenBook = new Borrow();
     takenBook = filterByReader(inputClient.inputReaderId()).get(0);
     System.out.println("Читатель :" + takenBook.getReader().getName());
     System.out.println("Взята книга: " + takenBook.getBook().getName());
@@ -52,13 +52,13 @@ public class TakenBookServiceImpl implements TakenBookService {
     System.out.println("Взята :" + takenBook.getReader().getName());
   }
 
-  public List<TakenBook> filterByBook(long bookId) {
+  public List<Borrow> filterByBook(long bookId) {
     return borrowDAO.findAllBorrow().stream()
         .filter(filterBook -> filterBook.getBook().getId() == bookId)
         .collect(Collectors.toList());
   }
 
-  public List<TakenBook> filterByReader(long readerId) {
+  public List<Borrow> filterByReader(long readerId) {
     return borrowDAO.findAllBorrow().stream()
         .filter(filterReader -> filterReader.getReader().getId() == readerId)
         .collect(Collectors.toList());

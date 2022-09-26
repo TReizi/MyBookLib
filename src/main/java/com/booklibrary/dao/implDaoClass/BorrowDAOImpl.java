@@ -3,8 +3,8 @@ package com.booklibrary.dao.implDaoClass;
 import com.booklibrary.Menu;
 import com.booklibrary.dao.BorrowDAO;
 import com.booklibrary.entity.Book;
+import com.booklibrary.entity.Borrow;
 import com.booklibrary.entity.Reader;
-import com.booklibrary.entity.TakenBook;
 import com.booklibrary.service.BookService;
 import com.booklibrary.service.ReaderService;
 
@@ -32,17 +32,17 @@ public class BorrowDAOImpl implements BorrowDAO {
     this.readerService = readerService;
   }
 
-  public List<TakenBook> findAllBorrow() {
+  public List<Borrow> findAllBorrow() {
     try {
       Statement statement = newConnecting().createStatement();
       String SQL_SELECT_READERS = "select *from addiction order by id";
       ResultSet resultReader = statement.executeQuery(SQL_SELECT_READERS);
-      List<TakenBook> addictionDAOList = new ArrayList<>();
+      List<Borrow> addictionDAOList = new ArrayList<>();
       while (resultReader.next()) {
         long idBook = resultReader.getLong("idBook");
         long idReader = resultReader.getLong("idReader");
-        TakenBook takenBook =
-            new TakenBook(readerService.findReaderById(idReader), bookService.findBookById(idBook));
+        Borrow takenBook =
+            new Borrow(readerService.findReaderById(idReader), bookService.findBookById(idBook));
         addictionDAOList.add(takenBook);
       }
       retryCountFindAllBorrow++;

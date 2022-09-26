@@ -4,14 +4,14 @@ package com.booklibrary;
 import com.booklibrary.service.*;
 import com.booklibrary.service.implClass.BookServiceImpl;
 import com.booklibrary.service.implClass.ReaderServiceImpl;
-import com.booklibrary.service.implClass.TakenBookServiceImpl;
+import com.booklibrary.service.implClass.BorrowServiceImpl;
 
 import java.util.Scanner;
 
 public class Menu {
     private final BookService bookService = new BookServiceImpl();
     private final ReaderService readerService = new ReaderServiceImpl();
-    private final TakenBookService takenBookService = new TakenBookServiceImpl();
+    private final BorrowService takenBookService = new BorrowServiceImpl();
 
 
 

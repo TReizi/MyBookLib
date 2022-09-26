@@ -1,17 +1,17 @@
 package com.booklibrary.entity;
 
-public class TakenBook {
+public class Borrow {
 
   private Reader reader;
 
   private Book book;
 
-  public TakenBook(Reader reader, Book book) {
+  public Borrow(Reader reader, Book book) {
     this.reader = reader;
     this.book = book;
   }
 
-  public TakenBook() {}
+  public Borrow() {}
 
   public Reader getReader() {
     return reader;
@@ -31,6 +31,6 @@ public class TakenBook {
 
   @Override
   public String toString() {
-    return "TakenBook{" + ", reader=" + reader + ", nameBooks=" + book + '}';
+    return "Borrow{" + ", reader=" + reader + ", nameBooks=" + book + '}';
   }
 }

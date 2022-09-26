@@ -1,6 +1,6 @@
 package com.booklibrary.service;
 
-public interface TakenBookService {
+public interface BorrowService {
   void issueBook();
 
   void removeBookFromReader();

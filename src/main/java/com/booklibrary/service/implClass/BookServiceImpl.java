@@ -19,7 +19,7 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public void addNewBook() {
-    System.out.println("Укажите название книги и автора черех /. ");
+    System.out.println("Укажите название книги и автора через /. ");
     var book = new Book(inputClient.inputClientAddBook());
     bookDAO.addBookDatabase(book);
   }
