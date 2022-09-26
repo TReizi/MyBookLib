@@ -5,12 +5,14 @@
 USE my_db;
 
 
-CREATE TABLE addiction(
+CREATE TABLE borrow(
                              id int(11) NOT NULL AUTO_INCREMENT,
                              idBook varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                              idReader varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                              PRIMARY KEY (`id`)
  )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ RENAME TABLE addication borrow
 
 
 CREATE TABLE books(

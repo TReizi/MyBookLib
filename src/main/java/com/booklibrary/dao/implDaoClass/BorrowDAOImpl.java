@@ -35,7 +35,7 @@ public class BorrowDAOImpl implements BorrowDAO {
   public List<Borrow> findAllBorrow() {
     try {
       Statement statement = newConnecting().createStatement();
-      String SQL_SELECT_READERS = "select *from addiction order by id";
+      String SQL_SELECT_READERS = "select *from borrow order by id";
       ResultSet resultReader = statement.executeQuery(SQL_SELECT_READERS);
       List<Borrow> addictionDAOList = new ArrayList<>();
       while (resultReader.next()) {
@@ -61,7 +61,7 @@ public class BorrowDAOImpl implements BorrowDAO {
   @Override
   public boolean deleteBorrow(long deleteBook) {
     try {
-      String SQL = "DELETE FROM addiction WHERE idBook = ?";
+      String SQL = "DELETE FROM borrow WHERE idBook = ?";
       PreparedStatement preparedStatement = newConnecting().prepareStatement(SQL);
       preparedStatement.setLong(1, deleteBook);
       preparedStatement.executeUpdate();
@@ -109,7 +109,7 @@ public class BorrowDAOImpl implements BorrowDAO {
   @Override
   public boolean addABookReader(Reader reader, Book book) {
     try {
-      String sql = "insert into addiction(idReader,idBook) value(?,?)";
+      String sql = "insert into borrow(idReader,idBook) value(?,?)";
       PreparedStatement preparedStatement = newConnecting().prepareStatement(sql);
       preparedStatement.setLong(1, reader.getId());
       preparedStatement.setLong(2, book.getId());
