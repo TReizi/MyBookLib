@@ -24,11 +24,11 @@ class ReaderDAOImplTest {
   void addReaderDatabase() {
     var reader = new Reader(11234, "Test name");
     ArgumentCaptor<Reader> readerArgumentCaptor = ArgumentCaptor.forClass(Reader.class);
-    when(readerDAO.addReaderDatabase(readerArgumentCaptor.capture())).thenReturn(true);
-    boolean flag = readerDAO.addReaderDatabase(reader);
+    when(readerDAO.save(readerArgumentCaptor.capture())).thenReturn(true);
+    boolean flag = readerDAO.save(reader);
     Reader readerSave = readerArgumentCaptor.getValue();
     assertAll(
-        () -> verify(readerDAO, times(1)).addReaderDatabase(readerSave),
+        () -> verify(readerDAO, times(1)).save(readerSave),
         () -> assertThat(flag).isTrue(),
         () -> assertThat(readerSave).isEqualTo(reader));
   }

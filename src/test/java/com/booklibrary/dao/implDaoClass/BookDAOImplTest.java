@@ -25,11 +25,11 @@ class BookDAOImplTest {
   void addBookDatabase() {
     var book = new Book(1000202, "Test name", "Test author", "Test status");
     ArgumentCaptor<Book> bookCaptor = ArgumentCaptor.forClass(Book.class);
-    when(bookDAO.addBookDatabase(bookCaptor.capture())).thenReturn(true);
-    boolean flag = bookDAO.addBookDatabase(book);
+    when(bookDAO.save(bookCaptor.capture())).thenReturn(true);
+    boolean flag = bookDAO.save(book);
     Book bookSave = bookCaptor.getValue();
     assertAll(
-        () -> verify(bookDAO, times(1)).addBookDatabase(bookSave),
+        () -> verify(bookDAO, times(1)).save(bookSave),
         () -> assertThat(flag).isTrue(),
         () -> assertThat(bookSave).isEqualTo(book));
   }

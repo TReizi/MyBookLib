@@ -5,7 +5,7 @@ import com.booklibrary.entity.Reader;
 import java.util.List;
 
 public interface ReaderDAO {
-  List<Reader> findAllReader();
+  List<Reader> findAll();
 
-  boolean addReaderDatabase(Reader reader);
+  boolean save(Reader reader);
 }

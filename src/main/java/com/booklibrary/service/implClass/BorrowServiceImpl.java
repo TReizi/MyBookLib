@@ -22,7 +22,7 @@ public class BorrowServiceImpl implements BorrowService {
   public void issueBook() {
     var reader = readerService.findReaderById(inputClient.inputReaderId());
     var book = bookService.findBookById(inputClient.inputBookId());
-    borrowDAO.addABookReader(reader, book);
+    borrowDAO.borrowBookToReader(reader, book);
     borrowDAO.statusBorrow("Взята", book);
     System.out.println(
         "Взял книгу: " + reader.getName() + ". По названию: " + book.getName() + ".");
@@ -34,7 +34,7 @@ public class BorrowServiceImpl implements BorrowService {
     // такоей айди или нет, если есть тогда удаляем книгу которую указываем
     var reader = readerService.findReaderById(inputClient.inputReaderId());
 
-    borrowDAO.deleteBorrow(inputClient.inputBookId());
+    borrowDAO.delete(inputClient.inputBookId());
   }
 
   @Override

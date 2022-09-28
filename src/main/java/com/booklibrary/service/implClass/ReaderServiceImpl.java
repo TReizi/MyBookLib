@@ -16,19 +16,19 @@ public class ReaderServiceImpl implements ReaderService {
   @Override
   public void printAllReaders() {
     System.out.println("Все читатели: ");
-    readerDAO.findAllReader().forEach(System.out::println);
+    readerDAO.findAll().forEach(System.out::println);
   }
 
   @Override
   public void addNewReader() {
     System.out.println("Укажите имя нового читателя: ");
     var reader = new Reader(inputClient.inputClientAddNewReader());
-    readerDAO.addReaderDatabase(reader);
+    readerDAO.save(reader);
   }
 
   @Override
   public Reader findReaderById(Long readerId) {
-    return readerDAO.findAllReader().stream()
+    return readerDAO.findAll().stream()
         .filter(reader -> reader.getId() == readerId)
         .findAny()
         .orElse(null);

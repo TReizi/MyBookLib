@@ -9,13 +9,13 @@ public class ConnectionSettingsData {
   public static final String DB_PASSWORD = "bestuser";
   public static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/my_db";
 
-  public static final Connection newConnecting() {
+  public static final Connection getNewConnecting() {
     try {
       return DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
     } catch (SQLException e) {
       System.out.println(
           "Извините, у Вас потеря соединения с базой данных или база данных недоступна. ");
-      return newConnecting();
+      return getNewConnecting();
     }
   }
 }

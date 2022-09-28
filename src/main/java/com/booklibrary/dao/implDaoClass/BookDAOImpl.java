@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.booklibrary.connectionSettings.ConnectionSettingsData.newConnecting;
+import static com.booklibrary.connectionSettings.ConnectionSettingsData.getNewConnecting;
 import static com.booklibrary.exceptionOutput.errorOutputRepository.daoErrorOutput;
 import static com.booklibrary.exceptionOutput.errorOutputRepository.menuOutput;
 
@@ -17,10 +17,10 @@ public class BookDAOImpl implements BookDAO {
   private int retryCountAddBookDatabase = 0;
 
   @Override
-  public List<Book> findAllBook()  {
+  public List<Book> findAll() {
 
     try {
-      Statement statement = newConnecting().createStatement();
+      Statement statement = getNewConnecting().createStatement();
       String SQL_SELECT_BOOKS = "select *from books order by id";
       ResultSet result = statement.executeQuery(SQL_SELECT_BOOKS);
       List<Book> bookList = new ArrayList<>();
@@ -32,36 +32,37 @@ public class BookDAOImpl implements BookDAO {
         var book = new Book(id, name, author, status);
         bookList.add(book);
       }
-      newConnecting().close();
-      retryCountFindAllBook++;
+      statement.close();
       return bookList;
     } catch (SQLException sqlException) {
       if (retryCountFindAllBook == 3) {
+        retryCountFindAllBook++;
         menuOutput();
         retryCountFindAllBook = 0;
         new Menu().start();
       }
       daoErrorOutput();
-      return findAllBook();
+      return findAll();
     }
   }
 
   @Override
-  public boolean addBookDatabase(Book book)  {
-
+  public boolean save(Book book) {
     try {
       String sql = "insert into books(name,author, status) value(?,?,'Книга не взята')";
-      PreparedStatement preparedStatement = newConnecting().prepareStatement(sql);
+      PreparedStatement preparedStatement = getNewConnecting().prepareStatement(sql);
       preparedStatement.setString(1, book.getName());
       preparedStatement.setString(2, book.getAuthor());
       preparedStatement.executeUpdate();
-      newConnecting().close();
-      retryCountAddBookDatabase++;
+      preparedStatement.close();
     } catch (SQLException sqlException) {
-      if (retryCountAddBookDatabase == 3) {
-        menuOutput();
-        retryCountAddBookDatabase = 0;
-        new Menu().start();
+      if (retryCountAddBookDatabase != 3) {
+        retryCountAddBookDatabase++;
+        if (retryCountAddBookDatabase == 3) {
+          menuOutput();
+          retryCountAddBookDatabase = 0;
+          new Menu().start();
+        }
       }
       daoErrorOutput();
       return false;

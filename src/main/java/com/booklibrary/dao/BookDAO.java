@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BookDAO {
 
-  List<Book> findAllBook();
+  List<Book> findAll();
 
-  boolean addBookDatabase(Book book);
+  boolean save(Book book);
 }
