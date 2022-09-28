@@ -10,11 +10,8 @@ import java.util.List;
 
 import static com.booklibrary.connectionSettings.ConnectionSettingsData.getNewConnecting;
 import static com.booklibrary.exceptionOutput.errorOutputRepository.daoErrorOutput;
-import static com.booklibrary.exceptionOutput.errorOutputRepository.menuOutput;
 
 public class BookDAOImpl implements BookDAO {
-  private int retryCountFindAllBook = 0;
-  private int retryCountAddBookDatabase = 0;
 
   @Override
   public List<Book> findAll() {
@@ -35,12 +32,7 @@ public class BookDAOImpl implements BookDAO {
       statement.close();
       return bookList;
     } catch (SQLException sqlException) {
-      if (retryCountFindAllBook == 3) {
-        retryCountFindAllBook++;
-        menuOutput();
-        retryCountFindAllBook = 0;
-        new Menu().start();
-      }
+      new Menu().start();
       daoErrorOutput();
       return findAll();
     }
@@ -55,18 +47,11 @@ public class BookDAOImpl implements BookDAO {
       preparedStatement.setString(2, book.getAuthor());
       preparedStatement.executeUpdate();
       preparedStatement.close();
+      return true;
     } catch (SQLException sqlException) {
-      if (retryCountAddBookDatabase != 3) {
-        retryCountAddBookDatabase++;
-        if (retryCountAddBookDatabase == 3) {
-          menuOutput();
-          retryCountAddBookDatabase = 0;
-          new Menu().start();
-        }
-      }
+      new Menu().start();
       daoErrorOutput();
       return false;
     }
-    return true;
   }
 }

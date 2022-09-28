@@ -10,13 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.booklibrary.exceptionOutput.errorOutputRepository.daoErrorOutput;
-import static com.booklibrary.exceptionOutput.errorOutputRepository.menuOutput;
+
 
 public class ReaderDAOImpl implements ReaderDAO {
 
   private final ConnectionSettingsData connectionSettingsData;
-  private int retryCountFindAllReader = 0;
-  private int retryCountAddReaderDatabase = 0;
 
   public ReaderDAOImpl(ConnectionSettingsData connectionSettingsData) {
     this.connectionSettingsData = connectionSettingsData;
@@ -36,17 +34,9 @@ public class ReaderDAOImpl implements ReaderDAO {
         readerList.add(reader);
       }
       statement.close();
-
       return readerList;
     } catch (SQLException sqlException) {
-      if (retryCountFindAllReader != 3) {
-        retryCountFindAllReader++;
-        if (retryCountFindAllReader == 3) {
-          menuOutput();
-          retryCountFindAllReader = 0;
-          new Menu().start();
-        }
-      }
+      new Menu().start();
       daoErrorOutput();
       return findAll();
     }
@@ -61,18 +51,11 @@ public class ReaderDAOImpl implements ReaderDAO {
       preparedStatement.setString(1, reader.getName());
       preparedStatement.executeUpdate();
       preparedStatement.close();
+      return true;
     } catch (SQLException sqlException) {
-      if (retryCountAddReaderDatabase != 3) {
-        retryCountAddReaderDatabase++;
-        if (retryCountAddReaderDatabase == 3) {
-          menuOutput();
-          retryCountAddReaderDatabase = 0;
-          new Menu().start();
-        }
-      }
+      new Menu().start();
       daoErrorOutput();
       return false;
     }
-    return true;
   }
 }
