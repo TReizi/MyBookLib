@@ -11,7 +11,7 @@ public interface BorrowDAO {
 
   boolean borrowBookToReader(Reader reader, Book book);
 
-  List<Borrow> findAllBorrow();
+  List<Borrow> findAll();
 
   boolean delete(long deleteBook);
 

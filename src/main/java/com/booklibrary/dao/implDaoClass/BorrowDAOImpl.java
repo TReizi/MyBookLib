@@ -12,9 +12,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.booklibrary.connectionSettings.ConnectionSettingsData.getNewConnecting;
+import static com.booklibrary.connectionSettings.ConnectionSettingsData.getNewConnection;
 import static com.booklibrary.exceptionOutput.errorOutputRepository.daoErrorOutput;
-
 
 public class BorrowDAOImpl implements BorrowDAO {
 
@@ -27,11 +26,10 @@ public class BorrowDAOImpl implements BorrowDAO {
     this.readerService = readerService;
   }
 
-  public List<Borrow> findAllBorrow() {
-    try {
-      Statement statement = getNewConnecting().createStatement();
-      String SQL_SELECT_READERS = "select *from borrow order by id";
-      ResultSet resultReader = statement.executeQuery(SQL_SELECT_READERS);
+  public List<Borrow> findAll() {
+    String SQL_SELECT_READERS = "select *from borrow order by id";
+    try (Statement statement = getNewConnection().createStatement();
+        ResultSet resultReader = statement.executeQuery(SQL_SELECT_READERS); ) {
       List<Borrow> addictionDAOList = new ArrayList<>();
       while (resultReader.next()) {
         long idBook = resultReader.getLong("idBook");
@@ -42,28 +40,25 @@ public class BorrowDAOImpl implements BorrowDAO {
       }
       return addictionDAOList;
     } catch (SQLException sqlException) {
-      new Menu().start();
       daoErrorOutput();
-      return findAllBorrow();
+      return findAll();
     }
   }
 
   @Override
   public boolean delete(long deleteBook) {
-    try {
-      String SQL = "DELETE FROM borrow WHERE idBook = ?";
-      PreparedStatement preparedStatement = getNewConnecting().prepareStatement(SQL);
+    String SQL = "DELETE FROM borrow WHERE idBook = ?";
+    String sqlStatus = "update books set status = ? where id= ?";
+    try (PreparedStatement preparedStatement = getNewConnection().prepareStatement(SQL);
+        PreparedStatement preparedStatementStatus =
+            getNewConnection().prepareStatement(sqlStatus); ) {
       preparedStatement.setLong(1, deleteBook);
       preparedStatement.executeUpdate();
-      String sqlStatus = "update books set status = ? where id= ?";
-      PreparedStatement preparedStatementStatus = getNewConnecting().prepareStatement(sqlStatus);
       preparedStatementStatus.setString(1, "Можно брать");
       preparedStatementStatus.setLong(2, deleteBook);
       preparedStatementStatus.executeUpdate();
-      preparedStatement.close();
       return true;
     } catch (SQLException sqlException) {
-      new Menu().start();
       daoErrorOutput();
       return false;
     }
@@ -71,16 +66,13 @@ public class BorrowDAOImpl implements BorrowDAO {
 
   @Override
   public boolean statusBorrow(String status, Book bookid) {
-    try {
-      String sql = "update books set status = ? where id = ?";
-      PreparedStatement preparedStatement = getNewConnecting().prepareStatement(sql);
+    String sql = "update books set status = ? where id = ?";
+    try (PreparedStatement preparedStatement = getNewConnection().prepareStatement(sql); ) {
       preparedStatement.setString(1, status);
       preparedStatement.setLong(2, bookid.getId());
       preparedStatement.executeUpdate();
-      preparedStatement.close();
       return true;
     } catch (SQLException sqlException) {
-      new Menu().start();
       daoErrorOutput();
       return false;
     }
@@ -88,18 +80,15 @@ public class BorrowDAOImpl implements BorrowDAO {
 
   @Override
   public boolean borrowBookToReader(Reader reader, Book book) {
-    try {
-      String sql = "insert into borrow(idReader,idBook) value(?,?)";
-      PreparedStatement preparedStatement = getNewConnecting().prepareStatement(sql);
+    String sql = "insert into borrow(idReader,idBook) value(?,?)";
+    try (PreparedStatement preparedStatement = getNewConnection().prepareStatement(sql); ) {
       preparedStatement.setLong(1, reader.getId());
       preparedStatement.setLong(2, book.getId());
       preparedStatement.executeUpdate();
-      preparedStatement.close();
       return true;
     } catch (SQLException sqlException) {
-      new Menu().start();
+      daoErrorOutput();
+      return false;
     }
-    daoErrorOutput();
-    return false;
   }
 }

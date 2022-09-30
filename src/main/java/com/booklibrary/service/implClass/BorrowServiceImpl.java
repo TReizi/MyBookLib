@@ -53,13 +53,13 @@ public class BorrowServiceImpl implements BorrowService {
   }
 
   public List<Borrow> filterByBook(long bookId) {
-    return borrowDAO.findAllBorrow().stream()
+    return borrowDAO.findAll().stream()
         .filter(filterBook -> filterBook.getBook().getId() == bookId)
         .collect(Collectors.toList());
   }
 
   public List<Borrow> filterByReader(long readerId) {
-    return borrowDAO.findAllBorrow().stream()
+    return borrowDAO.findAll().stream()
         .filter(filterReader -> filterReader.getReader().getId() == readerId)
         .collect(Collectors.toList());
   }

@@ -11,7 +11,6 @@ import java.util.List;
 
 import static com.booklibrary.exceptionOutput.errorOutputRepository.daoErrorOutput;
 
-
 public class ReaderDAOImpl implements ReaderDAO {
 
   private final ConnectionSettingsData connectionSettingsData;
@@ -22,10 +21,9 @@ public class ReaderDAOImpl implements ReaderDAO {
 
   @Override
   public List<Reader> findAll() {
-    try {
-      Statement statement = connectionSettingsData.getNewConnecting().createStatement();
-      String SQL_SELECT_READERS = "select *from readers order by id";
-      ResultSet resultReader = statement.executeQuery(SQL_SELECT_READERS);
+    String SQL_SELECT_READERS = "select *from readers order by id";
+    try (Statement statement = connectionSettingsData.getNewConnection().createStatement();
+        ResultSet resultReader = statement.executeQuery(SQL_SELECT_READERS); ) {
       List<Reader> readerList = new ArrayList<>();
       while (resultReader.next()) {
         int id = resultReader.getInt("id");
@@ -33,10 +31,8 @@ public class ReaderDAOImpl implements ReaderDAO {
         var reader = new Reader(id, name);
         readerList.add(reader);
       }
-      statement.close();
       return readerList;
     } catch (SQLException sqlException) {
-      new Menu().start();
       daoErrorOutput();
       return findAll();
     }
@@ -44,16 +40,13 @@ public class ReaderDAOImpl implements ReaderDAO {
 
   @Override
   public boolean save(Reader reader) {
-    try {
-      String sql = "insert into readers(name) value(?)";
-      PreparedStatement preparedStatement =
-          connectionSettingsData.getNewConnecting().prepareStatement(sql);
+    String sql = "insert into readers(name) value(?)";
+    try (PreparedStatement preparedStatement =
+        connectionSettingsData.getNewConnection().prepareStatement(sql); ) {
       preparedStatement.setString(1, reader.getName());
       preparedStatement.executeUpdate();
-      preparedStatement.close();
       return true;
     } catch (SQLException sqlException) {
-      new Menu().start();
       daoErrorOutput();
       return false;
     }
