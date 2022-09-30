@@ -1,6 +1,5 @@
 package com.booklibrary.dao.implDaoClass;
 
-import com.booklibrary.Menu;
 import com.booklibrary.connectionSettings.ConnectionSettingsData;
 import com.booklibrary.dao.ReaderDAO;
 import com.booklibrary.entity.Reader;
@@ -9,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.booklibrary.exceptionOutput.errorOutputRepository.daoErrorOutput;
+import static com.booklibrary.exceptionOutput.errorOutputRepository.daoReaderErrorOutput;
 
 public class ReaderDAOImpl implements ReaderDAO {
 
@@ -22,20 +21,19 @@ public class ReaderDAOImpl implements ReaderDAO {
   @Override
   public List<Reader> findAll() {
     String SQL_SELECT_READERS = "select *from readers order by id";
+    List<Reader> readerList = new ArrayList<>();
     try (Statement statement = connectionSettingsData.getNewConnection().createStatement();
         ResultSet resultReader = statement.executeQuery(SQL_SELECT_READERS); ) {
-      List<Reader> readerList = new ArrayList<>();
       while (resultReader.next()) {
         int id = resultReader.getInt("id");
         String name = resultReader.getString("name");
         var reader = new Reader(id, name);
         readerList.add(reader);
       }
-      return readerList;
     } catch (SQLException sqlException) {
-      daoErrorOutput();
-      return findAll();
+      daoReaderErrorOutput(sqlException);
     }
+    return readerList;
   }
 
   @Override
@@ -47,7 +45,7 @@ public class ReaderDAOImpl implements ReaderDAO {
       preparedStatement.executeUpdate();
       return true;
     } catch (SQLException sqlException) {
-      daoErrorOutput();
+      daoReaderErrorOutput(sqlException);
       return false;
     }
   }

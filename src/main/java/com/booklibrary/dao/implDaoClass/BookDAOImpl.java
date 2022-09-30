@@ -8,16 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.booklibrary.connectionSettings.ConnectionSettingsData.getNewConnection;
-import static com.booklibrary.exceptionOutput.errorOutputRepository.daoErrorOutput;
+import static com.booklibrary.exceptionOutput.errorOutputRepository.daoBookErrorOutput;
 
 public class BookDAOImpl implements BookDAO {
 
   @Override
   public List<Book> findAll() {
     String SQL_SELECT_BOOKS = "select *from books order by id";
-    try (Statement statement = getNewConnection().createStatement();
-        ResultSet result = statement.executeQuery(SQL_SELECT_BOOKS); ) {
-      List<Book> bookList = new ArrayList<>();
+    List<Book> bookList = new ArrayList<>();
+    try (var connection = getNewConnection();
+        var statement = connection.createStatement();
+        var result = statement.executeQuery(SQL_SELECT_BOOKS); ) {
+
       while (result.next()) {
         int id = result.getInt("id");
         String name = result.getString("name");
@@ -26,24 +28,24 @@ public class BookDAOImpl implements BookDAO {
         var book = new Book(id, name, author, status);
         bookList.add(book);
       }
-      return bookList;
     } catch (SQLException sqlException) {
-      daoErrorOutput();
-      return findAll();
+      daoBookErrorOutput(sqlException);
     }
+    return bookList;
   }
 
   @Override
   public boolean save(Book book) {
     String sql = "insert into books(name,author, status) value(?,?,'Книга не взята')";
-    try (PreparedStatement preparedStatement = getNewConnection().prepareStatement(sql); ) {
-      preparedStatement.setString(1, book.getName());
-      preparedStatement.setString(2, book.getAuthor());
-      preparedStatement.executeUpdate();
+    try (var connection = getNewConnection();
+        var statement = connection.prepareStatement(sql)) {
+      statement.setString(1, book.getName());
+      statement.setString(2, book.getAuthor());
+      statement.executeUpdate();
       return true;
     } catch (SQLException sqlException) {
-      daoErrorOutput();
-      return false;
+      daoBookErrorOutput(sqlException);
     }
+    return false;
   }
 }
