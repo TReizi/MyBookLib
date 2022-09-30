@@ -18,7 +18,7 @@ public class BookDAOImpl implements BookDAO {
     List<Book> bookList = new ArrayList<>();
     try (var connection = getNewConnection();
         var statement = connection.createStatement();
-        var result = statement.executeQuery(SQL_SELECT_BOOKS); ) {
+        var result = statement.executeQuery(SQL_SELECT_BOOKS) ) {
 
       while (result.next()) {
         int id = result.getInt("id");

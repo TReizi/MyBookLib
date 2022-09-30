@@ -31,7 +31,7 @@ public class BorrowDAOImpl implements BorrowDAO {
     List<Borrow> addictionDAOList = new ArrayList<>();
     try (var connection = getNewConnection();
         var statement = connection.createStatement();
-        var resultReader = statement.executeQuery(SQL_SELECT_READERS); ) {
+        var resultReader = statement.executeQuery(SQL_SELECT_READERS)) {
       while (resultReader.next()) {
         long idBook = resultReader.getLong("idBook");
         long idReader = resultReader.getLong("idReader");
@@ -51,7 +51,7 @@ public class BorrowDAOImpl implements BorrowDAO {
     String sqlStatus = "update books set status = ? where id= ?";
     try (var connection = getNewConnection();
         var statement = connection.prepareStatement(SQL);
-        var statementStatus = connection.prepareStatement(sqlStatus); ) {
+        var statementStatus = connection.prepareStatement(sqlStatus)) {
       statement.setLong(1, deleteBook);
       statement.executeUpdate();
       statementStatus.setString(1, "Можно брать");
@@ -68,7 +68,7 @@ public class BorrowDAOImpl implements BorrowDAO {
   public boolean statusBorrow(String status, Book bookid) {
     String sql = "update books set status = ? where id = ?";
     try (var connection = getNewConnection();
-        var statement = connection.prepareStatement(sql); ) {
+        var statement = connection.prepareStatement(sql)) {
       statement.setString(1, status);
       statement.setLong(2, bookid.getId());
       statement.executeUpdate();
@@ -83,7 +83,7 @@ public class BorrowDAOImpl implements BorrowDAO {
   public boolean borrowBookToReader(Reader reader, Book book) {
     String sql = "insert into borrow(idReader,idBook) value(?,?)";
     try (var connection = getNewConnection();
-        var statement = connection.prepareStatement(sql); ) {
+        var statement = connection.prepareStatement(sql)) {
       statement.setLong(1, reader.getId());
       statement.setLong(2, book.getId());
       statement.executeUpdate();
