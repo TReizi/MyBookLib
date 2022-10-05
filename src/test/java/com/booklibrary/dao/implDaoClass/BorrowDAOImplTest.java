@@ -41,17 +41,17 @@ class BorrowDAOImplTest {
     long bookId = book.getId();
     long readerId = reader.getId();
 
-    ArgumentCaptor<Book> bookIdCaptor = ArgumentCaptor.forClass(Book.class);
-    ArgumentCaptor<Reader> readerIdCaptor = ArgumentCaptor.forClass(Reader.class);
+    ArgumentCaptor<Long> bookIdCaptor = ArgumentCaptor.forClass(Long.class);
+    ArgumentCaptor<Long> readerIdCaptor = ArgumentCaptor.forClass(Long.class);
     when(borrowDAO.borrowBookToReader(readerIdCaptor.capture(), bookIdCaptor.capture()))
         .thenReturn(true);
-    boolean flag = borrowDAO.borrowBookToReader(reader, book);
-    Book bookSave = bookIdCaptor.getValue();
-    Reader readerSave = readerIdCaptor.getValue();
+    boolean flag = borrowDAO.borrowBookToReader( readerId,bookId);
+    Long bookSave = bookIdCaptor.getValue();
+    Long readerSave = readerIdCaptor.getValue();
     assertAll(
         () -> verify(borrowDAO, times(1)).borrowBookToReader(readerSave, bookSave),
         () -> assertThat(flag).isTrue(),
-        () -> assertThat(readerSave.getId()).isEqualTo(readerId),
-        () -> assertThat(bookSave.getId()).isEqualTo(bookId));
+        () -> assertThat(readerSave).isEqualTo(readerId),
+        () -> assertThat(bookSave).isEqualTo(bookId));
   }
 }

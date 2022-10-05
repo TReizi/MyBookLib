@@ -1,17 +1,14 @@
 package com.booklibrary.service.implClass;
 
-import com.booklibrary.ui.InputClient;
-import com.booklibrary.connectionSettings.ConnectionSettingsData;
-import com.booklibrary.dao.ReaderDAO;
+import com.booklibrary.dao.Interface.ReaderDAO;
 import com.booklibrary.dao.implDaoClass.ReaderDAOImpl;
 import com.booklibrary.entity.Reader;
-import com.booklibrary.service.ReaderService;
+import com.booklibrary.service.Interface.ReaderService;
 
 public class ReaderServiceImpl implements ReaderService {
 
-  private final ConnectionSettingsData connectionSettingsData = new ConnectionSettingsData();
-  private final ReaderDAO readerDAO = new ReaderDAOImpl(connectionSettingsData);
-  private final InputClient inputClient = new InputClient();
+  private final ReaderDAO readerDAO = new ReaderDAOImpl();
+
 
   @Override
   public void printAllReaders() {
@@ -20,17 +17,12 @@ public class ReaderServiceImpl implements ReaderService {
   }
 
   @Override
-  public void addNewReader() {
-    System.out.println("Укажите имя нового читателя: ");
-    var reader = new Reader(inputClient.inputClientAddNewReader());
-    readerDAO.save(reader);
+  public void addNewReader(Reader newReader) {
+    readerDAO.save(newReader);
   }
 
   @Override
-  public Reader findReaderById(Long readerId) {
-    return readerDAO.findAll().stream()
-        .filter(reader -> reader.getId() == readerId)
-        .findAny()
-        .orElse(null);
+  public Reader findReaderById(long readerId) {
+    return readerDAO.findReaderById(readerId);
   }
 }

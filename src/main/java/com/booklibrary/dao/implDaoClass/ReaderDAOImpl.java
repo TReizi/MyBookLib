@@ -1,29 +1,26 @@
 package com.booklibrary.dao.implDaoClass;
 
-import com.booklibrary.connectionSettings.ConnectionSettingsData;
-import com.booklibrary.dao.ReaderDAO;
+import com.booklibrary.dao.Interface.ReaderDAO;
 import com.booklibrary.entity.Reader;
+import org.hibernate.annotations.NotFound;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.booklibrary.exceptionOutput.errorOutputRepository.daoReaderErrorOutput;
+import static com.booklibrary.connectionSettings.ConnectionSettingsData.getNewConnection;
+import static com.booklibrary.exceptionOutput.ErrorMessagePrintService.daoBookErrorOutput;
+import static com.booklibrary.exceptionOutput.ErrorMessagePrintService.daoReaderErrorOutput;
 
 public class ReaderDAOImpl implements ReaderDAO {
-
-  private final ConnectionSettingsData connectionSettingsData;
-
-  public ReaderDAOImpl(ConnectionSettingsData connectionSettingsData) {
-    this.connectionSettingsData = connectionSettingsData;
-  }
 
   @Override
   public List<Reader> findAll() {
     String SQL_SELECT_READERS = "select *from readers order by id";
     List<Reader> readerList = new ArrayList<>();
-    try (Statement statement = connectionSettingsData.getNewConnection().createStatement();
-        ResultSet resultReader = statement.executeQuery(SQL_SELECT_READERS); ) {
+    try (var connection = getNewConnection();
+        var statement = connection.createStatement();
+        var resultReader = statement.executeQuery(SQL_SELECT_READERS)) {
       while (resultReader.next()) {
         int id = resultReader.getInt("id");
         String name = resultReader.getString("name");
@@ -39,14 +36,46 @@ public class ReaderDAOImpl implements ReaderDAO {
   @Override
   public boolean save(Reader reader) {
     String sql = "insert into readers(name) value(?)";
-    try (PreparedStatement preparedStatement =
-        connectionSettingsData.getNewConnection().prepareStatement(sql); ) {
-      preparedStatement.setString(1, reader.getName());
-      preparedStatement.executeUpdate();
+    try (var connection = getNewConnection();
+        var statement = connection.prepareStatement(sql)) {
+      statement.setString(1, reader.getName());
+      statement.executeUpdate();
       return true;
     } catch (SQLException sqlException) {
       daoReaderErrorOutput(sqlException);
       return false;
     }
+  }
+
+  @Override
+  public Reader findReaderById(long readerId) {
+    String sql = "SELECT * FROM readers WHERE id LIKE ?";
+    Reader reader;
+    try (var connection = getNewConnection();
+        var statement = connection.prepareStatement(sql); ) {
+      statement.setLong(1, readerId);
+      ResultSet resultSet = statement.executeQuery();
+      while (resultSet.next()) {
+        reader = searchReader(resultSet);
+        return reader;
+      }
+    } catch (SQLException sqlException) {
+      daoBookErrorOutput(sqlException);
+    }
+    return null;
+  }
+  //по сути метод можно назвать определятор)
+  @Override
+  public Reader searchReader(ResultSet resultSet) {
+    var reader = new Reader();
+    try {
+      long id = resultSet.getLong("id");
+      String name = resultSet.getString("name");
+      reader.setId(id);
+      reader.setName(name);
+    } catch (SQLException sqlException) {
+      daoReaderErrorOutput(sqlException);
+    }
+    return reader;
   }
 }
