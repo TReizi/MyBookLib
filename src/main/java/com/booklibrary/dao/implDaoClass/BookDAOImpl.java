@@ -11,7 +11,6 @@ import java.util.List;
 import static com.booklibrary.connectionSettings.ConnectionSettingsData.getNewConnection;
 import static com.booklibrary.exceptionOutput.ErrorMessagePrintService.daoBookErrorOutput;
 
-
 public class BookDAOImpl implements BookDAO {
 
   @Override
@@ -29,9 +28,10 @@ public class BookDAOImpl implements BookDAO {
         var book = new Book(id, name, author, status);
         bookList.add(book);
       }
-      if (!bookList.isEmpty()) {
-        System.out.println("Список книг пуст.");
-      }
+//      if (!bookList.isEmpty()) {
+//        System.out.println("Список книг пуст.");
+//        return null;
+//      }
     } catch (SQLException sqlException) {
       daoBookErrorOutput(sqlException);
     }
@@ -67,12 +67,11 @@ public class BookDAOImpl implements BookDAO {
         return book;
       }
     } catch (SQLException sqlException) {
-
       daoBookErrorOutput(sqlException);
     }
     return null;
   }
-  //по сути метод можно назвать определятор)
+  // по сути метод можно назвать определятор)
   @Override
   public Book searchBook(ResultSet resultSet) {
     var book = new Book();

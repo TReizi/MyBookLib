@@ -27,6 +27,10 @@ public class ReaderDAOImpl implements ReaderDAO {
         var reader = new Reader(id, name);
         readerList.add(reader);
       }
+//      if (readerList.isEmpty()) {
+//        System.out.println("Список читателей пуст. ");
+//        return null;
+//      }
     } catch (SQLException sqlException) {
       daoReaderErrorOutput(sqlException);
     }
@@ -64,7 +68,7 @@ public class ReaderDAOImpl implements ReaderDAO {
     }
     return null;
   }
-  //по сути метод можно назвать определятор)
+  // по сути метод можно назвать определятор)
   @Override
   public Reader searchReader(ResultSet resultSet) {
     var reader = new Reader();

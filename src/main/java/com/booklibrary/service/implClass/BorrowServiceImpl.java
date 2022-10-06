@@ -8,20 +8,30 @@ import com.booklibrary.entity.Borrow;
 import com.booklibrary.dao.Interface.BorrowDAO;
 import com.booklibrary.dao.implDaoClass.BorrowDAOImpl;
 import com.booklibrary.service.Interface.BorrowService;
+import com.booklibrary.service.Interface.DataValidationService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class BorrowServiceImpl implements BorrowService {
 
-
   private final BorrowDAO borrowDAO = new BorrowDAOImpl();
   private final BookDAO bookDAO = new BookDAOImpl();
   private final ReaderDAO readerDAO = new ReaderDAOImpl();
+  private final DataValidationService dataValidationService = new DataValidationServiceImpl();
 
   @Override
   public void issueBook(long readerId, long bookId) {
-    borrowDAO.borrowBookToReader(readerId,bookId);
+    if (dataValidationService.validationReader(readerId) == true
+        && dataValidationService.validationBook(bookId) == true) {
+      borrowDAO.borrowBookToReader(readerId, bookId);
+    } else {
+      throw new NoSuchElementException(
+          "Ошибка,\n"
+              +"Книга в базе: "+dataValidationService.validationBook(bookId)
+              + "\n "
+              + "Читатель в базе: "+dataValidationService.validationReader(readerId));
+    }
   }
 
   @Override
