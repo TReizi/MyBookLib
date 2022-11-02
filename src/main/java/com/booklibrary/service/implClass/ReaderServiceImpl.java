@@ -6,29 +6,31 @@ import com.booklibrary.entity.Reader;
 import com.booklibrary.service.Interface.ReaderService;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
+
+import static com.booklibrary.dataValidation.DataValidation.stringDataValidation;
 
 public class ReaderServiceImpl implements ReaderService {
 
   private final ReaderDAO readerDAO = new ReaderDAOImpl();
 
-
   @Override
   public void printAllReaders() {
-    if (!readerDAO.findAll().isEmpty()) {
+    try {
       System.out.println("Все читатели: ");
       readerDAO.findAll().forEach(System.out::println);
-    } else {
-      throw new NoSuchElementException("Ошибка, нет читателей.");
+    } catch (NoSuchElementException e) {
+      System.err.println("Ошибка, нет читателей.");
     }
   }
 
   @Override
   public void addNewReader(Reader newReader) {
-    readerDAO.save(newReader);
+    if (!stringDataValidation(newReader.getName())) readerDAO.save(newReader);
   }
 
   @Override
-  public Reader findReaderById(long readerId) {
-      return readerDAO.findReaderById(readerId);
+  public Optional<Reader> findReaderById(long readerId) {
+    return readerDAO.findReaderById(readerId);
   }
 }

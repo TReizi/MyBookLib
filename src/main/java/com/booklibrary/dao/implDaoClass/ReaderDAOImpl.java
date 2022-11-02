@@ -2,11 +2,12 @@ package com.booklibrary.dao.implDaoClass;
 
 import com.booklibrary.dao.Interface.ReaderDAO;
 import com.booklibrary.entity.Reader;
-import org.hibernate.annotations.NotFound;
+import com.booklibrary.exceptionOutput.ExceptionDAOMetods;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.booklibrary.connectionSettings.ConnectionSettingsData.getNewConnection;
 import static com.booklibrary.exceptionOutput.ErrorMessagePrintService.daoBookErrorOutput;
@@ -19,58 +20,51 @@ public class ReaderDAOImpl implements ReaderDAO {
     String SQL_SELECT_READERS = "select *from readers order by id";
     List<Reader> readerList = new ArrayList<>();
     try (var connection = getNewConnection();
-        var statement = connection.createStatement();
-        var resultReader = statement.executeQuery(SQL_SELECT_READERS)) {
+        var statement = connection.createStatement(); ) {
+      var resultReader = statement.executeQuery(SQL_SELECT_READERS);
       while (resultReader.next()) {
-        int id = resultReader.getInt("id");
-        String name = resultReader.getString("name");
-        var reader = new Reader(id, name);
-        readerList.add(reader);
+        readerList.add(mapToReader(resultReader));
       }
-//      if (readerList.isEmpty()) {
-//        System.out.println("Список читателей пуст. ");
-//        return null;
-//      }
+      resultReader.close();
     } catch (SQLException sqlException) {
-      daoReaderErrorOutput(sqlException);
+      throw new ExceptionDAOMetods(sqlException);
     }
     return readerList;
   }
 
   @Override
   public boolean save(Reader reader) {
-    String sql = "insert into readers(name) value(?)";
+    String sql = "insert into readers(name) values(?)";
     try (var connection = getNewConnection();
         var statement = connection.prepareStatement(sql)) {
       statement.setString(1, reader.getName());
       statement.executeUpdate();
       return true;
     } catch (SQLException sqlException) {
-      daoReaderErrorOutput(sqlException);
-      return false;
+      throw new ExceptionDAOMetods(sqlException);
     }
   }
 
   @Override
-  public Reader findReaderById(long readerId) {
+  public Optional<Reader> findReaderById(long readerId) {
     String sql = "SELECT * FROM readers WHERE id LIKE ?";
     Reader reader;
-    try (var connection = getNewConnection();
-        var statement = connection.prepareStatement(sql); ) {
+    try (var connection = getNewConnection()) {
+      var statement = connection.prepareStatement(sql);
       statement.setLong(1, readerId);
       ResultSet resultSet = statement.executeQuery();
       while (resultSet.next()) {
-        reader = searchReader(resultSet);
-        return reader;
+        reader = mapToReader(resultSet);
+        return Optional.of(reader);
       }
+      resultSet.close();
     } catch (SQLException sqlException) {
-      daoBookErrorOutput(sqlException);
+      throw new ExceptionDAOMetods(sqlException);
     }
-    return null;
+    return Optional.empty();
   }
-  // по сути метод можно назвать определятор)
-  @Override
-  public Reader searchReader(ResultSet resultSet) {
+
+  public Reader mapToReader(ResultSet resultSet) {
     var reader = new Reader();
     try {
       long id = resultSet.getLong("id");
@@ -78,7 +72,7 @@ public class ReaderDAOImpl implements ReaderDAO {
       reader.setId(id);
       reader.setName(name);
     } catch (SQLException sqlException) {
-      daoReaderErrorOutput(sqlException);
+      throw new ExceptionDAOMetods(sqlException);
     }
     return reader;
   }

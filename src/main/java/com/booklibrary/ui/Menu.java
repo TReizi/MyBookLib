@@ -14,6 +14,7 @@ import com.booklibrary.service.Interface.ReaderService;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import static com.booklibrary.dataValidation.DataValidation.stringDataValidation;
 import static com.booklibrary.exceptionOutput.ErrorMessagePrintService.userErrorOutput;
 
 public class Menu {
@@ -84,16 +85,19 @@ public class Menu {
     private void addNewReader() {
         System.out.println("Укажите имя нового читателя: ");
         String readerName = scanner.nextLine();
-        var reader = new Reader(readerName);
-        if (Pattern.compile("[0-9]").matcher(readerName).find()) {
-            userErrorOutput();
-        }
-        readerService.addNewReader(reader);
+            try{
+               var reader = new Reader(readerName);
+               readerService.addNewReader(reader);
+            }catch (RuntimeException e){
+                System.out.println("Ошибка в добавление нового пользователя.");;
+            }
+
     }
 
     private void addNewBook() {
         System.out.println("Укажите название книги и автора через /. ");
         String separatorBook = scanner.nextLine();
+
         if (separatorBook.contains("/")) {
             String[] separation = separatorBook.split("/");
             var book = new Book(separation);
@@ -105,7 +109,7 @@ public class Menu {
 
     private void issueBook() {
         System.out.println("Укажите id читателя: ");
-        long readerId = scanner.nextInt();
+        long readerId = scanner.nextLong();
         System.out.println("Укажите id книги: ");
         long bookId = scanner.nextInt();
         borrowService.issueBook(readerId, bookId);
@@ -114,7 +118,7 @@ public class Menu {
     private void removeBookFromReader() {
         try {
             System.out.println("Укажите id книги которую хотите вернуть: ");
-            long bookId = scanner.nextInt();
+            long bookId = scanner.nextLong();
             borrowService.removeBookFromReader(bookId);
         } catch (RuntimeException runtimeException) {
             System.err.println(runtimeException.getLocalizedMessage());
@@ -124,7 +128,7 @@ public class Menu {
     private void printAllBooksTakenByReaderId() {
         try {
             System.out.println("Введите id пользователя для просмотра: ");
-            long readerID = scanner.nextInt();
+            long readerID = scanner.nextLong();
             borrowService.printAllBooksTakenByReaderId(readerID);
         } catch (RuntimeException runtimeException) {
             System.err.println(runtimeException.getLocalizedMessage());
@@ -134,7 +138,7 @@ public class Menu {
     private void printCurrentReaderByBookId() {
         try {
             System.out.println("Введите id пользователя для просмотра: ");
-            long bookId = scanner.nextInt();
+            long bookId = scanner.nextLong();
             borrowService.printCurrentReaderByBookId(bookId);
         } catch (RuntimeException runtimeException) {
             System.err.println(runtimeException.getLocalizedMessage());

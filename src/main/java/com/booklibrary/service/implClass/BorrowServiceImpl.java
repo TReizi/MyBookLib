@@ -8,7 +8,6 @@ import com.booklibrary.entity.Borrow;
 import com.booklibrary.dao.Interface.BorrowDAO;
 import com.booklibrary.dao.implDaoClass.BorrowDAOImpl;
 import com.booklibrary.service.Interface.BorrowService;
-import com.booklibrary.service.Interface.DataValidationService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,20 +17,11 @@ public class BorrowServiceImpl implements BorrowService {
   private final BorrowDAO borrowDAO = new BorrowDAOImpl();
   private final BookDAO bookDAO = new BookDAOImpl();
   private final ReaderDAO readerDAO = new ReaderDAOImpl();
-  private final DataValidationService dataValidationService = new DataValidationServiceImpl();
+
 
   @Override
   public void issueBook(long readerId, long bookId) {
-    if (dataValidationService.validationReader(readerId) == true
-        && dataValidationService.validationBook(bookId) == true) {
-      borrowDAO.borrowBookToReader(readerId, bookId);
-    } else {
-      throw new NoSuchElementException(
-          "Ошибка,\n"
-              +"Книга в базе: "+dataValidationService.validationBook(bookId)
-              + "\n "
-              + "Читатель в базе: "+dataValidationService.validationReader(readerId));
-    }
+     borrowDAO.borrowBookToReader(readerId, bookId);
   }
 
   @Override
@@ -43,25 +33,25 @@ public class BorrowServiceImpl implements BorrowService {
   public void printAllBooksTakenByReaderId(long readerId) {
     var takenBook = filterByReader(readerId).get(0);
     System.out.println(
-        "Читатель:" + readerDAO.findReaderById(takenBook.getReader().getId()).getName());
+        "Читатель:" + readerDAO.findReaderById(takenBook.getReader().getId()));
     System.out.println(
-        "Взята книга: " + bookDAO.findBookById(takenBook.getBook().getId()).getName());
+        "Взята книга: " + bookDAO.findBookById(takenBook.getBook().getId()));
   }
 
   @Override
   public void printCurrentReaderByBookId(long bookId) {
     var takenBook = filterByBook(bookId).get(0);
-    System.out.println("Книга: " + bookDAO.findBookById(takenBook.getBook().getId()).getName());
+    System.out.println("Книга: " + bookDAO.findBookById(takenBook.getBook().getId()));
     System.out.println(
-        "Взята:" + readerDAO.findReaderById(takenBook.getReader().getId()).getName());
+        "Взята:" + readerDAO.findReaderById(takenBook.getReader().getId()));
   }
 
   @Override
   public void showAllReaderAndBooks() {
-    if (!borrowDAO.findAll().isEmpty()) {
-      borrowDAO.findAll().forEach((borrow -> System.out.println(borrow)));
-    } else {
-      throw new NoSuchElementException("Ошибка, нет взятых книг читателями.");
+    try{
+    borrowDAO.findAll().forEach(((reader, books) -> System.out.println(reader+" "+books)));
+    }catch (NoSuchElementException e){
+      System.err.println("Ошибка, нет взятых книг читателями.");
     }
   }
 

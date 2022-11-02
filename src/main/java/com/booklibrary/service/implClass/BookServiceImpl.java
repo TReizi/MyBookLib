@@ -6,6 +6,9 @@ import com.booklibrary.entity.Book;
 import com.booklibrary.service.Interface.BookService;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
+
+import static com.booklibrary.dataValidation.DataValidation.stringDataValidation;
 
 public class BookServiceImpl implements BookService {
 
@@ -23,11 +26,11 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public void addNewBook(Book newBook) {
-    bookDAO.save(newBook);
+    if (!stringDataValidation(newBook.getAuthor())) bookDAO.save(newBook);
   }
 
   @Override
-  public Book findBookById(long bookId) {
+  public Optional<Book> findBookById(long bookId) {
     return bookDAO.findBookById(bookId);
   }
 }
