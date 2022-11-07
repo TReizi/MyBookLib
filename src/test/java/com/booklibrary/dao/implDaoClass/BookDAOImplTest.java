@@ -20,17 +20,17 @@ class BookDAOImplTest {
     bookDAO = mock(BookDAOImpl.class);
   }
 
-  @DisplayName("Тест добавления книги в БД.")
-  @Test
-  void addBookDatabase() {
-    var book = new Book(1000202, "Test name", "Test author", "Test status");
-    ArgumentCaptor<Book> bookCaptor = ArgumentCaptor.forClass(Book.class);
-    when(bookDAO.save(bookCaptor.capture())).thenReturn(true);
-    boolean flag = bookDAO.save(book);
-    Book bookSave = bookCaptor.getValue();
-    assertAll(
-        () -> verify(bookDAO, times(1)).save(bookSave),
-        () -> assertThat(flag).isTrue(),
-        () -> assertThat(bookSave).isEqualTo(book));
-  }
+//  @DisplayName("Тест добавления книги в БД.")
+//  @Test
+//  void addBookDatabase() {
+//    var book = new Book(1000202, "Test name", "Test author", "Test status");
+//    ArgumentCaptor<Book> bookCaptor = ArgumentCaptor.forClass(Book.class);
+//    when(bookDAO.save(bookCaptor.capture())).thenReturn(true);
+//    boolean flag = bookDAO.save(book);
+//    Book bookSave = bookCaptor.getValue();
+//    assertAll(
+//        () -> verify(bookDAO, times(1)).save(bookSave),
+//        () -> assertThat(flag).isTrue(),
+//        () -> assertThat(bookSave).isEqualTo(book));
+//  }
 }

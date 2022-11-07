@@ -16,10 +16,10 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public void printAllBooks() {
-    if (!bookDAO.findAll().isEmpty()) {
+    try{
       System.out.println("Все книги: ");
       bookDAO.findAll().forEach(System.out::println);
-    } else {
+    }catch (NoSuchElementException noSuchElementException){
       throw new NoSuchElementException("Ошибка, нет книг");
     }
   }

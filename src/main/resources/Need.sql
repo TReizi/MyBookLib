@@ -234,4 +234,10 @@ insert into readers (id, name) values (99, 'Zemlak');
 insert into readers(id, name) values (100, 'Bergstrom');
 
 
+--Удаление колонки статуса
+--ALTER TABLE `books` DROP `status`;
+--ALTER TABLE books MODIFY status tinyint(1) NOT NULL;
+
+
+
 

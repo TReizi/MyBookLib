@@ -14,9 +14,7 @@ public interface BorrowDAO {
 
   Map<Reader, List<Book>> findAll();
 
-  boolean delete(long deleteBook);
-
-  boolean statusBorrow(String status, long bookId);
+  boolean delete(long deleteBook, long idReader);
 
   List<Borrow> filterByReader(long readerId);
 

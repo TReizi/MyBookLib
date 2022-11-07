@@ -2,7 +2,7 @@ package com.booklibrary.dao.implDaoClass;
 
 import com.booklibrary.dao.Interface.ReaderDAO;
 import com.booklibrary.entity.Reader;
-import com.booklibrary.exceptionOutput.ExceptionDAOMetods;
+import com.booklibrary.dataValidation.exceptionOutput.ExceptionDAOMetods;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.booklibrary.connectionSettings.ConnectionSettingsData.getNewConnection;
-import static com.booklibrary.exceptionOutput.ErrorMessagePrintService.daoBookErrorOutput;
-import static com.booklibrary.exceptionOutput.ErrorMessagePrintService.daoReaderErrorOutput;
 
 public class ReaderDAOImpl implements ReaderDAO {
 

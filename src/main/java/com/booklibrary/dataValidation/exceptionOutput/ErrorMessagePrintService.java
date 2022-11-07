@@ -1,4 +1,4 @@
-package com.booklibrary.exceptionOutput;
+package com.booklibrary.dataValidation.exceptionOutput;
 
 public class ErrorMessagePrintService {
     public static void  userErrorOutput() {

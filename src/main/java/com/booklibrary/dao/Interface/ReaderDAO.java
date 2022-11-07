@@ -2,7 +2,6 @@ package com.booklibrary.dao.Interface;
 
 import com.booklibrary.entity.Reader;
 
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 

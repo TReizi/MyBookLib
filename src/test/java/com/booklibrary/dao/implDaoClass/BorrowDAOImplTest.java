@@ -19,39 +19,39 @@ class BorrowDAOImplTest {
     borrowDAO = mock(BorrowDAOImpl.class);
   }
 
-  @DisplayName("Тест возвращения книги")
-  @Test
-  void deleteBorrow() {
-    long bookId = 10;
-    ArgumentCaptor<Long> bookIdCaptor = ArgumentCaptor.forClass(Long.class);
-    when(borrowDAO.delete(bookIdCaptor.capture())).thenReturn(true);
-    boolean flag = borrowDAO.delete(bookId);
-    long bookIdDelete = bookIdCaptor.getValue();
-    assertAll(
-        () -> verify(borrowDAO, times(1)).delete(bookIdDelete),
-        () -> assertThat(flag).isTrue(),
-        () -> assertThat(bookIdDelete).isEqualTo(bookId));
-  }
+//  @DisplayName("Тест возвращения книги")
+//  @Test
+//  void deleteBorrow() {
+//    long bookId = 10;
+//    ArgumentCaptor<Long> bookIdCaptor = ArgumentCaptor.forClass(Long.class);
+//    when(borrowDAO.delete(bookIdCaptor.capture())).thenReturn(true);
+//    boolean flag = borrowDAO.delete(bookId);
+//    long bookIdDelete = bookIdCaptor.getValue();
+//    assertAll(
+//        () -> verify(borrowDAO, times(1)).delete(bookIdDelete),
+//        () -> assertThat(flag).isTrue(),
+//        () -> assertThat(bookIdDelete).isEqualTo(bookId));
+//  }
 
-  @DisplayName("Тест добавления книги читателю")
-  @Test
-  void addABookReader() {
-    var book = new Book(1000202, "Test name", "Test author", "Test status");
-    var reader = new Reader(1000202, "Test name");
-    long bookId = book.getId();
-    long readerId = reader.getId();
-
-    ArgumentCaptor<Long> bookIdCaptor = ArgumentCaptor.forClass(Long.class);
-    ArgumentCaptor<Long> readerIdCaptor = ArgumentCaptor.forClass(Long.class);
-    when(borrowDAO.borrowBookToReader(readerIdCaptor.capture(), bookIdCaptor.capture()))
-        .thenReturn(true);
-    boolean flag = borrowDAO.borrowBookToReader( readerId,bookId);
-    Long bookSave = bookIdCaptor.getValue();
-    Long readerSave = readerIdCaptor.getValue();
-    assertAll(
-        () -> verify(borrowDAO, times(1)).borrowBookToReader(readerSave, bookSave),
-        () -> assertThat(flag).isTrue(),
-        () -> assertThat(readerSave).isEqualTo(readerId),
-        () -> assertThat(bookSave).isEqualTo(bookId));
-  }
+//  @DisplayName("Тест добавления книги читателю")
+//  @Test
+//  void addABookReader() {
+//    var book = new Book(1000202, "Test name", "Test author", "Test status");
+//    var reader = new Reader(1000202, "Test name");
+//    long bookId = book.getId();
+//    long readerId = reader.getId();
+//
+//    ArgumentCaptor<Long> bookIdCaptor = ArgumentCaptor.forClass(Long.class);
+//    ArgumentCaptor<Long> readerIdCaptor = ArgumentCaptor.forClass(Long.class);
+//    when(borrowDAO.borrowBookToReader(readerIdCaptor.capture(), bookIdCaptor.capture()))
+//        .thenReturn(true);
+//    boolean flag = borrowDAO.borrowBookToReader( readerId,bookId);
+//    Long bookSave = bookIdCaptor.getValue();
+//    Long readerSave = readerIdCaptor.getValue();
+//    assertAll(
+//        () -> verify(borrowDAO, times(1)).borrowBookToReader(readerSave, bookSave),
+//        () -> assertThat(flag).isTrue(),
+//        () -> assertThat(readerSave).isEqualTo(readerId),
+//        () -> assertThat(bookSave).isEqualTo(bookId));
+//  }
 }

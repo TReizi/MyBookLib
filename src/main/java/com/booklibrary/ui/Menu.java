@@ -11,11 +11,10 @@ import com.booklibrary.service.Interface.BorrowService;
 import com.booklibrary.service.Interface.ReaderService;
 
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
-import static com.booklibrary.dataValidation.DataValidation.stringDataValidation;
-import static com.booklibrary.exceptionOutput.ErrorMessagePrintService.userErrorOutput;
+import static com.booklibrary.dataValidation.exceptionOutput.ErrorMessagePrintService.userErrorOutput;
 
 public class Menu {
     private final BookService bookService = new BookServiceImpl();
@@ -25,7 +24,6 @@ public class Menu {
 
 
     public void start() {
-
         while (true) {
             showMenu();
             String c = scanner.nextLine();
@@ -43,14 +41,14 @@ public class Menu {
                     System.out.println("Bay!");
                     System.exit(0);
                 }
-                //пока что закоментировал, не знаю как решить проблему
-//                default -> throw new IllegalStateException("Unexpected value: " + c);
+//                пока что закоментировал, не знаю как решить проблему
+//               default -> throw new IllegalStateException("Unexpected value: " + c);
             }
         }
     }
 
     public void showMenu() {
-        String textMenu = """
+        System.out.println("""
                 Меню библиотеки:
                 [1] Список всех книг.
                 [2] Список всех читателей.
@@ -62,23 +60,23 @@ public class Menu {
                 [8] Показать текущего читателя книги по ID книги.
                 [9] Показать все взятые книги и их читателей.
                 [exit] Выход.
-                """;
-        System.out.println(textMenu);
+                """);
+
     }
 
     private void printAllBooks() {
         try {
             bookService.printAllBooks();
-        } catch (RuntimeException runtimeException) {
-            System.err.println(runtimeException.getLocalizedMessage());
+        } catch (NoSuchElementException noSuchElementException) {
+            System.err.println(noSuchElementException.getLocalizedMessage());
         }
     }
 
     private void printAllReaders() {
         try {
             readerService.printAllReaders();
-        } catch (RuntimeException runtimeException) {
-            System.err.println(runtimeException.getLocalizedMessage());
+        } catch (NoSuchElementException noSuchElementException) {
+            System.err.println(noSuchElementException.getLocalizedMessage());
         }
     }
 
@@ -97,7 +95,6 @@ public class Menu {
     private void addNewBook() {
         System.out.println("Укажите название книги и автора через /. ");
         String separatorBook = scanner.nextLine();
-
         if (separatorBook.contains("/")) {
             String[] separation = separatorBook.split("/");
             var book = new Book(separation);
@@ -119,9 +116,11 @@ public class Menu {
         try {
             System.out.println("Укажите id книги которую хотите вернуть: ");
             long bookId = scanner.nextLong();
-            borrowService.removeBookFromReader(bookId);
-        } catch (RuntimeException runtimeException) {
-            System.err.println(runtimeException.getLocalizedMessage());
+            System.out.println("Укажите id читателя у кого взята книга: ");
+            long readerId = scanner.nextLong();
+            borrowService.removeBookFromReader(bookId,readerId);
+        } catch (NoSuchElementException noSuchElementException) {
+            System.err.println(noSuchElementException.getLocalizedMessage());
         }
     }
 
@@ -130,26 +129,26 @@ public class Menu {
             System.out.println("Введите id пользователя для просмотра: ");
             long readerID = scanner.nextLong();
             borrowService.printAllBooksTakenByReaderId(readerID);
-        } catch (RuntimeException runtimeException) {
-            System.err.println(runtimeException.getLocalizedMessage());
+        } catch (NoSuchElementException noSuchElementException) {
+            System.err.println(noSuchElementException.getLocalizedMessage());
         }
     }
 
     private void printCurrentReaderByBookId() {
         try {
-            System.out.println("Введите id пользователя для просмотра: ");
+            System.out.println("Введите id книги для просмотра: ");
             long bookId = scanner.nextLong();
             borrowService.printCurrentReaderByBookId(bookId);
-        } catch (RuntimeException runtimeException) {
-            System.err.println(runtimeException.getLocalizedMessage());
+        } catch (NoSuchElementException noSuchElementException) {
+            System.err.println(noSuchElementException.getLocalizedMessage());
         }
     }
 
     private void showAllReaderAndBooks() {
         try {
             borrowService.showAllReaderAndBooks();
-        } catch (RuntimeException e) {
-            System.err.println(e.getLocalizedMessage());
+        }  catch (NoSuchElementException noSuchElementException) {
+            System.err.println(noSuchElementException.getLocalizedMessage());
         }
     }
 }
