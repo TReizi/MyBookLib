@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static com.booklibrary.dataValidation.DataValidation.stringDataValidation;
+import static com.booklibrary.dataValidation.DataValidation.validationNullString;
 
 public class BookServiceImpl implements BookService {
 
@@ -26,7 +27,7 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public void addNewBook(Book newBook) {
-    if (!stringDataValidation(newBook.getAuthor())) bookDAO.save(newBook);
+    if (!stringDataValidation(newBook.getAuthor()) && !newBook.getAuthor().isEmpty()) bookDAO.save(newBook);
   }
 
   @Override

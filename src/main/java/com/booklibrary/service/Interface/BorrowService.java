@@ -5,13 +5,13 @@ import com.booklibrary.entity.Borrow;
 import java.util.List;
 
 public interface BorrowService {
-  boolean issueBook(long readerId, long bookId);
+  boolean issueBook(String readerId, String bookId);
 
-  void removeBookFromReader(long bookId, long readerId);
+  void removeBookFromReader(String bookId, String readerId);
 
-  void printAllBooksTakenByReaderId(long readerId);
+  void printAllBooksTakenByReaderId(String readerId);
 
-  void printCurrentReaderByBookId(long book);
+  void printCurrentReaderByBookId(String book);
 
   void showAllReaderAndBooks();
 

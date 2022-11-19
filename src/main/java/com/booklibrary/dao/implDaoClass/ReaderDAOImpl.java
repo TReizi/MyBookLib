@@ -10,12 +10,13 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.booklibrary.connectionSettings.ConnectionSettingsData.getNewConnection;
+import static com.booklibrary.dao.implDaoClass.BorrowDAOImpl.getReader;
 
 public class ReaderDAOImpl implements ReaderDAO {
 
   @Override
   public List<Reader> findAll() {
-    String SQL_SELECT_READERS = "select *from readers order by id";
+    String SQL_SELECT_READERS = "select *from reader order by id";
     List<Reader> readerList = new ArrayList<>();
     try (var connection = getNewConnection();
         var statement = connection.createStatement(); ) {
@@ -23,7 +24,6 @@ public class ReaderDAOImpl implements ReaderDAO {
       while (resultReader.next()) {
         readerList.add(mapToReader(resultReader));
       }
-      resultReader.close();
     } catch (SQLException sqlException) {
       throw new ExceptionDAOMetods(sqlException);
     }
@@ -32,7 +32,7 @@ public class ReaderDAOImpl implements ReaderDAO {
 
   @Override
   public boolean save(Reader reader) {
-    String sql = "insert into readers(name) values(?)";
+    String sql = "insert into reader(name) values(?)";
     try (var connection = getNewConnection();
         var statement = connection.prepareStatement(sql)) {
       statement.setString(1, reader.getName());
@@ -45,7 +45,7 @@ public class ReaderDAOImpl implements ReaderDAO {
 
   @Override
   public Optional<Reader> findReaderById(long readerId) {
-    String sql = "SELECT * FROM readers WHERE id LIKE ?";
+    String sql = "SELECT * FROM reader WHERE id=?";
     Reader reader;
     try (var connection = getNewConnection()) {
       var statement = connection.prepareStatement(sql);
@@ -55,7 +55,6 @@ public class ReaderDAOImpl implements ReaderDAO {
         reader = mapToReader(resultSet);
         return Optional.of(reader);
       }
-      resultSet.close();
     } catch (SQLException sqlException) {
       throw new ExceptionDAOMetods(sqlException);
     }
@@ -63,15 +62,6 @@ public class ReaderDAOImpl implements ReaderDAO {
   }
 
   public Reader mapToReader(ResultSet resultSet) {
-    var reader = new Reader();
-    try {
-      long id = resultSet.getLong("id");
-      String name = resultSet.getString("name");
-      reader.setId(id);
-      reader.setName(name);
-    } catch (SQLException sqlException) {
-      throw new ExceptionDAOMetods(sqlException);
-    }
-    return reader;
+      return getReader(resultSet);
   }
 }

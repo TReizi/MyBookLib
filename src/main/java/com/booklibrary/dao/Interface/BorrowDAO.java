@@ -12,7 +12,7 @@ public interface BorrowDAO {
 
   boolean borrowBookToReader(long readerID, long bookId);
 
-  Map<Reader, List<Book>> findAll();
+  List<Borrow> findAll();
 
   boolean delete(long deleteBook, long idReader);
 
@@ -20,5 +20,5 @@ public interface BorrowDAO {
 
   List<Borrow> filterByBook(long bookId);
 
-  Reader searchDAOReader(ResultSet resultSet);
+
 }

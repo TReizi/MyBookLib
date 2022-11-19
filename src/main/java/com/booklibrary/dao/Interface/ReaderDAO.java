@@ -12,5 +12,4 @@ public interface ReaderDAO {
 
  Optional <Reader> findReaderById(long readerId);
 
-
 }

@@ -5,49 +5,75 @@ import com.booklibrary.entity.Book;
 import com.booklibrary.entity.Borrow;
 import com.booklibrary.entity.Reader;
 import com.booklibrary.dataValidation.exceptionOutput.ExceptionDAOMetods;
+import com.sun.istack.NotNull;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.booklibrary.connectionSettings.ConnectionSettingsData.getNewConnection;
 
 public class BorrowDAOImpl implements BorrowDAO {
 
   @Override
-  public Map<Reader, List<Book>> findAll() {
+  public List<Borrow> findAll() {
+
     String SQL_SELECT_READERS =
-        "SELECT readers.id, readers.name, books.id AS book_id, books.name, books.author \n"
-            + "FROM readers, books JOIN borrow \n"
-            + "ON borrow.idBook = books.id WHERE readers.id = borrow.idReader";
-    Map<Reader, List<Book>> readerListMap = new HashMap<>();
+        "SELECT \n"
+            + "    b.id as book_id,\n"
+            + "    b.author as book_author,\n"
+            + "    b.name as book_name,\n"
+            + "    r.id as reader_id,\n"
+            + "    r.name as reader_name\n"
+            + "FROM borrow \n"
+            + "    JOIN reader r on borrow.reader_id = r.id\n"
+            + "    JOIN book b on borrow.book_id = b.id;";
+    List<Borrow> borrowList = new ArrayList<>();
     try (var connection = getNewConnection();
         var statement = connection.prepareStatement(SQL_SELECT_READERS);
-        var resultSet = statement.executeQuery(SQL_SELECT_READERS)) {
+        var resultSet = statement.executeQuery()) {
       while (resultSet.next()) {
-        Reader reader = mapToReader(resultSet);
-        Book book = mapToBook(resultSet);
-        if (readerListMap.containsKey(reader)) {
-          readerListMap.get(reader).add(book);
-        } else {
-          List<Book> bookList = new ArrayList<>();
-          bookList.add(book);
-          readerListMap.put(reader, bookList);
-        }
+        Borrow borrow = mapToLibrary(resultSet);
+        borrowList.add(borrow);
       }
     } catch (SQLException sqlException) {
       throw new ExceptionDAOMetods(sqlException);
     }
-    return readerListMap;
+    return borrowList;
   }
+
+  //    @Override
+  //    public Map<Reader, List<Book>> findAll() {
+  //      String SQL_SELECT_READERS =
+  //          "SELECT readers.id, readers.name, books.id AS book_id, books.name, books.author \n"
+  //              + "FROM readers, books JOIN borrow \n"
+  //              + "ON borrow.idBook = books.id WHERE readers.id = borrow.idReader";
+  //      Map<Reader, List<Book>> readerListMap = new HashMap<>();
+  //      try (var connection = getNewConnection();
+  //          var statement = connection.prepareStatement(SQL_SELECT_READERS);
+  //          var resultSet = statement.executeQuery(SQL_SELECT_READERS)) {
+  //        while (resultSet.next()) {
+  //          Reader reader = mapToReader(resultSet);
+  //          Book book = mapToBook(resultSet);
+  //          if (readerListMap.containsKey(reader)) {
+  //            readerListMap.get(reader).add(book);
+  //          } else {
+  //            List<Book> bookList = new ArrayList<>();
+  //            bookList.add(book);
+  //            readerListMap.put(reader, bookList);
+  //          }
+  //        }
+  //      } catch (SQLException sqlException) {
+  //        throw new ExceptionDAOMetods(sqlException);
+  //      }
+  //      return readerListMap;
+  //    }
 
   @Override
   public boolean delete(long deleteBook, long idReader) {
-       String SQL = "DELETE FROM borrow WHERE idBook = ? AND IdReader = ?";
+    String SQL = "DELETE FROM borrow WHERE book_id = ? AND IdReader = ?";
     try (var connection = getNewConnection();
-        var statement = connection.prepareStatement(SQL)){
+        var statement = connection.prepareStatement(SQL)) {
       statement.setLong(1, deleteBook);
       statement.setLong(2, idReader);
       statement.executeUpdate();
@@ -55,13 +81,12 @@ public class BorrowDAOImpl implements BorrowDAO {
       return true;
     } catch (SQLException sqlException) {
       throw new ExceptionDAOMetods(sqlException);
-
     }
   }
 
   @Override
   public boolean borrowBookToReader(long readerId, long bookId) {
-    String sql = "INSERT INTO borrow(idBook,idReader) value(?,?)";
+    String sql = "INSERT INTO borrow(book_id,reader_id) values(?,?)";
     try (var connection = getNewConnection();
         var statement = connection.prepareStatement(sql)) {
       statement.setLong(1, bookId);
@@ -75,23 +100,23 @@ public class BorrowDAOImpl implements BorrowDAO {
 
   @Override
   public List<Borrow> filterByReader(long readerId) {
-    String sql = "SELECT * FROM borrow WHERE idReader =  ?";
+    String sql =
+        "SELECT book.id, book.name, book.author \n"
+            + " FROM borrow \n"
+            + " JOIN book \n"
+            + " ON borrow.book_id = book.id \n"
+            + " WHERE borrow.reader_id = (?) ";
     var borrow = new Borrow();
-    Reader reader;
-    Book book;
     List<Borrow> readerList = new ArrayList<>();
     try (var connection = getNewConnection();
         var statement = connection.prepareStatement(sql)) {
       statement.setLong(1, readerId);
       ResultSet resultSet = statement.executeQuery();
       while (resultSet.next()) {
-        reader = searchDAOReader(resultSet);
-        book = searchDAOBook(resultSet);
-        borrow.setReader(reader);
-        borrow.setBook(book);
+        Book book = mapToBook(resultSet);
+        borrow = new Borrow(book);
         readerList.add(borrow);
       }
-      resultSet.close();
     } catch (SQLException sqlException) {
       throw new ExceptionDAOMetods(sqlException);
     }
@@ -100,20 +125,20 @@ public class BorrowDAOImpl implements BorrowDAO {
 
   @Override
   public List<Borrow> filterByBook(long bookId) {
-    String sql = "SELECT * FROM borrow WHERE idBook = ?";
-    var borrow = new Borrow();
-    Reader reader;
-    Book book;
+    String sql =
+        "SELECT reader.id, reader.name \n"
+            + " FROM borrow \n"
+            + " JOIN reader \n"
+            + " ON borrow.reader_id = reader.id \n"
+            + " WHERE borrow.book_id = (?)";
     List<Borrow> bookList = new ArrayList<>();
     try (var connection = getNewConnection();
-        var statement = connection.prepareStatement(sql); ) {
+        var statement = connection.prepareStatement(sql)) {
       statement.setLong(1, bookId);
       ResultSet resultSet = statement.executeQuery();
       while (resultSet.next()) {
-        reader = searchDAOReader(resultSet);
-        book = searchDAOBook(resultSet);
-        borrow.setReader(reader);
-        borrow.setBook(book);
+        Reader reader = mapToReader(resultSet);
+        Borrow borrow = new Borrow(reader);
         bookList.add(borrow);
       }
     } catch (SQLException sqlException) {
@@ -122,30 +147,16 @@ public class BorrowDAOImpl implements BorrowDAO {
     return bookList;
   }
 
-  public Book searchDAOBook(ResultSet resultSet) {
-    var book = new Book();
-    try {
-      long idBook = resultSet.getLong("idBook");
-      book.setId(idBook);
-    } catch (SQLException sqlException) {
-      throw new ExceptionDAOMetods(sqlException);
-    }
-    return book;
-  }
-
-  @Override
-  public Reader searchDAOReader(ResultSet resultSet) {
-    var reader = new Reader();
-    try {
-      long idReader = resultSet.getLong("idReader");
-      reader.setId(idReader);
-    } catch (SQLException sqlException) {
-      throw new ExceptionDAOMetods(sqlException);
-    }
-    return reader;
-  }
-
   public Book mapToBook(ResultSet resultSet) {
+    return getBook(resultSet);
+  }
+
+  public Reader mapToReader(ResultSet resultSet) {
+    return getReader(resultSet);
+  }
+
+  @NotNull
+  static Book getBook(ResultSet resultSet) {
     var book = new Book();
     try {
       long id = resultSet.getLong("id");
@@ -160,7 +171,8 @@ public class BorrowDAOImpl implements BorrowDAO {
     return book;
   }
 
-  public Reader mapToReader(ResultSet resultSet) {
+  @NotNull
+  static Reader getReader(ResultSet resultSet) {
     var reader = new Reader();
     try {
       long id = resultSet.getLong("id");
@@ -171,5 +183,29 @@ public class BorrowDAOImpl implements BorrowDAO {
       throw new ExceptionDAOMetods(sqlException);
     }
     return reader;
+  }
+
+  public Borrow mapToLibrary(ResultSet resultSet) {
+    var book = new Book();
+    var reader = new Reader();
+    var borrow = new Borrow();
+    try {
+      long book_id = resultSet.getLong("book_id");
+      String book_name = resultSet.getString("book_name");
+      String book_author = resultSet.getString("book_author");
+      book.setId(book_id);
+      book.setName(book_name);
+      book.setAuthor(book_author);
+      long reader_id = resultSet.getLong("reader_id");
+      String reader_name = resultSet.getString("reader_name");
+      reader.setId(reader_id);
+      reader.setName(reader_name);
+      borrow.setReader(reader);
+      borrow.setBook(book);
+
+    } catch (SQLException sqlException) {
+      throw new ExceptionDAOMetods(sqlException);
+    }
+    return borrow;
   }
 }

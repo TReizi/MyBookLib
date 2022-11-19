@@ -11,6 +11,14 @@ public class Borrow {
     this.book = book;
   }
 
+  public Borrow (Reader reader){
+    this.reader = reader;
+
+  }
+  public Borrow (Book book){
+    this.book = book;
+  }
+
   public Borrow() {}
 
   public Reader getReader() {

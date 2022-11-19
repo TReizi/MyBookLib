@@ -14,7 +14,7 @@ import com.booklibrary.service.Interface.ReaderService;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import static com.booklibrary.dataValidation.exceptionOutput.ErrorMessagePrintService.userErrorOutput;
+
 
 public class Menu {
     private final BookService bookService = new BookServiceImpl();
@@ -87,7 +87,7 @@ public class Menu {
                var reader = new Reader(readerName);
                readerService.addNewReader(reader);
             }catch (RuntimeException e){
-                System.out.println("Ошибка в добавление нового пользователя.");;
+                System.out.println("Ошибка в добавление нового пользователя.");
             }
 
     }
@@ -95,29 +95,31 @@ public class Menu {
     private void addNewBook() {
         System.out.println("Укажите название книги и автора через /. ");
         String separatorBook = scanner.nextLine();
-        if (separatorBook.contains("/")) {
+        try{
+           if (separatorBook.contains("/")) {
             String[] separation = separatorBook.split("/");
             var book = new Book(separation);
             bookService.addNewBook(book);
-        } else {
-            userErrorOutput();
+        }
+        }catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){
+            System.err.println(arrayIndexOutOfBoundsException.getLocalizedMessage());
         }
     }
 
     private void issueBook() {
         System.out.println("Укажите id читателя: ");
-        long readerId = scanner.nextLong();
+        String readerId = scanner.nextLine();
         System.out.println("Укажите id книги: ");
-        long bookId = scanner.nextInt();
+        String bookId = scanner.nextLine();
         borrowService.issueBook(readerId, bookId);
     }
 
     private void removeBookFromReader() {
         try {
             System.out.println("Укажите id книги которую хотите вернуть: ");
-            long bookId = scanner.nextLong();
+            String bookId = scanner.nextLine();
             System.out.println("Укажите id читателя у кого взята книга: ");
-            long readerId = scanner.nextLong();
+            String readerId = scanner.nextLine();
             borrowService.removeBookFromReader(bookId,readerId);
         } catch (NoSuchElementException noSuchElementException) {
             System.err.println(noSuchElementException.getLocalizedMessage());
@@ -127,7 +129,7 @@ public class Menu {
     private void printAllBooksTakenByReaderId() {
         try {
             System.out.println("Введите id пользователя для просмотра: ");
-            long readerID = scanner.nextLong();
+            String readerID = scanner.nextLine();
             borrowService.printAllBooksTakenByReaderId(readerID);
         } catch (NoSuchElementException noSuchElementException) {
             System.err.println(noSuchElementException.getLocalizedMessage());
@@ -137,7 +139,7 @@ public class Menu {
     private void printCurrentReaderByBookId() {
         try {
             System.out.println("Введите id книги для просмотра: ");
-            long bookId = scanner.nextLong();
+            String bookId = scanner.nextLine();
             borrowService.printCurrentReaderByBookId(bookId);
         } catch (NoSuchElementException noSuchElementException) {
             System.err.println(noSuchElementException.getLocalizedMessage());

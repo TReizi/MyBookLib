@@ -1,5 +1,6 @@
 package com.booklibrary.dataValidation;
 
+import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 
 public class DataValidation {
@@ -11,5 +12,13 @@ public class DataValidation {
     }
       return false;
   }
+  public  static boolean validationNullString(String validationNullString){
+    if(validationNullString.isEmpty()){
+      System.out.println("Пусто");
+      return false;
+    }
+    return false;
+  }
+
 
 }

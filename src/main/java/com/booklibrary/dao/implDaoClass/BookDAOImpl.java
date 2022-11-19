@@ -10,13 +10,14 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.booklibrary.connectionSettings.ConnectionSettingsData.getNewConnection;
+import static com.booklibrary.dao.implDaoClass.BorrowDAOImpl.getBook;
 
 
 public class BookDAOImpl implements BookDAO {
 
   @Override
   public List<Book> findAll() {
-    String SQL_SELECT_BOOKS = "select *from books order by id";
+    String SQL_SELECT_BOOKS = "select *from book order by id";
     List<Book> bookList = new ArrayList<>();
     try (var connection = getNewConnection();
         var statement = connection.createStatement()
@@ -25,7 +26,6 @@ public class BookDAOImpl implements BookDAO {
       while (result.next()) {
       bookList.add(mapToBook(result));
       }
-      result.close();
     } catch (SQLException sqlException) {
       throw new ExceptionDAOMetods(sqlException);
     }
@@ -34,7 +34,7 @@ public class BookDAOImpl implements BookDAO {
 
   @Override
   public boolean save(Book book) {
-    String sql = "insert into books(name,author) values(?,?)";
+    String sql = "insert into book(name,author) values(?,?)";
     try (var connection = getNewConnection();
         var statement = connection.prepareStatement(sql)) {
       statement.setString(1, book.getName());
@@ -48,7 +48,7 @@ public class BookDAOImpl implements BookDAO {
 
   @Override
   public Optional <Book> findBookById(Long readerId) {
-    String sql = "SELECT * FROM books WHERE id = ?";
+    String sql = "SELECT * FROM book WHERE id = ?";
     try (var connection = getNewConnection();
         var statement = connection.prepareStatement(sql)) {
       statement.setLong(1, readerId);
@@ -56,7 +56,6 @@ public class BookDAOImpl implements BookDAO {
       while (resultSet.next()) {
          return Optional.of(mapToBook(resultSet));
       }
-      resultSet.close();
     } catch (SQLException sqlException) {
       throw new ExceptionDAOMetods(sqlException);
     }
@@ -64,17 +63,6 @@ public class BookDAOImpl implements BookDAO {
   }
 
   public Book mapToBook(ResultSet resultSet) {
-    var book = new Book();
-    try {
-      long id = resultSet.getLong("id");
-      String name = resultSet.getString("name");
-      String author = resultSet.getString("author");
-      book.setId(id);
-      book.setName(name);
-      book.setAuthor(author);
-    } catch (SQLException sqlException) {
-      throw new ExceptionDAOMetods(sqlException);
-    }
-    return book;
+      return getBook(resultSet);
   }
 }
