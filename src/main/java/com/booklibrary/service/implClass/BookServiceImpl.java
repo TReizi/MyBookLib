@@ -17,17 +17,27 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public void printAllBooks() {
-    try{
+    try {
       System.out.println("Все книги: ");
       bookDAO.findAll().forEach(System.out::println);
-    }catch (NoSuchElementException noSuchElementException){
+    } catch (NoSuchElementException noSuchElementException) {
       throw new NoSuchElementException("Ошибка, нет книг");
     }
   }
 
   @Override
-  public void addNewBook(Book newBook) {
-    if (!stringDataValidation(newBook.getAuthor()) && !newBook.getAuthor().isEmpty()) bookDAO.save(newBook);
+  public void addNewBook(String newBook) {
+    if (newBook.contains("/")) {
+      String[] separation = newBook.split("/");
+      if (!separation[0].isEmpty()
+          && !separation[1].isEmpty()
+          && !stringDataValidation(separation[0])) {
+        var book = new Book(separation);
+        bookDAO.save(book);
+      } else {
+        System.err.println("Проверьте правильность введенных данных.");
+      }
+    }
   }
 
   @Override

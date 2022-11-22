@@ -21,7 +21,6 @@ public class BorrowServiceImpl implements BorrowService {
   private final BookDAO bookDAO = new BookDAOImpl();
   private final ReaderDAO readerDAO = new ReaderDAOImpl();
 
-
   @Override
   public boolean issueBook(String readerId, String bookId) {
     long readerLong = Long.parseLong(readerId);
@@ -44,38 +43,25 @@ public class BorrowServiceImpl implements BorrowService {
 
   @Override
   public void printAllBooksTakenByReaderId(String readerId) {
-    try {
-      long readerLong = Long.parseLong(readerId);
-      var takenBook = filterByReader(readerLong).get(0);
+    long readerLong = Long.parseLong(readerId);
+    var takenBook = filterByReader(readerLong).get(0);
+    if (takenBook.getReader() != null) {
       System.out.println("Читатель взял книгу:  ");
       System.out.println(takenBook.getBook().toString());
-    } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-      System.err.println("Нет такого читателя.");
+    } else {
+      System.out.println("Нет такого читателя.");
     }
   }
 
   @Override
   public void printCurrentReaderByBookId(String bookId) {
-    // Тут 2 вариант, я просто не определился какой лучше, по этому на проверку отправляю 2
-
-//
-//    long bookLong = Long.parseLong(bookId);
-//    if (bookDAO.findAll().isEmpty()) {
-//      System.err.println("Такой книги нет в БИБЛИОТЕКИ");
-//    }
-//    if (!borrowDAO.filterByBook(bookLong).isEmpty()) {
-//      borrowDAO.filterByBook(bookLong).forEach(System.out::println);
-//    } else {
-//      System.err.println("Эта книга не взята");
-//    }
-
-    try {
-      long bookLong = Long.parseLong(bookId);
-      var takenBook = filterByBook(bookLong).get(0);
+    long bookLong = Long.parseLong(bookId);
+    var takenBook = filterByBook(bookLong).get(0);
+    if (takenBook.getBook() != null) {
       System.out.println("Книга взята читателем: ");
       System.out.println(takenBook.getReader().toString());
-    } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-      System.err.println("Нет такой взятой книги.");
+    } else {
+      System.out.println("Нет такой взятой книги.");
     }
   }
 
@@ -89,11 +75,11 @@ public class BorrowServiceImpl implements BorrowService {
       System.err.println("Ошибка, нет взятых книг читателями.");
     }
   }
-  //-  метод если через for
+
   public List<Borrow> filterByBook(long bookId) {
     return borrowDAO.filterByBook(bookId);
   }
-  //-  метод если через for
+
   public List<Borrow> filterByReader(long readerId) {
     return borrowDAO.filterByReader(readerId);
   }

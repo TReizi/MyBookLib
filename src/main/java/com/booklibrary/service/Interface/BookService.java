@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface BookService {
   void printAllBooks();
 
-  void addNewBook(Book newBook);
+  void addNewBook(String newBook);
 
   Optional<Book> findBookById(long bookId);
 }

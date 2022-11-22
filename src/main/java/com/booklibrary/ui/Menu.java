@@ -96,11 +96,8 @@ public class Menu {
         System.out.println("Укажите название книги и автора через /. ");
         String separatorBook = scanner.nextLine();
         try{
-           if (separatorBook.contains("/")) {
-            String[] separation = separatorBook.split("/");
-            var book = new Book(separation);
-            bookService.addNewBook(book);
-        }
+            bookService.addNewBook(separatorBook);
+
         }catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){
             System.err.println(arrayIndexOutOfBoundsException.getLocalizedMessage());
         }
