@@ -52,16 +52,16 @@ public class ReaderDAOImpl implements ReaderDAO {
       statement.setLong(1, readerId);
       ResultSet resultSet = statement.executeQuery();
       while (resultSet.next()) {
-        reader = mapToReader(resultSet);
-        return Optional.of(reader);
+        return Optional.of( mapToReader(resultSet));
       }
     } catch (SQLException sqlException) {
       throw new ExceptionDAOMetods(sqlException);
     }
     return Optional.empty();
+
   }
 
   public Reader mapToReader(ResultSet resultSet) {
-      return getReader(resultSet);
+    return getReader(resultSet);
   }
 }
