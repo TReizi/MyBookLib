@@ -17,7 +17,6 @@ public class BorrowDAOImpl implements BorrowDAO {
 
   @Override
   public List<Borrow> findAll() {
-
     String SQL_SELECT_READERS =
         "SELECT \n"
             + "    b.id as book_id,\n"
@@ -41,33 +40,6 @@ public class BorrowDAOImpl implements BorrowDAO {
     }
     return borrowList;
   }
-
-  //    @Override
-  //    public Map<Reader, List<Book>> findAll() {
-  //      String SQL_SELECT_READERS =
-  //          "SELECT readers.id, readers.name, books.id AS book_id, books.name, books.author \n"
-  //              + "FROM readers, books JOIN borrow \n"
-  //              + "ON borrow.idBook = books.id WHERE readers.id = borrow.idReader";
-  //      Map<Reader, List<Book>> readerListMap = new HashMap<>();
-  //      try (var connection = getNewConnection();
-  //          var statement = connection.prepareStatement(SQL_SELECT_READERS);
-  //          var resultSet = statement.executeQuery(SQL_SELECT_READERS)) {
-  //        while (resultSet.next()) {
-  //          Reader reader = mapToReader(resultSet);
-  //          Book book = mapToBook(resultSet);
-  //          if (readerListMap.containsKey(reader)) {
-  //            readerListMap.get(reader).add(book);
-  //          } else {
-  //            List<Book> bookList = new ArrayList<>();
-  //            bookList.add(book);
-  //            readerListMap.put(reader, bookList);
-  //          }
-  //        }
-  //      } catch (SQLException sqlException) {
-  //        throw new ExceptionDAOMetods(sqlException);
-  //      }
-  //      return readerListMap;
-  //    }
 
   @Override
   public boolean delete(long deleteBook, long idReader) {
