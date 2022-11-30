@@ -4,7 +4,7 @@ import com.booklibrary.dao.Interface.BorrowDAO;
 import com.booklibrary.entity.Book;
 import com.booklibrary.entity.Borrow;
 import com.booklibrary.entity.Reader;
-import com.booklibrary.dataValidation.exceptionOutput.ExceptionDAOMetods;
+import com.booklibrary.exceptionOutput.ExceptionDAOMetods;
 import com.sun.istack.NotNull;
 
 import java.sql.*;
@@ -43,7 +43,7 @@ public class BorrowDAOImpl implements BorrowDAO {
 
   @Override
   public boolean delete(long deleteBook, long idReader) {
-    String SQL = "DELETE FROM borrow WHERE book_id = ? AND IdReader = ?";
+    String SQL = "DELETE FROM borrow WHERE book_id = ? AND reader_id = ?";
     try (var connection = getNewConnection();
         var statement = connection.prepareStatement(SQL)) {
       statement.setLong(1, deleteBook);
@@ -137,10 +137,10 @@ public class BorrowDAOImpl implements BorrowDAO {
       book.setId(id);
       book.setName(name);
       book.setAuthor(author);
+      return book;
     } catch (SQLException sqlException) {
       throw new ExceptionDAOMetods(sqlException);
     }
-    return book;
   }
 
   @NotNull
@@ -151,10 +151,10 @@ public class BorrowDAOImpl implements BorrowDAO {
       String name = resultSet.getString("name");
       reader.setId(id);
       reader.setName(name);
+      return reader;
     } catch (SQLException sqlException) {
       throw new ExceptionDAOMetods(sqlException);
     }
-    return reader;
   }
 
   public Borrow mapToLibrary(ResultSet resultSet) {

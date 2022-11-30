@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static com.booklibrary.dataValidation.DataValidation.stringDataValidation;
-import static com.booklibrary.dataValidation.DataValidation.validationNullString;
+
 
 public class BookServiceImpl implements BookService {
 
@@ -29,8 +29,8 @@ public class BookServiceImpl implements BookService {
   public void addNewBook(String newBook) {
     if (newBook.contains("/")) {
       String[] separation = newBook.split("/");
-      if (!separation[0].isEmpty()
-          && !separation[1].isEmpty()
+      if (!separation[0].isBlank()
+          && !separation[1].isBlank()
           && !stringDataValidation(separation[0])) {
         var book = new Book(separation);
         bookDAO.save(book);

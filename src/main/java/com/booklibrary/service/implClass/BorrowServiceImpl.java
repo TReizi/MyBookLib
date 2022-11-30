@@ -4,12 +4,10 @@ import com.booklibrary.dao.Interface.BookDAO;
 import com.booklibrary.dao.Interface.ReaderDAO;
 import com.booklibrary.dao.implDaoClass.BookDAOImpl;
 import com.booklibrary.dao.implDaoClass.ReaderDAOImpl;
-import com.booklibrary.dataValidation.exceptionOutput.ExceptionServiceMethods;
-import com.booklibrary.entity.Book;
+import com.booklibrary.exceptionOutput.ExceptionServiceMethods;
 import com.booklibrary.entity.Borrow;
 import com.booklibrary.dao.Interface.BorrowDAO;
 import com.booklibrary.dao.implDaoClass.BorrowDAOImpl;
-import com.booklibrary.entity.Reader;
 import com.booklibrary.service.Interface.BorrowService;
 
 import java.util.List;
@@ -37,7 +35,6 @@ public class BorrowServiceImpl implements BorrowService {
   public void removeBookFromReader(String bookId, String readerId) {
     long bookLong = Long.parseLong(bookId);
     long readerLong = Long.parseLong(readerId);
-
     borrowDAO.delete(bookLong, readerLong);
   }
 
@@ -67,12 +64,12 @@ public class BorrowServiceImpl implements BorrowService {
 
   @Override
   public void showAllReaderAndBooks() {
-    try {
+    if (!borrowDAO.findAll().isEmpty()) {
       borrowDAO
           .findAll()
           .forEach(((borrow) -> System.out.println(borrow.getReader() + " " + borrow.getBook())));
-    } catch (NoSuchElementException e) {
-      System.err.println("Ошибка, нет взятых книг читателями.");
+    } else {
+      System.out.println("Читатели не взяли книги.");
     }
   }
 

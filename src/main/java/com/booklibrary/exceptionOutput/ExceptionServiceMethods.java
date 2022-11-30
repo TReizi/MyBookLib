@@ -1,7 +1,7 @@
-package com.booklibrary.dataValidation.exceptionOutput;
+package com.booklibrary.exceptionOutput;
 
 public class ExceptionServiceMethods extends RuntimeException {
-  public ExceptionServiceMethods(String message) {
+  public ExceptionServiceMethods(String message){
     super(message);
   }
 

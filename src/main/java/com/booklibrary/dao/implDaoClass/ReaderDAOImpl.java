@@ -2,7 +2,7 @@ package com.booklibrary.dao.implDaoClass;
 
 import com.booklibrary.dao.Interface.ReaderDAO;
 import com.booklibrary.entity.Reader;
-import com.booklibrary.dataValidation.exceptionOutput.ExceptionDAOMetods;
+import com.booklibrary.exceptionOutput.ExceptionDAOMetods;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -46,13 +46,12 @@ public class ReaderDAOImpl implements ReaderDAO {
   @Override
   public Optional<Reader> findReaderById(long readerId) {
     String sql = "SELECT * FROM reader WHERE id=?";
-    Reader reader;
-    try (var connection = getNewConnection()) {
+        try (var connection = getNewConnection()) {
       var statement = connection.prepareStatement(sql);
       statement.setLong(1, readerId);
       ResultSet resultSet = statement.executeQuery();
       while (resultSet.next()) {
-        return Optional.of( mapToReader(resultSet));
+        return Optional.of(mapToReader(resultSet));
       }
     } catch (SQLException sqlException) {
       throw new ExceptionDAOMetods(sqlException);

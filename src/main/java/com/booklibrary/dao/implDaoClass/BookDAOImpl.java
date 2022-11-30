@@ -2,7 +2,7 @@ package com.booklibrary.dao.implDaoClass;
 
 import com.booklibrary.dao.Interface.BookDAO;
 import com.booklibrary.entity.Book;
-import com.booklibrary.dataValidation.exceptionOutput.ExceptionDAOMetods;
+import com.booklibrary.exceptionOutput.ExceptionDAOMetods;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -13,12 +13,6 @@ public class DataValidation {
       return false;
   }
   public  static boolean validationNullString(String validationNullString){
-    if(validationNullString.isEmpty()){
-      System.out.println("Пусто");
-      return false;
-    }
-    return false;
+    return validationNullString == null || validationNullString.trim().isEmpty();
   }
-
-
 }
