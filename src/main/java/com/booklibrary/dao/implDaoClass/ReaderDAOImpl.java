@@ -46,7 +46,7 @@ public class ReaderDAOImpl implements ReaderDAO {
   @Override
   public Optional<Reader> findReaderById(long readerId) {
     String sql = "SELECT * FROM reader WHERE id=?";
-        try (var connection = getNewConnection()) {
+    try (var connection = getNewConnection()) {
       var statement = connection.prepareStatement(sql);
       statement.setLong(1, readerId);
       ResultSet resultSet = statement.executeQuery();
@@ -57,7 +57,6 @@ public class ReaderDAOImpl implements ReaderDAO {
       throw new ExceptionDAOMetods(sqlException);
     }
     return Optional.empty();
-
   }
 
   public Reader mapToReader(ResultSet resultSet) {

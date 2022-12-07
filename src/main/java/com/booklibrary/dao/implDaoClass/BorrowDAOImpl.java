@@ -131,13 +131,17 @@ public class BorrowDAOImpl implements BorrowDAO {
   static Book getBook(ResultSet resultSet) {
     var book = new Book();
     try {
-      long id = resultSet.getLong("id");
-      String name = resultSet.getString("name");
-      String author = resultSet.getString("author");
-      book.setId(id);
-      book.setName(name);
-      book.setAuthor(author);
-      return book;
+      if (resultSet.next()) {
+        long id = resultSet.getLong("id");
+        String name = resultSet.getString("name");
+        String author = resultSet.getString("author");
+        book.setId(id);
+        book.setName(name);
+        book.setAuthor(author);
+        return book;
+      } else {
+        return null;
+      }
     } catch (SQLException sqlException) {
       throw new ExceptionDAOMetods(sqlException);
     }
@@ -147,11 +151,15 @@ public class BorrowDAOImpl implements BorrowDAO {
   static Reader getReader(ResultSet resultSet) {
     var reader = new Reader();
     try {
-      long id = resultSet.getLong("id");
-      String name = resultSet.getString("name");
-      reader.setId(id);
-      reader.setName(name);
-      return reader;
+      if (resultSet.next()) {
+        long id = resultSet.getLong("id");
+        String name = resultSet.getString("name");
+        reader.setId(id);
+        reader.setName(name);
+        return reader;
+      } else {
+        return null;
+      }
     } catch (SQLException sqlException) {
       throw new ExceptionDAOMetods(sqlException);
     }
@@ -162,22 +170,25 @@ public class BorrowDAOImpl implements BorrowDAO {
     var reader = new Reader();
     var borrow = new Borrow();
     try {
-      long book_id = resultSet.getLong("book_id");
-      String book_name = resultSet.getString("book_name");
-      String book_author = resultSet.getString("book_author");
-      book.setId(book_id);
-      book.setName(book_name);
-      book.setAuthor(book_author);
-      long reader_id = resultSet.getLong("reader_id");
-      String reader_name = resultSet.getString("reader_name");
-      reader.setId(reader_id);
-      reader.setName(reader_name);
-      borrow.setReader(reader);
-      borrow.setBook(book);
-
+      if (resultSet.next()) {
+        long book_id = resultSet.getLong("book_id");
+        String book_name = resultSet.getString("book_name");
+        String book_author = resultSet.getString("book_author");
+        book.setId(book_id);
+        book.setName(book_name);
+        book.setAuthor(book_author);
+        long reader_id = resultSet.getLong("reader_id");
+        String reader_name = resultSet.getString("reader_name");
+        reader.setId(reader_id);
+        reader.setName(reader_name);
+        borrow.setReader(reader);
+        borrow.setBook(book);
+        return borrow;
+      } else {
+        return null;
+      }
     } catch (SQLException sqlException) {
       throw new ExceptionDAOMetods(sqlException);
     }
-    return borrow;
   }
 }
